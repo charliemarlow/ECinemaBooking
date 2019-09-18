@@ -28,11 +28,17 @@
     <link rel="stylesheet" href="css/nouislider.min.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/main.css">
+    
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </head>
 
 <body>
 
-    <!-- Start Header Area -->
+   <!-- Start Header Area -->
 	<header class="header_area sticky-header">
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light main_box">
@@ -48,27 +54,20 @@
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-							<li class="nav-item submenu dropdown active">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Shop</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-									<li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-									<li class="nav-item active"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-									<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-								</ul>
-							</li>
+							<li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
 							<li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Blog</a>
+								 aria-expanded="false">Buy Tickets</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+									<li class="nav-item"><a class="nav-link" href="category.html">Movies by Category</a></li>
+									<!--<li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>-->
+									<li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+									<li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+									<!--<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>-->
 								</ul>
 							</li>
-							<li class="nav-item submenu dropdown">
+                            <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+							<!--<li class="nav-item submenu dropdown">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 								 aria-expanded="false">Pages</a>
 								<ul class="dropdown-menu">
@@ -76,11 +75,11 @@
 									<li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
 									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
 								</ul>
-							</li>
+							</li>-->
 							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
+							<li class="nav-item"><a href="cart.html" class="cart"><span class="ti-bag"></span></a></li>
 							<li class="nav-item">
 								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
 							</li>
@@ -248,6 +247,7 @@
                                     <h5>$2160.00</h5>
                                 </td>
                             </tr>
+                            <!--
                             <tr class="shipping_area">
                                 <td>
 
@@ -255,13 +255,15 @@
                                 <td>
 
                                 </td>
+                                <!--
                                 <td>
                                     <h5>Shipping</h5>
                                 </td>
                                 <td>
+                                    <!--
                                     <div class="shipping_box">
                                         <ul class="list">
-                                            <li><a href="#">Flat Rate: $5.00</a></li>
+                                            <li><a href="#">Pick up at theater</a></li>
                                             <li><a href="#">Free Shipping</a></li>
                                             <li><a href="#">Flat Rate: $10.00</a></li>
                                             <li class="active"><a href="#">Local Delivery: $2.00</a></li>
@@ -281,7 +283,7 @@
                                         <a class="gray_btn" href="#">Update Details</a>
                                     </div>
                                 </td>
-                            </tr>
+                            </tr>-->
                             <tr class="out_button_area">
                                 <td>
 
@@ -294,8 +296,8 @@
                                 </td>
                                 <td>
                                     <div class="checkout_btn_inner d-flex align-items-center">
-                                        <a class="gray_btn" href="#">Continue Shopping</a>
-                                        <a class="primary-btn" href="#">Proceed to checkout</a>
+                                        <a class="gray_btn" href="index.html">Continue Shopping</a>
+                                        <a class="primary-btn" href="checkout.html">Proceed to checkout</a>
                                     </div>
                                 </td>
                             </tr>
