@@ -105,10 +105,10 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>Shopping Cart</h1>
+                    <h1>Booking</h1>
                     <nav class="d-flex align-items-center">
                         <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="category.html">Cart</a>
+                        <a href="category.html">Booking</a>
                     </nav>
                 </div>
             </div>
@@ -127,6 +127,7 @@
                                 <th scope="col">Product</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Quantity</th>
+                                <th scope='col'>Type</th>
                                 <th scope="col">Total</th>
                             </tr>
                         </thead>
@@ -154,6 +155,9 @@
                                         <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
                                             class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                                     </div>
+                                </td>
+                                <td>
+                                    Adult
                                 </td>
                                 <td>
                                     <h5>$9.00</h5>
