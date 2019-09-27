@@ -122,10 +122,10 @@
 							<img class="img-fluid" src="img/product/p4.png" alt="">
 						</div>
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="img/product/p4.png" alt="">
 						</div>
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+							<img class="img-fluid" src="img/product/p4.png" alt="">
 						</div>
 					</div>
 				</div>
@@ -135,18 +135,44 @@
 						<h2>$9.00</h2>
 						<ul class="list">
 							<li><a class="active" href="#"><span>Genre</span> : Action</a></li>
-							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
 						</ul>
 						<p>Our friendly neighborhood Super Hero decides to join his best friends Ned, MJ, and the rest of the gang on a European vacation. However, Peter's plan to leave super heroics behind for a few weeks are quickly scrapped when he begrudgingly agrees to help Nick Fury uncover the mystery of several elemental creature attacks, creating havoc across the continent.</p>
+                        <form action="#" style="">
+                            <h4>Choose Date for Movie:</h4>
+                            <div class="mt-10">
+								<input type="date" value="2019-10-02" name="first_name" placeholder="Expiration Date" onfocus="this.placeholder = 'Date'" onblur="this.placeholder = 'Date'"
+								 required class="single-input-secondary">
+							</div>
+                            <h4>Choose a ticket type:</h4>
+							<div class="input-group-icon mt-10">
+								<div class="icon"><i class="fa " aria-hidden="true"></i></div>
+								<div class="form-select" id="default-select">
+											<select>
+												<option value=" 1">Choose a ticket type</option>
+									<option value="1">Adult</option>
+									<option value="1">Child</option>
+									<option value="1">Student</option>
+									<option value="1">Senior</option>
+									</select>
+								</div>
+							</div>
+                            <h4>Choose a Showtime:</h4>
+							<div class="input-group-icon mt-10">
+								<div class="icon"><i class="fa " aria-hidden="true"></i></div>
+								<div class="form-select" id="default-select">
+											<select>
+												<option value=" 1">Showtimes</option>
+									<option value="1">8:00pm</option>
+									<option value="1">9:30pm</option>
+									<option value="1">11:00pm</option>
+									</select>
+								</div>
+							</div>
+                            
+                            
+						</form>
                         
-                                <div><p> <font size="6">
-                                    <a href = "#">8:00pm</a>
-                                    <a href = "#">9:00pm</a>
-                                    <a href = "#">10:00pm</a>
-                                    </font>
-                                    </p> 
-                                </div>
-						<div class="product_count">
+						<div class="product_count" style="margin-top: 5%">
 							<label for="qty">Quantity:</label>
 							<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
 							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
@@ -155,7 +181,7 @@
 							 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
 						</div>
 						<div class="card_area d-flex align-items-center">
-							<a class="primary-btn" href="#">Add to Cart</a>
+							<a class="primary-btn" href="seat_selection.html">Choose Seats</a>
 						</div>
 					</div>
 				</div>
