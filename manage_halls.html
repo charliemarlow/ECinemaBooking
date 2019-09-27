@@ -15,7 +15,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>E-Cinema Admin</title>
+	<title>E-Cinema Manage Halls</title>
 	<!--
 		CSS
 		============================================= -->
@@ -101,10 +101,10 @@
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Admin Page</h1>
+					<h1>Manage Halls</h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="account.html">Admin Page</a>
+						<a href="manage_halls.html">Manage Halls</a>
 					</nav>
 				</div>
 			</div>
@@ -114,50 +114,66 @@
 <section class="button-area">
 		<div class="container border-top-generic whole-wrap pb-100">
 	<div class="section-top-border" style="">
-				<h3 class="mb-10" style="margin-bottom: 2em">Admin Options</h3>
+				<h3 class="mb-10" style="margin-bottom: 2em">Manage Halls</h3>
 				<div class="row">
 					<div class="col-md-4">
 						<div class="single-defination">
                             <div class="button-group-area mt-40">
-                                <a href="manage_promos.html" class="genric-btn primary e-large" style="font-size: 2em">Manage<br>Promotions</a>
+                                <a href="edit_movie.html" class="genric-btn primary e-large" style="font-size: 2em">Add Hall</a>
                              </div>
 						</div>
 					</div>
-					<div class="col-md-4">
-						<div class="single-defination">
-							<div class="button-group-area mt-40">
-                                <a href="manage_movies.html" class="genric-btn primary e-large" style="font-size: 2em">Manage<br>Movies</a>
-                             </div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="single-defination">
-							<div class="button-group-area mt-40">
-                                <a href="manage_showtime.html" class="genric-btn primary e-large" style="font-size: 2em">Manage<br>Showtimes</a>
-                             </div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="single-defination">
-							<div class="button-group-area mt-40">
-                                <a href="manage_halls.html" class="genric-btn primary e-large" style="font-size: 2em">Manage<br>Hall</a>
-                             </div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="single-defination">
-							<div class="button-group-area mt-40">
-                                <a href="view_report.html" class="genric-btn primary e-large" style="font-size: 2em">View<br>Report</a>
-                             </div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="single-defination">
-							<div class="button-group-area mt-40">
-                                <a href="manage_users.html" class="genric-btn primary e-large" style="font-size: 2em">Manage<br>Users</a>
-                             </div>
-						</div>
-					</div>
+				</div>
+			</div>
+            <div class="order_details_table">
+				<h2>Manage Halls</h2>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Hall #</th>
+								<th scope="col">Capacity</th>
+                                <th scope="col">Edit</th>
+								<th scope="col">Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <!-- Start Single Promotion -->
+							<tr>
+								<td>
+									<h4>7</h4>
+								</td>
+                                <td>
+                                    <p>31</p>
+                                </td>
+                                <td>
+				                    <a href="#" class="genric-btn link">Edit Hall</a>
+                                </td>
+								<td>
+									<a href="#" class="genric-btn danger">Delete Hall</a>
+								</td>
+                            </tr>
+                            <!-- End Single Promotion -->
+                            
+                            <!-- Start Single Promotion -->
+							<tr>
+								<td>
+									<h4>2</h4>
+								</td>
+                                <td>
+                                    <p>15</p>
+                                </td>
+                                <td>
+				                    <a href="#" class="genric-btn link">Edit Hall</a>
+                                </td>
+								<td>
+									<a href="#" class="genric-btn danger">Delete Hall</a>
+								</td>
+                            </tr>
+                            <!-- End Single Promotion -->
+                            
+						</tbody>
+					</table>
 				</div>
 			</div>
     </div>

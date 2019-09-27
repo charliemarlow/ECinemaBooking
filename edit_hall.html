@@ -15,20 +15,18 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>E-Cinema Admin</title>
+	<title>Edit Hall</title>
+
 	<!--
 		CSS
 		============================================= -->
 	<link rel="stylesheet" href="css/linearicons.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/themify-icons.css">
-	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/owl.carousel.css">
+	<link rel="stylesheet" href="css/themify-icons.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/nice-select.css">
 	<link rel="stylesheet" href="css/nouislider.min.css">
-	<link rel="stylesheet" href="css/ion.rangeSlider.css" />
-	<link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
-	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/main.css">
 </head>
 
@@ -95,73 +93,55 @@
 		</div>
 	</header>
 	<!-- End Header Area -->
-
-	<!-- start banner Area -->
+	<!-- Start Banner Area -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Admin Page</h1>
+					<h1>Edit Hall</h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="account.html">Admin Page</a>
+						<a href="edit_hall.html">Edit Hall</a>
 					</nav>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- End banner Area -->
-<section class="button-area">
-		<div class="container border-top-generic whole-wrap pb-100">
-	<div class="section-top-border" style="">
-				<h3 class="mb-10" style="margin-bottom: 2em">Admin Options</h3>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="single-defination">
-                            <div class="button-group-area mt-40">
-                                <a href="manage_promos.html" class="genric-btn primary e-large" style="font-size: 2em">Manage<br>Promotions</a>
-                             </div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="single-defination">
-							<div class="button-group-area mt-40">
-                                <a href="manage_movies.html" class="genric-btn primary e-large" style="font-size: 2em">Manage<br>Movies</a>
-                             </div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="single-defination">
-							<div class="button-group-area mt-40">
-                                <a href="manage_showtime.html" class="genric-btn primary e-large" style="font-size: 2em">Manage<br>Showtimes</a>
-                             </div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="single-defination">
-							<div class="button-group-area mt-40">
-                                <a href="manage_halls.html" class="genric-btn primary e-large" style="font-size: 2em">Manage<br>Hall</a>
-                             </div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="single-defination">
-							<div class="button-group-area mt-40">
-                                <a href="view_report.html" class="genric-btn primary e-large" style="font-size: 2em">View<br>Report</a>
-                             </div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="single-defination">
-							<div class="button-group-area mt-40">
-                                <a href="manage_users.html" class="genric-btn primary e-large" style="font-size: 2em">Manage<br>Users</a>
-                             </div>
-						</div>
-					</div>
-				</div>
-			</div>
-    </div>
-    </section>
+	<!-- End Banner Area -->
+
+	<!--================Login Box Area =================-->
+    <section class="sample-text-area">
+		<div class="container">
+			<h3 class="text-heading">Edit Hall</h3>
+			<div class="">
+						
+						<form action="#">
+                            <h4>Hall Number:</h4>
+							<div class="mt-10">
+								<input type="text" name="hall_number" placeholder="Hall #" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hall #'"
+								 required class="single-input" value="14">
+							</div>
+                            
+                            <h4>Capacity:</h4>
+							<div class="mt-10">
+								<input type="text" name="capacity" placeholder="Capacity" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Capacity'"
+								 required class="single-input" value="23">
+							</div>
+                            
+                            <button type="submit" value="submit" class="primary-btn">Save Changes</button>
+                            
+						</form>
+			
+			
+            </div>
+            
+		      </div>
+        					
+	</section>
+    
+
+	<!--================End Login Box Area =================-->
+
 <!-- start footer Area -->
 	<footer class="footer-area section_gap">
 		<div class="container">
@@ -214,6 +194,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</footer>
 	<!-- End footer Area -->
 
+
 	<script src="js/vendor/jquery-2.2.4.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 	 crossorigin="anonymous"></script>
@@ -222,7 +203,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="js/jquery.nice-select.min.js"></script>
 	<script src="js/jquery.sticky.js"></script>
 	<script src="js/nouislider.min.js"></script>
-	<script src="js/countdown.js"></script>
 	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="js/owl.carousel.min.js"></script>
 	<!--gmaps Js-->
