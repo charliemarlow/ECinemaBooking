@@ -15,7 +15,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>E-Cinema Manage Movies</title>
+	<title>E-Cinema Manage Showtimes</title>
 	<!--
 		CSS
 		============================================= -->
@@ -101,10 +101,10 @@
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Manage Movies</h1>
+					<h1>Manage Showtimes</h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="manage_movies.html">Manage Movies</a>
+						<a href="manage_movies.html">Manage Showtimes</a>
 					</nav>
 				</div>
 			</div>
@@ -114,29 +114,33 @@
 <section class="button-area">
 		<div class="container border-top-generic whole-wrap pb-100">
 	<div class="section-top-border" style="">
-				<h3 class="mb-10" style="margin-bottom: 2em">Manage Movies</h3>
+				<h3 class="mb-10" style="margin-bottom: 2em">Manage Showtimes</h3>
+                <h4>Select Date</h4>
+                <div class="mt-10">
+                    <input type="date" value="2022-07-22" name="first_name" placeholder="Expiration Date" onfocus="this.placeholder = 'Date'" onblur="this.placeholder = 'Date'"
+                    required class="single-input-secondary">
+                </div>
 				<div class="row">
 					<div class="col-md-4">
 						<div class="single-defination">
                             <div class="button-group-area mt-40">
-                                <a href="edit_movie.html" class="genric-btn primary e-large" style="font-size: 2em">Add Movie</a>
+                                <a href="make_showtime.html" class="genric-btn primary e-large" style="font-size: 2em">Add Showtimes</a>
                              </div>
 						</div>
 					</div>
 				</div>
 			</div>
             <div class="order_details_table">
-				<h2>Manage Movies</h2>
+				<h2>Manage Showtimes</h2>
 				<div class="table-responsive">
 					<table class="table">
 						<thead>
 							<tr>
 								<th scope="col">Movie Name</th>
-								<th scope="col">Rating</th>
-								<th scope="col">Description</th>
+								<th scope="col">Time</th>
+								<th scope="col">Theater #</th>
 								<th scope="col">Duration</th>
-								<th scope="col">State</th>
-                                <th scope="col">Edit</th>
+								<th scope="col">Edit</th>
 								<th scope="col">Delete</th>
 							</tr>
 						</thead>
@@ -147,22 +151,19 @@
 									<h4>Avengers: Endgame</h4>
 								</td>
                                 <td>
-                                    <p>PG-13</p>
+                                    <p>7:00 pm</p>
                                 </td>
                                 <td>
-                                    <p>This is the best movie by marvel so far!</p>
+                                    <p>12</p>
                                 </td>
-								<td>
-									<h5>2:59:12</h5>
-								</td>
-								<td>
-									<h5>Active</h5>
-								</td>
                                 <td>
-				                    <a href="#" class="genric-btn link">Edit Movie</a>
+                                    <p>2:59:12</p>
+                                </td>
+                                <td>
+				                    <a href="#" class="genric-btn link">Edit Showtime</a>
                                 </td>
 								<td>
-									<a href="#" class="genric-btn danger">Delete Movie</a>
+									<a href="#" class="genric-btn danger">Delete Showtime</a>
 								</td>
                             </tr>
                             <!-- End Single Promotion -->
@@ -170,25 +171,22 @@
                             <!-- Start Single Promotion -->
 							<tr>
 								<td>
-									<h4>Tarzan: The Sequel</h4>
+									<h4>Unstoppable</h4>
 								</td>
                                 <td>
-                                    <p>R</p>
+                                    <p>2:30 pm</p>
                                 </td>
                                 <td>
-                                    <p>Swinging back from our childhood!</p>
+                                    <p>5</p>
                                 </td>
-								<td>
-									<h5>1:54:34</h5>
-								</td>
-								<td>
-									<h5>Coming Soon</h5>
-								</td>
                                 <td>
-				                    <a href="#" class="genric-btn link">Edit Movie</a>
+                                    <p>1:36:12</p>
+                                </td>
+                                <td>
+				                    <a href="#" class="genric-btn link">Edit Showtime</a>
                                 </td>
 								<td>
-									<a href="#" class="genric-btn danger">Delete Movie</a>
+									<a href="#" class="genric-btn danger">Delete Showtime</a>
 								</td>
                             </tr>
                             <!-- End Single Promotion -->
