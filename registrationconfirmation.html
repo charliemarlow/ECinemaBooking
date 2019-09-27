@@ -15,7 +15,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>Register</title>
+	<title>E-Cinema Booking</title>
 
 	<!--
 		CSS
@@ -93,15 +93,16 @@
 		</div>
 	</header>
 	<!-- End Header Area -->
+
 	<!-- Start Banner Area -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Create Account</h1>
+					<h1>Registration<br>Confirmation</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="category.html">Register</a>
+						<a href="index.html">Register<span class="lnr lnr-arrow-right"></span></a>
+						<a href="index.html">Confirmation</a>
 					</nav>
 				</div>
 			</div>
@@ -109,42 +110,16 @@
 	</section>
 	<!-- End Banner Area -->
 
-	<!--================Login Box Area =================-->
-	<section class="login_box_area section_gap">
-					<div class="login_form_inner">
-						<h3>Sign up now!</h3>
-						<form class="row login_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-                            <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name">
-                                <span class="placeholder" data-placeholder="First name"></span>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name">
-                                <span class="placeholder" data-placeholder="Last name"></span>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name">
-                                <span class="placeholder" data-placeholder="Password"></span>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name">
-                                <span class="placeholder" data-placeholder="Re-type Password"></span>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name">
-                                <span class="placeholder" data-placeholder="Username"></span>
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name">
-                                <span class="placeholder" data-placeholder="Email"></span>
-                            </div>
-							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="primary-btn">Log In</button>
-							</div>
-						</form>
-					</div>
+	<!--================Order Details Area =================-->
+	<section class="order_details section_gap">
+		<div class="container">
+			<h3 class="title_confirmation">Thank you. Your account is set up.<br>You'll receive a verification email to example@example.org soon!</h3>
+            <div class="login_form_inner" style="margin-top: -15%">
+                <button type="submit" value="submit" class="primary-btn" onclick="window.location.href='index.html'">Return Home</button>
+           </div>
+		</div>
 	</section>
-	<!--================End Login Box Area =================-->
+	<!--================End Order Details Area =================-->
 
 <!-- start footer Area -->
 	<footer class="footer-area section_gap">
@@ -197,6 +172,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</div>
 	</footer>
 	<!-- End footer Area -->
+
 
 
 	<script src="js/vendor/jquery-2.2.4.min.js"></script>
