@@ -1,2 +1,7 @@
-ecinema/Test.class
+ecinema/Address.class
+ecinema/CreditCard.class
 com/example/ecinema/EcinemaApplication.class
+ecinema/Customer.class
+ecinema/Test.class
+ecinema/User.class
+ecinema/Status.class

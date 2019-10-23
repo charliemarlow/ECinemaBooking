@@ -1,7 +1,7 @@
+package ecinema;
 import java.util.Date;
 
-public class CreditCard
-{
+public class CreditCard{
 
     int creditCardID;
     String cardNumber;
@@ -27,5 +27,8 @@ public class CreditCard
 	this.customerID = customerID;
     }//changeCard
 
-    
+    public void printDetails(){
+        System.out.println(this.cardNumber);
+    }
+
 }//CreditCard

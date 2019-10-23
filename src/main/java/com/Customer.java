@@ -1,33 +1,26 @@
-Package ecinema{
-	public enum Status{
-		Active,
-		Inactive,
-		Suspended
-	}
+package ecinema;
 
-	public class Customer extends User{
-		public int customerID;
-		public string firstName;
-		public string lastName;
-		public string email;
-		public Status status;
-		public boolean subscribedToPromo;
-		
-		public CreditCard card;
-		public Address address;
-		public Booking movieBooking
-		
-		
+public class Customer extends User{
+		private int customerID;
+		private String firstName;
+		private String lastName;
+		private String email;
+		private Status status;
+		private boolean subscribedToPromo;
+
+		private CreditCard card;
+		private Address address;
+
 		public Customer(){
 			customerID = 0;
 			firstName = "";
 			lastName = "";
-			email = "noemail@fake.com"
-			status = Active;
+			email = "noemail@fake.com";
+			status = Status.ACTIVE;
 			subscribedToPromo = false;
 		}
-		
-		public Customer(int ID, string firstName, string lastName, string email, Status status, boolean subscribed){
+
+		public Customer(int ID, String firstName, String lastName, String email, Status status, boolean subscribed){
 			this.customerID = ID;
 			this.firstName = firstName;
 			this.lastName = lastName;
@@ -35,7 +28,10 @@ Package ecinema{
 			this.status = status;
 			this.subscribedToPromo = subscribed;
 		}
-		
+
+    public updateInformation(String firstName, String LastName, String email, String password, String username, boolean promotion ){
+
+    }
 		// Getters and Setters
 		public int getCustomerID(){
 			return customerID;
@@ -43,60 +39,51 @@ Package ecinema{
 		public void setCustomerID(int ID){
 			customerID = ID;
 		}
-		
-		public string getFirstName(){
+
+		public String getFirstName(){
 			return firstName;
-		}		
-		public void setFirstName(string name){
+		}
+		public void setFirstName(String name){
 			firstName = name;
 		}
-		
-		public string getLastName(){
+
+		public String getLastName(){
 			return lastName;
 		}
-		public void setLastName(string name){
+		public void setLastName(String name){
 			lastName = name;
 		}
-		
-		public string getEmail(){
+
+		public String getEmail(){
 			return email;
 		}
-		public void setEmail(string email){
+		public void setEmail(String email){
 			this.email = email;
 		}
-		
+
 		public Status getStatus(){
 			return status;
 		}
 		public void setStatus(Status status){
 			this.status = status;
 		}
-		
+
 		public boolean getSubcription(){
 			return subscribedToPromo;
 		}
 		public void setSubcription(boolean subscribed){
 			subscribedToPromo = subscribed;
 		}
-		
+
 		public void addCard(CreditCard newCard){
 			card = newCard;
 		}
-		public editProfile(string firstName, string lastName, string password, CreditCard newCard, Address address){
+		public void editProfile(String firstName, String lastName, String password, CreditCard newCard, Address address){
 			this.firstName = firstName;
 			this.lastName = lastName;
 			this.password = password;
-			this.CreditCard = newCard;
+			this.card = newCard;
 			this.address = address;
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	}
+
 }

@@ -1,3 +1,5 @@
+package ecinema;
+
 public class Address
 {
 
