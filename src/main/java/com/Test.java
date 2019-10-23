@@ -19,6 +19,9 @@ public class Test {
         // Create dummy customer object
         Customer newCustomer = new Customer();
 
+        // hash password
+        password = newCustomer.hashPassword(password);
+
         // Validate the information
         boolean validated = false;
         while(!validated){

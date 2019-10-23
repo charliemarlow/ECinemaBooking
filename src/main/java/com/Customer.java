@@ -29,9 +29,16 @@ public class Customer extends User{
 			this.subscribedToPromo = subscribed;
 		}
 
-    public updateInformation(String firstName, String LastName, String email, String password, String username, boolean promotion ){
-
+    public void updateInformation(String firstName, String LastName, String email, String password, String username, boolean promotion ){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.status = Status.ACTIVE;
+        this.subscribedToPromo = promotion;
     }
+
 		// Getters and Setters
 		public int getCustomerID(){
 			return customerID;
