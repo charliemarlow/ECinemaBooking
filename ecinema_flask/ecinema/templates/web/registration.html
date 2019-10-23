@@ -138,12 +138,16 @@
                                 <input type="text" class="form-control" id="email" name="email" required>
                                 <span class="placeholder" data-placeholder="Email"></span>
                             </div>
+                                 <div class="col-md-12 form-group">
+                                 <input type="checkbox" class="form-control" id="subscribe" name="subscribe" style="height: 10px; width: 10px">
+                                 <p>Subscribe to Promotions?</p>
+                                 </div>
 							<div class="col-md-12 form-group">
 								<button type="submit" value="Register" class="primary-btn">Register</button>
 							</div>
 						</form>
   {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
+    <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
   {% endfor %}
 					</div>
 	</section>

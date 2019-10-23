@@ -6,6 +6,8 @@ from flask import(
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ecinema.db import get_db
+from ecinema.validation import validateName, validatePassword, validateEmail, validateUsername
+from models import Customer
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -15,35 +17,38 @@ def register():
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         password = request.form['password']
-        confirm  = request.form['confirm']
+        confirmation  = request.form['confirm']
         username = request.form['userid']
         email = request.form['email']
+        subscribe = 0 if request.form.get('subscribe') is None else 1
 
         db = get_db()
         error = None
-        if not firstname:
+
+        if not validateName(firstname):
+            print(firstname)
             error = "First name is required"
-        elif not lastname:
+        elif not validateName(lastname):
             error = "Last name is required"
-        elif not password:
-            error = 'Password is required'
-        elif not confirm:
-            error = 'Must confirm password'
+        elif not validatePassword(password, confirmation):
+            error = 'Password is required and must be at least 8 characters with 1 uppercase, and 1 number'
         elif not username:
             error = 'Username is required'
-        elif not email:
-            error = 'Email is required'
-        elif db.execute(
-                'SELECT customer_id FROM customer WHERE username = ?', (username,)
-        ).fetchone() is not None:
-            error = 'User {} is already registered.'.format(username)
+        elif not validateEmail(email):
+            error = 'Email is required and must be valid'
+        elif validateUsername(username, db):
+            error = 'Username {} is already taken.'.format(username)
 
         if error is None:
             db.execute(
                 'INSERT INTO customer (first_name, last_name, email, subscribe_to_promo, username, password) VALUES (?, ?, ?, ?, ?, ?)',
-                (firstname, lastname, email, 1, username, generate_password_hash(password))
+                (firstname, lastname, email, subscribe, username, generate_password_hash(password))
             )
             db.commit()
+
+            customer = Customer.Customer()
+            customer.sendConfirmationEmail(email, firstname)
+
             return redirect(url_for('auth.login'))
 
         flash(error)
@@ -70,6 +75,11 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
+
+            user = db.execute(
+                'SELECT * FROM user WHERE username = ?', (username,)
+            ).fetchone()
+            print(user)
             return redirect(url_for('index'))
 
         flash(error)
