@@ -58,11 +58,14 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        username = request.form['name']
         password = request.form['password']
+        loggedin = request.form.get('loggedin')
+        loggedin = False if loggedin is None else True
+
         db = get_db()
         user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
+            'SELECT * FROM customer WHERE username = ?', (username,)
         ).fetchone()
 
         error = None
@@ -74,17 +77,12 @@ def login():
 
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
-
-            user = db.execute(
-                'SELECT * FROM user WHERE username = ?', (username,)
-            ).fetchone()
-            print(user)
+            session['user_id'] = user['username']
             return redirect(url_for('index'))
 
         flash(error)
 
-    return render_template('auth/login.html')
+    return render_template('web/login.html')
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -102,6 +100,10 @@ def load_logged_in_user():
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
+@bp.route('/index')
+def index():
+    return render_template('web/index.html')
 
 def login_required(view):
     @functools.wraps(view)

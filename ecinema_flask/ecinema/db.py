@@ -1,12 +1,13 @@
 import sqlite3
-
+from werkzeug.security import generate_password_hash
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 
 schema_list = ["schema/address.sql",
                "schema/customer.sql",
-               "schema/credit_card.sql"]
+               "schema/credit_card.sql",
+               "schema/admin.sql",]
 
 def init_db():
     db = get_db()
@@ -17,6 +18,12 @@ def init_db():
     for sqlFile in schema_list:
         with current_app.open_resource(sqlFile) as f:
             db.executescript(f.read().decode('utf8'))
+
+    db.execute(
+        'INSERT INTO admin (username, password) VALUES (?, ?)',
+        ("admin", generate_password_hash("root")),
+    )
+    db.commit()
 
 def init_app(app):
     app.teardown_appcontext(close_db)
