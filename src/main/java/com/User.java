@@ -2,7 +2,7 @@ package ecinema;
 
 abstract class User{
 
-    private String userID;
+    protected String userID;
     private String password;
 
 		public String getUserID(){

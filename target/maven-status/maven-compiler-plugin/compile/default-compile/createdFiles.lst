@@ -1,5 +1,6 @@
 ecinema/Address.class
 ecinema/CreditCard.class
+ecinema/Customer$1.class
 com/example/ecinema/EcinemaApplication.class
 ecinema/Customer.class
 ecinema/Test.class

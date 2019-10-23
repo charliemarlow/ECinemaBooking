@@ -1,5 +1,11 @@
 package ecinema;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.*;
+
 public class Customer extends User{
 		private int customerID;
 		private String firstName;
@@ -33,10 +39,70 @@ public class Customer extends User{
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
-        this.username = username;
+        this.setPassword(password);
+        this.userID = username;
         this.status = Status.ACTIVE;
         this.subscribedToPromo = promotion;
+    }
+
+    public void saveCustomer(){
+        System.out.println("Saving customer to the DB");
+    }
+
+    public boolean validateName(String name){
+        return (name.length() > 1 && name.length() < 100);
+    }
+
+    public boolean validatePassword(String password, String confirmation){
+        return password.equals(confirmation) &&
+               password.length() >= 8 &&
+               password.matches(".*\\d.*");
+    }
+
+    public boolean validateEmail(String email){
+        if(email == null){
+            return false;
+        }
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern emailPattern = Pattern.compile(emailRegex);
+        Matcher regexMatcher = emailPattern.matcher(email);
+        return regexMatcher.matches();
+    }
+
+    public boolean validateUsername(String username){
+        System.out.println("Checking that it is unique");
+        return this.validateName(username);
+    }
+
+    public void sendConfirmationEmail(){
+        Properties prop = new Properties();
+        String user = "ecinemaBookingWebsite@gmail.com";
+        String password = "4050Project";
+        String host = "mail.gmail.com";
+
+        prop.put("mail.smtp.host", host);
+        prop.put("mail.smtp.auth", "true");
+
+        Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator(){
+                protected PasswordAuthentication getPasswordAuthentication(){
+                    return new PasswordAuthentication(user, password);
+                }
+            });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user));
+            message.addRecipient(Message.RecipientType.TO,
+                                 new InternetAddress(this.email));
+
+            message.setSubject("test");
+            message.setText("Testing");
+
+            Transport.send(message);
+            System.out.println("Message sent");
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 		// Getters and Setters
@@ -88,7 +154,7 @@ public class Customer extends User{
 		public void editProfile(String firstName, String lastName, String password, CreditCard newCard, Address address){
 			this.firstName = firstName;
 			this.lastName = lastName;
-			this.password = password;
+      this.setPassword(password);
 			this.card = newCard;
 			this.address = address;
 		}
