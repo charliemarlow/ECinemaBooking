@@ -7,7 +7,8 @@ from flask.cli import with_appcontext
 schema_list = ["schema/address.sql",
                "schema/customer.sql",
                "schema/credit_card.sql",
-               "schema/admin.sql",]
+               "schema/admin.sql", ]
+
 
 def init_db():
     db = get_db()
@@ -25,9 +26,11 @@ def init_db():
     )
     db.commit()
 
+
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+
 
 @click.command('init-db')
 @with_appcontext

@@ -3,12 +3,11 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from .sendEmail import sendEmail
 
+
 class Customer:
     def ___init___(self):
         print("initting")
 
-        
-          
     def sendConfirmationEmail(self, email, name):
         sender = "ecinemaBookingWebsite@gmail.com"
         password = "4050Project"
@@ -25,4 +24,3 @@ class Customer:
         """.format(name)
 
         sendEmail(email, subject, message)
-

@@ -11,6 +11,7 @@ from ecinema.models.Customer import Customer
 
 bp = Blueprint('LoginController', __name__, url_prefix='/')
 
+
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
@@ -21,7 +22,7 @@ def login():
 
         db = get_db()
 
-        #check if username is in the user table
+        # check if username is in the user table
         user = db.execute(
             'SELECT * FROM customer WHERE username = ?', (username,)
         ).fetchone()
@@ -50,6 +51,7 @@ def login():
 
     return render_template('login.html')
 
+
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
@@ -61,7 +63,7 @@ def load_logged_in_user():
             'SELECT * FROM customer WHERE username = ?', (user_id,)
         ).fetchone()
 
-        #check for admin
+        # check for admin
         if g.user is None:
             g.user = get_db().execute(
                 'SELECT * FROM admin WHERE username = ?', (user_id,)

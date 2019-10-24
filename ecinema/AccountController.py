@@ -12,15 +12,18 @@ from ecinema.LoginController import login_required
 
 bp = Blueprint('AccountController', __name__, url_prefix='/')
 
+
 @bp.route('/account', methods=('GET', 'POST'))
 @login_required
 def account():
     return render_template('account.html')
 
+
 @bp.route('/editprofile', methods=('GET', 'POST'))
 @login_required
 def editprofile():
     return render_template('editprofile.html')
+
 
 def login_required(view):
     @functools.wraps(view)

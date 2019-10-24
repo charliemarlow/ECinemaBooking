@@ -11,6 +11,7 @@ from ecinema.models.Customer import Customer
 
 bp = Blueprint('IndexController', __name__, url_prefix='/')
 
+
 @bp.route('/index')
 def index():
     return render_template('index.html')

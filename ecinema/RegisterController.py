@@ -11,6 +11,7 @@ from ecinema.models.Customer import Customer
 
 bp = Blueprint('RegisterController', __name__, url_prefix='/')
 
+
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     # if the submit button has been pressed...
@@ -19,7 +20,7 @@ def register():
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         password = request.form['password']
-        confirmation  = request.form['confirm']
+        confirmation = request.form['confirm']
         username = request.form['userid']
         email = request.form['email']
         # IMPORTANT: non-required fields should use the .get method
@@ -48,7 +49,8 @@ def register():
         if error is None:
             db.execute(
                 'INSERT INTO customer (first_name, last_name, email, subscribe_to_promo, username, password) VALUES (?, ?, ?, ?, ?, ?)',
-                (firstname, lastname, email, subscribe, username, generate_password_hash(password))
+                (firstname, lastname, email, subscribe,
+                 username, generate_password_hash(password))
             )
             db.commit()
 

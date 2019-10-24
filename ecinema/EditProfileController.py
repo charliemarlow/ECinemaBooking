@@ -11,6 +11,7 @@ from ecinema.models.Customer import Customer
 
 bp = Blueprint('EditProfileController', __name__, url_prefix='/')
 
+
 @bp.route('/editprofile', methods=('GET', 'POST'))
 def editProfile():
     if request.method == 'POST':
