@@ -55,7 +55,7 @@ def register():
             customer = Customer()
             customer.sendConfirmationEmail(email, firstname)
 
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('LoginController.login'))
 
         flash(error)
 
