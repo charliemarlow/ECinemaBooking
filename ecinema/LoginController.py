@@ -20,9 +20,17 @@ def login():
         loggedin = False if loggedin is None else True
 
         db = get_db()
+
+        #check if username is in the user table
         user = db.execute(
             'SELECT * FROM customer WHERE username = ?', (username,)
         ).fetchone()
+
+        if user is None:
+            # check if the user is actually an admin
+            user = db.execute(
+                'SELECT * FROM admin WHERE username = ?', (username,)
+            ).fetchone()
 
         error = None
 
@@ -34,7 +42,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['username']
-            return redirect(url_for('index'))
+            return redirect(url_for('IndexController.index'))
 
         flash(error)
 
@@ -55,7 +63,7 @@ def load_logged_in_user():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('/index'))
 
 
 def login_required(view):
