@@ -1,7 +1,7 @@
 import re
 
 
-def validateEmail(email):
+def validateEmail(email: str) -> bool:
     return re.match(
         '^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*'
         '@'
@@ -9,17 +9,17 @@ def validateEmail(email):
         email) is not None
 
 
-def validateName(name):
+def validateName(name: str) -> bool:
     return len(name) > 1 and len(name) < 100
 
 
-def validatePassword(password, confirmation):
+def validatePassword(password: str, confirmation: str) -> bool:
     return (password == confirmation and len(password) >= 8 and
             bool(re.search(r'\d', password)) and
             any(char.isupper() for char in password))
 
 
-def validateUsername(username, db):
+def validateUsername(username: str, db) -> bool:
     # sql stuff here
     return (db.execute(
         'SELECT customer_id FROM customer WHERE username = ?',

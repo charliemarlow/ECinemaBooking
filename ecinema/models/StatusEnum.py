@@ -1,6 +1,7 @@
 from enum import Enum
 
+
 class Status (Enum):
-    Active = 1
-    Inactive = 2
-    Suspended = 3
+    ACTIVE = 1
+    INACTIVE = 2
+    SUSPENDED = 3
