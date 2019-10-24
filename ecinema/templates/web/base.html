@@ -1,0 +1,147 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - E-Cinema Booking</title>
+
+<nav>
+    {% if g.user %}
+      <li><span>{{ g.user['username'] }}</span>
+      <li><a href="{{ url_for('LoginController.logout') }}">Log Out</a>
+    {% else %}
+      <li><a href="{{ url_for('RegisterController.register') }}">Register</a>
+          <li><a href="{{ url_for('LoginController.login') }}">Log In</a>
+              {% endif %}
+
+</nav>
+{%block header %}{% endblock %}
+<!-- Start Header Area -->
+<header class="header_area sticky-header">
+		<div class="main_menu">
+			  <nav class="navbar navbar-expand-lg navbar-light main_box">
+				    <div class="container">
+					      <!-- Brand and toggle get grouped for better mobile display -->
+					      <a class="navbar-brand logo_h" href="index"><img src="{{ url_for('static', filename='img/logo.png') }}" alt=""></a>
+					      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						        <span class="icon-bar"></span>
+						        <span class="icon-bar"></span>
+						        <span class="icon-bar"></span>
+					      </button>
+					      <!-- Collect the nav links, forms, and other content for toggling -->
+					      <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						        <ul class="nav navbar-nav menu_nav ml-auto">
+							          <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+							          <li class="nav-item submenu dropdown">
+								            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								               aria-expanded="false">Buy Tickets</a>
+								            <ul class="dropdown-menu">
+									              <li class="nav-item"><a class="nav-link" href="category.html">Movies by Category</a></li>
+									              <!--<li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>-->
+									              <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+									              <li class="nav-item"><a class="nav-link" href="cart.html">View Current Booking</a></li>
+									              <!--<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>-->
+								            </ul>
+							          </li>
+
+                        {% if g.user %}
+                        <li class="nav-item submenu dropdown">
+								            <a href="account.html" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								               aria-expanded="false">Account</a>
+                            <ul class="dropdown-menu">
+									              <li class="nav-item"><a class="nav-link" href="editprofile.html">Edit Profile</a></li>
+									              <li class="nav-item"><a class="nav-link" href="previousorders.html">Previous Orders</a></li>
+									              <li class="nav-item"><a class="nav-link" href="refunds.html">Refunds</a></li>
+                                <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+								            </ul>
+                        </li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="login">Login</a></li>
+                        {% endif %}
+							          <!--<li class="nav-item submenu dropdown">
+								             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								             aria-expanded="false">Pages</a>
+								             <ul class="dropdown-menu">
+									           <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+									           <li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
+									           <li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+								             </ul>
+							               </li>-->
+							          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+						        </ul>
+						        <ul class="nav navbar-nav navbar-right">
+							          <li class="nav-item"><a href="cart.html" class="cart"><span class="ti-bag"></span></a></li>
+							          <li class="nav-item">
+								            <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+							          </li>
+						        </ul>
+					      </div>
+				    </div>
+			  </nav>
+		</div>
+		<div class="search_input" id="search_input_box">
+			  <div class="container">
+				    <form class="d-flex justify-content-between">
+					      <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+					      <button type="submit" class="btn"></button>
+					      <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+				    </form>
+			  </div>
+		</div>
+</header>
+<!-- End Header Area -->
+
+{% block content %}{% endblock %}
+
+
+<!-- start footer Area -->
+<footer class="footer-area section_gap">
+		<div class="container">
+			  <div class="row">
+				    <div class="col-lg-3  col-md-6 col-sm-6">
+					      <div class="single-footer-widget">
+						        <h6>About Us</h6>
+						        <p>
+							          Contact our team at Boyd UGA.
+						        </p>
+					      </div>
+				    </div>
+				    <div class="col-lg-4  col-md-6 col-sm-6">
+					      <div class="single-footer-widget">
+						        <h6>Newsletter</h6>
+						        <p>Stay update with our latest</p>
+						        <div class="" id="mc_embed_signup">
+
+							          <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+							                method="get" class="form-inline">
+
+								            <div class="d-flex flex-row">
+
+									              <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
+									                     required="" type="email">
+
+
+									              <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+									              <div style="position: absolute; left: -5000px;">
+										                <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+									              </div>
+
+									              <!-- <div class="col-lg-4 col-md-4">
+												             <button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
+											               </div>  -->
+								            </div>
+								            <div class="info"></div>
+							          </form>
+						        </div>
+					      </div>
+				    </div>
+			  </div>
+			  <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+				    <p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+			  </div>
+		</div>
+</footer>
+<!-- End footer Area -->
+
+
+{% block last %}{% endblock %}
