@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from ecinema.db import get_db
 from ecinema.validation import validateName, validatePassword, validateEmail, validateUsername
-from models import Customer
+from ecinema.models.Customer import Customer
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
