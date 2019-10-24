@@ -30,10 +30,12 @@ def create_app(test_config=None):
     from . import LoginController
     from . import IndexController
     from . import EditProfileController
+    from . import AccountController
 
     app.register_blueprint(RegisterController.bp)
     app.register_blueprint(LoginController.bp)
     app.register_blueprint(IndexController.bp)
     app.register_blueprint(EditProfileController.bp)
+    app.register_blueprint(AccountController.bp)
 
     return app
