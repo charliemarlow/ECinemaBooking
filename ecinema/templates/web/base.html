@@ -1,16 +1,6 @@
 <!doctype html>
 <title>{% block title %}{% endblock %} - E-Cinema Booking</title>
 
-<nav>
-    {% if g.user %}
-      <li><span>{{ g.user['username'] }}</span>
-      <li><a href="{{ url_for('LoginController.logout') }}">Log Out</a>
-    {% else %}
-      <li><a href="{{ url_for('RegisterController.register') }}">Register</a>
-          <li><a href="{{ url_for('LoginController.login') }}">Log In</a>
-              {% endif %}
-
-</nav>
 {%block header %}{% endblock %}
 <!-- Start Header Area -->
 <header class="header_area sticky-header">
