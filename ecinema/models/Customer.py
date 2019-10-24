@@ -1,4 +1,4 @@
-from .sendEmail import sendEmail
+from ecinema.tools.sendEmail import sendEmail
 
 
 class Customer:

@@ -6,10 +6,10 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ecinema.db import get_db
-from ecinema.validation import (
+from ecinema.models.Customer import Customer
+from ecinema.tools.validation import (
     validateName, validatePassword, validateEmail, validateUsername
 )
-from ecinema.models.Customer import Customer
 
 bp = Blueprint('RegisterController', __name__, url_prefix='/')
 
