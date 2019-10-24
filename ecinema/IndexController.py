@@ -13,4 +13,4 @@ bp = Blueprint('IndexController', __name__, url_prefix='/')
 
 @bp.route('/index')
 def index():
-    return render_template('web/index.html')
+    return render_template('index.html')

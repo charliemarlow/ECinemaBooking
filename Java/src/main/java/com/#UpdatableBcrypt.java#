@@ -1,5 +1,0 @@
-package ecinema;
-import java.lang.Object;
-org.springframework.security.crypto.bcrypt.BCrypt
-
-public class Bcrypt extends java.lang.Object;

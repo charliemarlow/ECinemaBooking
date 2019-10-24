@@ -48,7 +48,7 @@ def login():
 
         flash(error)
 
-    return render_template('web/login.html')
+    return render_template('login.html')
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -78,7 +78,7 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('LoginController.login'))
 
         return view(**kwargs)
 

@@ -25,4 +25,4 @@ def editProfile():
         # per issue 7, we'll change this to javascript
         # create a new user
 
-    return render_template('web/editprofile.html')
+    return render_template('editprofile.html')
