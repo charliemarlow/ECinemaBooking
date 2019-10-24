@@ -5,14 +5,15 @@ class User(ABC):
         self.__userID = userID
         self.__password = password
 
-    def get_user_id(self):
+    def getUserID(self):
         return self.__userID
-
-    def set_user_id(self, userID):
+]
+    def setUserID(self, userID):
         self.__userID = userID
-
-    def get_password(self):
+]
+    def getPassword(self):
         return self.__password
-
-    def set_password(self, password):
+]
+    def setPassword(self, password):
         self.__password = password
+    

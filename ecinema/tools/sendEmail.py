@@ -7,7 +7,7 @@ sender = "ecinemaBookingWebsite@gmail.com"
 password = "4050Project"
 
 
-def send_email(email: List[str], sub: str, message: str):
+def sendEmail(email: List[str], sub: str, message: str):
     receivers = email
     subject = sub
 
