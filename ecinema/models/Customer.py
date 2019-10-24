@@ -5,7 +5,7 @@ class Customer:
     def ___init___(self):
         print("")
 
-    def sendConfirmationEmail(self, email : str, name : str):
+    def sendConfirmationEmail(self, email: str, name: str):
         sender = "ecinemaBookingWebsite@gmail.com"
         password = "4050Project"
         receivers = [email]
