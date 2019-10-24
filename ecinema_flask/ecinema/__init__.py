@@ -22,7 +22,11 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    from . import auth
-    app.register_blueprint(auth.bp)
+    from . import RegisterView
+    from . import LoginView
+    from . import IndexView
+    app.register_blueprint(RegisterView.bp)
+    app.register_blueprint(LoginView.bp)
+    app.register_blueprint(IndexView.bp)
 
     return app
