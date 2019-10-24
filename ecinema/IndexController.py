@@ -9,7 +9,7 @@ from ecinema.db import get_db
 from ecinema.validation import validateName, validatePassword, validateEmail, validateUsername
 from ecinema.models.Customer import Customer
 
-bp = Blueprint('IndexView', __name__, url_prefix='/')
+bp = Blueprint('IndexController', __name__, url_prefix='/')
 
 @bp.route('/index')
 def index():

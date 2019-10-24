@@ -9,7 +9,7 @@ from ecinema.db import get_db
 from ecinema.validation import validateName, validatePassword, validateEmail, validateUsername
 from ecinema.models.Customer import Customer
 
-bp = Blueprint('RegisterView', __name__, url_prefix='/')
+bp = Blueprint('RegisterController', __name__, url_prefix='/')
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():

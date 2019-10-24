@@ -22,11 +22,11 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    from . import RegisterView
-    from . import LoginView
-    from . import IndexView
-    app.register_blueprint(RegisterView.bp)
-    app.register_blueprint(LoginView.bp)
-    app.register_blueprint(IndexView.bp)
+    from . import RegisterController
+    from . import LoginController
+    from . import IndexController
+    app.register_blueprint(RegisterController.bp)
+    app.register_blueprint(LoginController.bp)
+    app.register_blueprint(IndexController.bp)
 
     return app

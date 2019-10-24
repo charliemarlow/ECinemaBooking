@@ -9,7 +9,7 @@ from ecinema.db import get_db
 from ecinema.validation import validateName, validatePassword, validateEmail, validateUsername
 from ecinema.models.Customer import Customer
 
-bp = Blueprint('LoginView', __name__, url_prefix='/')
+bp = Blueprint('LoginController', __name__, url_prefix='/')
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
