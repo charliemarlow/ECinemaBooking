@@ -1,11 +1,11 @@
-from ecinema.tools.sendEmail import sendEmail
+from ecinema.tools.sendEmail import send_email
 
 
 class Customer:
     def ___init___(self):
         print("")
 
-    def sendConfirmationEmail(self, email: str, name: str):
+    def send_confirmation_email(self, email: str, name: str):
         sender = "ecinemaBookingWebsite@gmail.com"
         password = "4050Project"
         receivers = [email]
@@ -24,4 +24,4 @@ E-Cinema Booking
         """
         message = message.format(name)
 
-        sendEmail(email, subject, message)
+        send_email(email, subject, message)

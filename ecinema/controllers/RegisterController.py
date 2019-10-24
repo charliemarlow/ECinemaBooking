@@ -60,7 +60,7 @@ def register():
             db.commit()
 
             customer = Customer()
-            customer.sendConfirmationEmail(email, firstname)
+            customer.send_confirmation_email(email, firstname)
 
             return redirect(url_for('LoginController.login'))
 
