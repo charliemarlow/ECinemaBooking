@@ -3,12 +3,14 @@ import os
 from flask import Flask
 
 def create_app(test_config=None):
+    # set up flask
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'ecinema.sqlite')
     )
 
+    # load configs
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
     else:
@@ -19,14 +21,19 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    # set up database
     from . import db
     db.init_app(app)
 
+    # load Page Controllers
     from . import RegisterController
     from . import LoginController
     from . import IndexController
+    from . import EditProfileController
+
     app.register_blueprint(RegisterController.bp)
     app.register_blueprint(LoginController.bp)
     app.register_blueprint(IndexController.bp)
+    app.register_blueprint(EditProfileController.bp)
 
     return app

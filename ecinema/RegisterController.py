@@ -13,18 +13,23 @@ bp = Blueprint('RegisterController', __name__, url_prefix='/')
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
+    # if the submit button has been pressed...
     if request.method == 'POST':
+        # pull data from forms
         firstname = request.form['firstname']
         lastname = request.form['lastname']
         password = request.form['password']
         confirmation  = request.form['confirm']
         username = request.form['userid']
         email = request.form['email']
+        # IMPORTANT: non-required fields should use the .get method
         subscribe = 0 if request.form.get('subscribe') is None else 1
 
         db = get_db()
         error = None
 
+        # validate the fields
+        # per issue 7, we'll change this to javascript
         if not validateName(firstname):
             print(firstname)
             error = "First name is required"
@@ -39,6 +44,7 @@ def register():
         elif validateUsername(username, db):
             error = 'Username {} is already taken.'.format(username)
 
+        # create a new user
         if error is None:
             db.execute(
                 'INSERT INTO customer (first_name, last_name, email, subscribe_to_promo, username, password) VALUES (?, ?, ?, ?, ?, ?)',

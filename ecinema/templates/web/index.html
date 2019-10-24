@@ -33,7 +33,13 @@
 </head>
 
 <body>
-
+	{% if g.user %}
+      <li><span>{{ g.user['username'] }}</span>
+      <li><a href="{{ url_for('IndexController.index') }}">Log Out</a>
+    {% else %}
+      <li><a href="{{ url_for('RegisterController.register') }}">Register</a>
+      <li><a href="{{ url_for('LoginController.login') }}">Log In</a>
+    {% endif %}
 	<!-- Start Header Area -->
 	<header class="header_area sticky-header">
 		<div class="main_menu">

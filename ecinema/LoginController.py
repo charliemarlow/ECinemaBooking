@@ -42,6 +42,8 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['username']
+            session.permanent = loggedin
+            print(session)
             return redirect(url_for('IndexController.index'))
 
         flash(error)
@@ -56,8 +58,14 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
+            'SELECT * FROM customer WHERE username = ?', (user_id,)
         ).fetchone()
+
+        #check for admin
+        if g.user is None:
+            g.user = get_db().execute(
+                'SELECT * FROM admin WHERE username = ?', (user_id,)
+            ).fetchone()
 
 
 @bp.route('/logout')
