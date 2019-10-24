@@ -1,12 +1,14 @@
 import functools
 
-from flask import(
+from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ecinema.db import get_db
-from ecinema.validation import validateName, validatePassword, validateEmail, validateUsername
+from ecinema.validation import (
+    validateName, validatePassword, validateEmail, validateUsername
+)
 from ecinema.models.Customer import Customer
 from ecinema.LoginController import login_required
 
@@ -21,7 +23,7 @@ def account():
 
 @bp.route('/editprofile', methods=('GET', 'POST'))
 @login_required
-def editprofile():
+def edit_profile():
     return render_template('editprofile.html')
 
 

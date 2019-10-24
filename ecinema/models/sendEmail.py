@@ -4,7 +4,6 @@ from email.mime.multipart import MIMEMultipart
 
 sender = "ecinemaBookingWebsite@gmail.com"
 password = "4050Project"
-# email should be a list!!
 
 
 def sendEmail(email, sub, message):
@@ -25,6 +24,3 @@ def sendEmail(email, sub, message):
     text = msg.as_string()
     server.sendmail(sender, email, text)
     server.quit()
-
-
-#sendEmail(["tmt40253@uga.edu, travis.thurber21@gmail.com"], "Hello Travis", "The Princ of Nigeria needs you're HeLp!")
