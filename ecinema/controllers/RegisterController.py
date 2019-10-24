@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ecinema.db import get_db
+from ecinema.data.db import get_db
 from ecinema.models.Customer import Customer
 from ecinema.tools.validation import (
     validateName, validatePassword, validateEmail, validateUsername
@@ -16,7 +16,7 @@ bp = Blueprint('RegisterController', __name__, url_prefix='/')
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
-    # if the submit button has been pressed...
+    # if the submit button has been presselsd...
     if request.method == 'POST':
         # pull data from forms
         firstname = request.form['firstname']

@@ -5,9 +5,9 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ecinema.db import get_db
+from ecinema.data.db import get_db
 from ecinema.models.Customer import Customer
-from ecinema.LoginController import login_required
+from ecinema.controllers.LoginController import login_required
 
 bp = Blueprint('AccountController', __name__, url_prefix='/')
 

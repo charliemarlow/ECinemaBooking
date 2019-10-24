@@ -23,15 +23,15 @@ def create_app(test_config=None):
         pass
 
     # set up database
-    from . import db
+    from ecinema.data import db
     db.init_app(app)
 
     # load Page Controllers
-    from . import RegisterController
-    from . import LoginController
-    from . import IndexController
-    from . import EditProfileController
-    from . import AccountController
+    from ecinema.controllers import RegisterController
+    from ecinema.controllers import LoginController
+    from ecinema.controllers import IndexController
+    from ecinema.controllers import EditProfileController
+    from ecinema.controllers import AccountController
 
     app.register_blueprint(RegisterController.bp)
     app.register_blueprint(LoginController.bp)
