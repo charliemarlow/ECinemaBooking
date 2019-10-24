@@ -13,9 +13,6 @@ schema_list = ["schema/address.sql",
 def init_db():
     db = get_db()
 
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
-
     for sqlFile in schema_list:
         with current_app.open_resource(sqlFile) as f:
             db.executescript(f.read().decode('utf8'))
