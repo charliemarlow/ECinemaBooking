@@ -1,12 +1,13 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from typing import List
 
 sender = "ecinemaBookingWebsite@gmail.com"
 password = "4050Project"
 
 
-def sendEmail(email, sub, message):
+def sendEmail(email : List[str], sub : str, message : str):
     receivers = email
     subject = sub
 
