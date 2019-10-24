@@ -46,7 +46,7 @@ def register():
             )
             db.commit()
 
-            customer = Customer.Customer()
+            customer = Customer()
             customer.sendConfirmationEmail(email, firstname)
 
             return redirect(url_for('auth.login'))
