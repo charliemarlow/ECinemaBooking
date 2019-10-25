@@ -39,6 +39,8 @@ def login():
 
         if user is None:
             error = 'Incorrect username.'
+        elif not validatePassword(password, password):
+            error = 'Incorrect password. Password must be at least 8 characters with at least 1 uppercade letter and at least 1 number.'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
 
