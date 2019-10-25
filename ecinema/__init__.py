@@ -40,7 +40,6 @@ def create_app(test_config=None):
     app.register_blueprint(IndexController.bp)
     app.register_blueprint(AccountController.bp)
     app.register_blueprint(ResetPasswordController.bp)
-    app.register_blueprint(TestController.bp)
     app.register_blueprint(ForgotPasswordController.bp)
 
     return app

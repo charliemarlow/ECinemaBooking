@@ -56,49 +56,49 @@
     <div class="container">
       <h3 class="text-heading">Edit Information</h3>
       <div class="">
-            <form action="#">
+          <form action="#" method="post">
               <div class="mt-10">
-                <input type="text" name="first_name" placeholder="First Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'"
-                 required class="single-input">
+                  <input type="text" name="first" placeholder="{{ user['first_name'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['first_name'] }}'"
+                         class="single-input">
               </div>
               <div class="mt-10">
-                <input type="text" name="last_name" placeholder="Last Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'"
-                 required class="single-input">
+                  <input type="text" name="last" placeholder="{{ user['last_name'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['last_name'] }}'"
+                         class="single-input">
               </div>
               <div class="mt-10">
-                <input type="email" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'"
-                 required class="single-input">
-              </div> 
+                  <input type="text" name="" placeholder="{{ user['email'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['email'] }}'"
+                         class="single-input">
+              </div>
                 <div class="button-group-area mt-40">
                      <a href="verify_password" class="genric-btn primary circle medium" style="font-size: 2em">Change Password</a>
                 </div>
-                
+
               <h3 class="text-heading" style="margin-top: .5em">Address</h3>
-            
-                <div class="mt-10">
-                <input type="text" name="Street" placeholder="Street" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Street'"
-                 required class="single-input">
-                </div>
-                <div class="mt-10">
-                <input type="text" name="City" placeholder="City" onfocus="this.placeholder = ''" onblur="this.placeholder = 'City'"
-                 required class="single-input">
-                </div>
-                <div class="mt-10">
-                <input type="text" name="State" placeholder="State" onfocus="this.placeholder = ''" onblur="this.placeholder = 'State'"
-                 required class="single-input">
-                </div>
-                <div class="mt-10">
-                <input type="text" name="Zip Code" placeholder="Zip Code" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zip Code'"
-                 required class="single-input">
-                </div>
-                
+
+              <div class="mt-10">
+                <input type="text" name="Street" placeholder="{{ address['street'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['street'] }}'"
+                 class="single-input">
+              </div>
+              <div class="mt-10">
+                  <input type="text" name="City" placeholder="{{ address['city'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['city'] }}'"
+                         class="single-input">
+              </div>
+              <div class="mt-10">
+                  <input type="text" name="State" placeholder="{{ address['state'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['state'] }}'"
+                         class="single-input">
+              </div>
+              <div class="mt-10">
+                  <input type="text" name="zip" placeholder="{{ address['zip'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['zip'] }}'"
+                         class="single-input">
+              </div>
+
             </form>
         </div>
               <h3 class="text-heading" style="margin-top: .5em">Edit Payment</h3>
                 <div class="button-group-area mt-40">
                      <a href="manage_payment" class="genric-btn primary e-large" style="font-size: 2em">Edit Payment</a>
                 </div>
-       
+
 
     </div>
           <div class="login_form_inner">

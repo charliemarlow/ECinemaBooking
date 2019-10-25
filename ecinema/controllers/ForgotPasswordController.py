@@ -12,7 +12,6 @@ from ecinema.tools.validation import (
     validateUsername, validateUniqueEmail, validate_user_status
 )
 from itsdangerous import URLSafeTimedSerializer
-from ecinema import app
 
 bp = Blueprint('ForgotPasswordController', __name__, url_prefix='/')
 
