@@ -3,11 +3,10 @@ import functools
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
-from ecinema.data.db import get_db
 from ecinema.models.Customer import Customer
-from ecinema.tools.validation import validatePassword, validate_new_password
+from ecinema.tools.validation import validate_password
 from ecinema.controllers.LoginController import login_required
 
 bp = Blueprint('ResetPasswordController', __name__, url_prefix='/')
@@ -22,33 +21,28 @@ def reset_password():
         password = request.form['password']
         confirmation = request.form['confirm']
         user_id = session.get('user_id')
-
-        db = get_db()
         error = None
+
+        customer = Customer()
+        customer.fetch(user_id)
 
         # validate the fields
         # per issue 7, we'll change this to javascript
-        if not validatePassword(password, confirmation):
+        if not validate_password(password, confirmation):
             error = 'Password is required and must be at least 8 '\
                 + 'characters with 1 uppercase, and 1 number'
-        elif not validate_new_password(password, user_id, db):
+        elif not check_password_hash(customer.get_password(),
+                                     password):
             error = 'Password must be different from your old '\
                 + 'password'
 
         # update the password
         if error is None and user_id is not None:
-            print("executing query")
-            db.execute(
-                'UPDATE customer SET password = ? WHERE username = ?',
-                (generate_password_hash(password), user_id)
-            )
-            user = db.execute('SELECT * FROM customer WHERE username = ?', (user_id,)
-            ).fetchone()
-            db.commit()
+            customer.set_password(generate_password_hash(password))
+            customer.save()
 
-            customer = Customer()
-            customer.send_password_reset_email(user['email'],
-                                               user['first_name'])
+            customer.send_password_reset_email(customer.get_email(),
+                                               customer.get_first_name())
 
             return redirect(url_for('AccountController.edit_profile'))
 

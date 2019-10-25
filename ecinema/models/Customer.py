@@ -1,9 +1,115 @@
-from ecinema.tools.sendEmail import sendEmail
+from ecinema.tools.sendEmail import send_email
+from ecinema.models.User import User
+from ecinema.models.model import Model
+from ecinema.data.CustomerData import CustomerData
 
 
-class Customer:
-    def ___init___(self):
-        print("")
+class Customer(Model, User):
+    # idea: EmailTemplate DB table
+
+    def __init__(self):
+        self.__id = None
+        self.__first_name = None
+        self.__last_name = None
+        self.__email = None
+        self.__subscribed = None
+        self.__username = None
+        self.__password = None
+        self.__status = None
+        self.__is_init = False
+        self.__data_access = CustomerData()
+
+    def obj_as_dict(self, key: str):
+        return self.__data_access.get_info(key)
+
+    def fetch(self, key: str) -> bool:
+        user_data = self.obj_as_dict(key)
+        if user_data is not None:
+            self.set_id(user_data['customer_id'])
+            self.set_first_name(user_data['first_name'])
+            self.set_last_name(user_data['last_name'])
+            self.set_email(user_data['email'])
+            self.set_promo(user_data['subscribe_to_promo'])
+            self.set_username(user_data['username'])
+            self.set_password(user_data['password'])
+            self.set_status(user_data['status'])
+            self.set_is_init()
+            return True
+
+        return False
+
+    def create(self, **kwargs):
+        user = {}
+        for key, value in kwargs.items():
+            user[key] = value
+
+        self.set_first_name(user['first_name'])
+        self.set_last_name(user['last_name'])
+        print(user['email'])
+        print("\n\n\n")
+        self.set_email(user['email'])
+        promo = (True if user['subscribe_to_promo'] == 'True'
+                 else False)
+        self.set_promo(promo)
+        self.set_username(user['username'])
+        self.set_password(user['password'])
+        self.set_status('active')
+        self.set_is_init()
+
+        member_tup = (self.get_first_name(),
+                      self.get_last_name(), self.get_email(),
+                      self.get_promo(), self.get_username(),
+                      self.get_password(), self.get_status()
+                      )
+        # set your id
+        self.set_id(self.__data_access.insert_info(member_tup))
+
+    # this is more of an update function, create saves auto
+
+    def save(self) -> str:
+        if not self.is_initialized():
+            return False
+        # last item is a key for the UPDATE call
+        member_tup = (self.get_first_name(),
+                      self.get_last_name(),
+                      self.get_email(),
+                      self.get_promo(),
+                      self.get_username(),
+                      self.get_password(),
+                      self.get_status(),
+                      self.get_username())
+        self.__data_access.update_info(member_tup)
+        return True
+
+    def get_first_name(self) -> str:
+        return self.__first_name
+
+    def set_first_name(self, first: str):
+        self.__first_name = first
+
+    def get_last_name(self) -> str:
+        return self.__last_name
+
+    def set_last_name(self, last: str):
+        self.__last_name = last
+
+    def get_email(self) -> str:
+        return self.__email
+
+    def set_email(self, email: str):
+        self.__email = email
+
+    def get_promo(self) -> bool:
+        return self.__subscribed
+
+    def set_promo(self, promo: bool):
+        self.__subscribed = promo
+
+    def get_status(self):
+        return self.__status
+
+    def set_status(self, status):
+        self.__status = status
 
     def send_password_reset_email(self, email: str, name: str):
         receivers = [email]
@@ -13,7 +119,8 @@ class Customer:
 
         Your password was just reset at E-Cinema Booking. """\
             + """If you did not authorize this, please reset your """\
-            + """password using the forgot my password feature at the login page"""\
+            + """password using the forgot my password feature """\
+            + """at the login page"""\
             + """
 
 Best,
@@ -21,9 +128,9 @@ Best,
 E-Cinema Booking
         """
         message = message.format(name)
-        sendEmail(email, subject, message)
+        send_email(email, subject, message)
 
-    def sendConfirmationEmail(self, email: str, name: str):
+    def send_confirmation_email(self, email: str, name: str):
         receivers = [email]
         subject = "Registration Confirmation"
 
@@ -40,4 +147,4 @@ E-Cinema Booking
         """
         message = message.format(name)
 
-        sendEmail(email, subject, message)
+        send_email(email, subject, message)

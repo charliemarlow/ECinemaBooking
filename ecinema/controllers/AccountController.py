@@ -3,15 +3,13 @@ import functools
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from werkzeug.security import check_password_hash, generate_password_hash
 
-from ecinema.data.db import get_db
 from ecinema.models.Customer import Customer
 from ecinema.controllers.LoginController import login_required
 from ecinema.data.CustomerData import CustomerData
 from ecinema.data.AddressData import AddressData
 from ecinema.tools.validation import (
-    validateName, validateEmail, validateUniqueEmail
+    validate_name, validate_email, validate_unique_email
 )
 
 bp = Blueprint('AccountController', __name__, url_prefix='/')
@@ -31,7 +29,6 @@ def edit_profile():
     user_id = session.get('user_id')
     user = customer.get_user_info(user_id)
     cid = user['customer_id']
-    db = get_db() # fix this
 
     if request.method == 'POST':
         first_name = request.form.get('first')
@@ -43,14 +40,14 @@ def edit_profile():
         zip_code = request.form.get('zip')
 
         error = ""
-        if first_name is not None and validateName(first_name):
+        if first_name is not None and validate_name(first_name):
             customer.set_first_name(cid, first_name)
 
-        if last_name is not None and validateName(last_name):
+        if last_name is not None and validate_name(last_name):
             customer.set_last_name(cid, last_name)
 
-        if (email is not None and validateEmail(email)
-            and not validateUniqueEmail(email, db)):
+        if (email is not None and validate_email(email)
+                and validate_unique_email(email)):
             customer.set_email(cid, email)
         elif email is not None:
             error = "Email is invalid or already in use"
@@ -73,10 +70,10 @@ def edit_profile():
     address = addr.get_address_info(user['customer_id'])
     if address is None:
         address = {
-            'state' : 'State',
-            'city' : 'City',
-            'street' : 'Street',
-            'zip_code' : 'ZIP Code'
+            'state': 'State',
+            'city': 'City',
+            'street': 'Street',
+            'zip_code': 'ZIP Code'
         }
 
     return render_template('editprofile.html', user=user, address=address)
@@ -106,5 +103,3 @@ def make_payment():
 @bp.route('/verify_password', methods=('GET', 'POST'))
 def verify_password():
     return render_template('verify_password.html')
-
-

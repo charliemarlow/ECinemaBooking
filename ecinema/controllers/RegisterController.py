@@ -5,16 +5,19 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ecinema.data.db import get_db
 from ecinema.models.Customer import Customer
 from ecinema.tools.validation import (
-    validateName, validatePassword, validateEmail, validateUsername, validateUniqueEmail
+    validate_name, validate_password, validate_email,
+    validate_username, validate_unique_email
 )
+
+from ecinema.controllers.LoginController import logout_required
 
 bp = Blueprint('RegisterController', __name__, url_prefix='/')
 
 
 @bp.route('/register', methods=('GET', 'POST'))
+@logout_required
 def register():
     # if the submit button has been presselsd...
     if request.method == 'POST':
@@ -26,43 +29,38 @@ def register():
         username = request.form['userid']
         email = request.form['email']
         # IMPORTANT: non-required fields should use the .get method
-        subscribe = 0 if request.form.get('subscribe') is None else 1
+        subscribe = str(request.form.get('subscribe') is not None)
 
-        db = get_db()
         error = None
 
         # validate the fields
         # per issue 7, we'll change this to javascript
-        if not validateName(firstname):
+        if not validate_name(firstname):
             print(firstname)
             error = "First name is required"
-        elif not validateName(lastname):
+        elif not validate_name(lastname):
             error = "Last name is required"
-        elif not validatePassword(password, confirmation):
+        elif not validate_password(password, confirmation):
             error = 'Password is required and must be at least 8 '\
                 + 'characters with 1 uppercase, and 1 number'
         elif not username:
             error = 'Username is required'
-        elif not validateEmail(email):
+        elif not validate_email(email):
             error = 'Email is required and must be valid'
-        elif validateUniqueEmail(email, db):
+        elif not validate_unique_email(email):
             error = 'Email is already registered to an account'
-        elif validateUsername(username, db):
+        elif validate_username(username):
             error = 'Username {} is already taken.'.format(username)
 
         # create a new user
         if error is None:
-            db.execute(
-                'INSERT INTO customer (first_name, last_name, '
-                'email, subscribe_to_promo, username, password) '
-                'VALUES (?, ?, ?, ?, ?, ?)',
-                (firstname, lastname, email, subscribe,
-                 username, generate_password_hash(password))
-            )
-            db.commit()
-
             customer = Customer()
-            customer.sendConfirmationEmail(email, firstname)
+            customer.create(first_name=firstname, last_name=lastname,
+                            password=generate_password_hash(password),
+                            username=username, email=email,
+                            subscribe_to_promo=subscribe)
+            customer.save()
+            customer.send_confirmation_email(email, firstname)
 
             return redirect(url_for('LoginController.login'))
 

@@ -3,26 +3,21 @@ import functools
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from werkzeug.security import check_password_hash, generate_password_hash
 
-from ecinema.data.db import get_db
-from ecinema.models.Customer import Customer
 from ecinema.tools.validation import (
-    validateName, validatePassword, validateEmail,
-    validateUsername, validateUniqueEmail, validate_user_status
+    validate_name, validate_password, validate_email,
+    validate_username, validate_unique_email, validate_user_status
 )
 from itsdangerous import URLSafeTimedSerializer
-from ecinema import app
-from project.token import generate_confirmation_token, confirm_token
 
 bp = Blueprint('ForgotPasswordController', __name__, url_prefix='/')
+
 
 @bp.route('/forgot', methods=('GET', 'POST'))
 def forgot():
     if request.method == 'POST':
         email = request.form['email']
 
-        db = get_db()
         # validate email address first
         # 1. valid email, 2. user exists
         # 3. user status is active
@@ -31,16 +26,15 @@ def forgot():
 
         if email is None:
             error = 'Email is required'
-        elif not validateEmail(email):
+        elif not validate_email(email):
             error = 'Email is not valid'
-        elif not validateUniqueEmail(email, db):
+        elif validate_unique_email(email):
             error = 'Email not registered to a user'
-        elif not validate_user_status(email, db):
+        elif not validate_user_status(email):
             error = 'Account is inactive or suspended'
 
         # then send an email that they have to respond to quick
         if error is None:
-
 
             # Generate the token
 
@@ -53,6 +47,8 @@ def forgot():
 
     return render_template('forgot.html')
 
+
+'''
 def generate_confirmation_token(email):
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
     return serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT'])
@@ -69,3 +65,4 @@ def confirm_token(token, expiration=1200):
     except:
         return False
     return email
+'''

@@ -17,3 +17,11 @@ flask init-db
 
 ## To run the server
 flask run
+
+## To use the clean_code.py devtool
+REQUIRES: autopep8 and pycodestyle installed through pip
+from the home directory:
+$ python devtools/clean_code.py
+Please fix any coding/style errors that it outputs before
+submitting to the repo, most will be automatically handled
+by autopep8

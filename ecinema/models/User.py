@@ -1,19 +1,20 @@
-from abc import ABCMeta
+import re
+from werkzeug.security import check_password_hash
 
-class User(ABC):
-    def __init__(self, userID, password):
-        self.__userID = userID
-        self.__password = password
 
-    def getUserID(self):
-        return self.__userID
-]
-    def setUserID(self, userID):
-        self.__userID = userID
-]
-    def getPassword(self):
+class User:
+    def __init__(self):
+        self.__username = None
+        self.__password = None
+
+    def get_username(self) -> str:
+        return self.__username
+
+    def set_username(self, user: str):
+        self.__username = user
+
+    def get_password(self) -> str:
         return self.__password
-]
-    def setPassword(self, password):
+
+    def set_password(self, password: str):
         self.__password = password
-    

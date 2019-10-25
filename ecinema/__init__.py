@@ -1,6 +1,11 @@
 import os
 
 from flask import Flask
+from ecinema.controllers import (
+    RegisterController, LoginController, IndexController,
+    AccountController, ResetPasswordController,
+    TestController, ForgotPasswordController
+)
 
 
 def create_app(test_config=None):
@@ -27,14 +32,6 @@ def create_app(test_config=None):
     db.init_app(app)
 
     # load Page Controllers
-    from ecinema.controllers import RegisterController
-    from ecinema.controllers import LoginController
-    from ecinema.controllers import IndexController
-    from ecinema.controllers import AccountController
-    from ecinema.controllers import ResetPasswordController
-    from ecinema.controllers import TestController
-    from ecinema.controllers import ForgotPasswordController
-
     app.register_blueprint(RegisterController.bp)
     app.register_blueprint(LoginController.bp)
     app.register_blueprint(IndexController.bp)

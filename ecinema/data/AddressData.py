@@ -1,5 +1,6 @@
 from ecinema.data.db import get_db
 
+
 class AddressData:
 
     def __init__(self):
@@ -13,7 +14,6 @@ class AddressData:
 
         return addr
 
-
     def set_street(self, cid: str, street: str):
         self.__db.execute(
             'UPDATE address SET street = ? WHERE cid = ?',
@@ -21,7 +21,6 @@ class AddressData:
         )
         self.__db.commit()
 
-        
     def set_city(self, cid: str, city: str):
         self.__db.execute(
             'UPDATE address SET city = ? WHERE cid = ?',
@@ -29,14 +28,12 @@ class AddressData:
         )
         self.__db.commit()
 
-
     def set_state(self, cid: str, state: str):
         self.__db.execute(
             'UPDATE address SET state = ? WHERE cid = ?',
             (state, cid)
         )
         self.__db.commit()
-
 
     def set_zip_code(self, cid: str, zip_code: str):
         self.__db.execute(
