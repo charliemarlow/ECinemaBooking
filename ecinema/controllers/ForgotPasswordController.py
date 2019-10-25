@@ -12,6 +12,8 @@ from ecinema.tools.validation import (
     validateUsername, validateUniqueEmail, validate_user_status
 )
 from itsdangerous import URLSafeTimedSerializer
+from ecinema import app
+from project.token import generate_confirmation_token, confirm_token
 
 bp = Blueprint('ForgotPasswordController', __name__, url_prefix='/')
 
@@ -38,6 +40,8 @@ def forgot():
 
         # then send an email that they have to respond to quick
         if error is None:
+
+
             # Generate the token
 
             # send the email (check out tools/sendEmail.py)
@@ -48,3 +52,20 @@ def forgot():
         flash(error)
 
     return render_template('forgot.html')
+
+def generate_confirmation_token(email):
+    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    return serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT'])
+
+
+def confirm_token(token, expiration=1200):
+    serializer = URLSafeTimedSerializer(app.config['I AM SO FLUBIN SECURE'])
+    try:
+        email = serializer.loads(
+            token,
+            salt=app.config['THl72DfWa36wdEPJOEGbe71GSCDWAD'],
+            max_age=expiration
+        )
+    except:
+        return False
+    return email
