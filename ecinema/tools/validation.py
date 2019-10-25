@@ -18,9 +18,6 @@ def validateUniqueEmail(email: str, db) -> bool:
     return (db.execute(
         'SELECT customer_id FROM customer WHERE email = ?',
         (email,)
-    ).fetchone() is not None and db.execute(
-        'SELECT admin_id FROM admin WHERE email = ?',
-        (email,)
     ).fetchone() is not None)
 
 def validateName(name: str) -> bool:
@@ -49,3 +46,13 @@ def validate_new_password(new_password, username: str, db) -> bool:
         (username,)
     ).fetchone()
     return not check_password_hash(password['password'], new_password)
+
+def validate_user_status(email: str, db) -> bool:
+    status = db.execute(
+        'SELECT status FROM customer WHERE email = ?',
+        (email,)
+    ).fetchone()
+
+    if status is not None:
+        return True if status['status'] == 'active' else False
+    return False
