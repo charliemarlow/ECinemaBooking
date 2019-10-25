@@ -9,6 +9,9 @@ from ecinema.tools.validation import (
     validate_username, validate_unique_email, validate_user_status
 )
 from itsdangerous import URLSafeTimedSerializer
+import datetime
+
+#from ecinema.token import generate_confirmation_token, confirm_token
 
 bp = Blueprint('ForgotPasswordController', __name__, url_prefix='/')
 
@@ -35,6 +38,7 @@ def forgot():
 
         # then send an email that they have to respond to quick
         if error is None:
+            token = generate_confirmation_token(email)
 
             # Generate the token
 
@@ -50,19 +54,36 @@ def forgot():
 
 '''
 def generate_confirmation_token(email):
-    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-    return serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT'])
+    serializer = URLSafeTimedSerializer(app.config['IAMSOFLUBINSECUREuuKEY'])
+    return serializer.dumps(email, salt=app.config['THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT'])
 
 
 def confirm_token(token, expiration=1200):
-    serializer = URLSafeTimedSerializer(app.config['I AM SO FLUBIN SECURE'])
+    serializer = URLSafeTimedSerializer(app.config['IAMSOFLUBINSECUREuuKEY'])
     try:
         email = serializer.loads(
             token,
-            salt=app.config['THl72DfWa36wdEPJOEGbe71GSCDWAD'],
+            salt=app.config['THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT'],
             max_age=expiration
         )
     except:
         return False
     return email
 '''
+
+@bp.route('/confirm_user/<token>')
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    user = User.query.filter_by(email=email).first_or_404()
+    if user.confirmed:
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        user.confirmed = True
+        user.confirmed_on = datetime.datetime.now()
+        db.session.add(user)
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!', 'success')
+    return redirect(url_for('index'))
