@@ -14,6 +14,10 @@ from ecinema.tools.validation import (
 bp = Blueprint('TestController', __name__, url_prefix='/')
 
 
-@bp.route('/test', methods=('GET', 'POST'))
-def test():
-    return render_template('index_loggedin.html')
+@bp.route('/manage_payment', methods=('GET', 'POST'))
+def manage_payment():
+    return render_template('manage_payment.html')
+
+@bp.route('/make_payment', methods=('GET', 'POST'))
+def make_payment():
+    return render_template('make_payment.html')
