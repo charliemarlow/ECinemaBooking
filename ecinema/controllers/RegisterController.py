@@ -45,7 +45,7 @@ def register():
             error = 'Username is required'
         elif not validateEmail(email):
             error = 'Email is required and must be valid'
-        elif not validateUniqueEmail(email, db):
+        elif validateUniqueEmail(email, db):
             error = 'Email is already registered to an account'
         elif validateUsername(username, db):
             error = 'Username {} is already taken.'.format(username)
