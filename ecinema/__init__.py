@@ -33,6 +33,7 @@ def create_app(test_config=None):
     from ecinema.controllers import AccountController
     from ecinema.controllers import ResetPasswordController
     from ecinema.controllers import TestController
+    from ecinema.controllers import ForgotPasswordController
 
     app.register_blueprint(RegisterController.bp)
     app.register_blueprint(LoginController.bp)
@@ -40,5 +41,6 @@ def create_app(test_config=None):
     app.register_blueprint(AccountController.bp)
     app.register_blueprint(ResetPasswordController.bp)
     app.register_blueprint(TestController.bp)
+    app.register_blueprint(ForgotPasswordController.bp)
 
     return app

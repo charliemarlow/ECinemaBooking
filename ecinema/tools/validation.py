@@ -14,6 +14,14 @@ def validateEmail(email: str) -> bool:
         '(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$',
         email) is not None
 
+def validateUniqueEmail(email: str, db) -> bool:
+    return (db.execute(
+        'SELECT customer_id FROM customer WHERE email = ?',
+        (email,)
+    ).fetchone() is not None and db.execute(
+        'SELECT admin_id FROM admin WHERE email = ?',
+        (email,)
+    ).fetchone() is not None)
 
 def validateName(name: str) -> bool:
     return len(name) > 1 and len(name) < 100

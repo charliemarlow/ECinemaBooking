@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from ecinema.data.db import get_db
 from ecinema.models.Customer import Customer
 from ecinema.tools.validation import (
-    validateName, validatePassword, validateEmail, validateUsername
+    validateName, validatePassword, validateEmail, validateUsername, validateUniqueEmail
 )
 
 bp = Blueprint('RegisterController', __name__, url_prefix='/')
@@ -45,6 +45,8 @@ def register():
             error = 'Username is required'
         elif not validateEmail(email):
             error = 'Email is required and must be valid'
+        elif not validateUniqueEmail(email, db):
+            error = 'Email is already registered to an account'
         elif validateUsername(username, db):
             error = 'Username {} is already taken.'.format(username)
 
