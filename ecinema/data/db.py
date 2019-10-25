@@ -19,7 +19,7 @@ def init_db():
 
     db.execute(
         'INSERT INTO admin (username, password) VALUES (?, ?)',
-        ("admin", generate_password_hash("root")),
+        ("admin", generate_password_hash("Password123")),
     )
     db.commit()
 
