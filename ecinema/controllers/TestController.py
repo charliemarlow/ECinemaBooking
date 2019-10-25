@@ -21,3 +21,7 @@ def manage_payment():
 @bp.route('/make_payment', methods=('GET', 'POST'))
 def make_payment():
     return render_template('make_payment.html')
+
+@bp.route('/verify_password', methods=('GET', 'POST'))
+def verify_password():
+    return render_template('verify_password.html')
