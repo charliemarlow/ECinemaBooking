@@ -1,0 +1,4 @@
+include ecinema/schema
+graft ecinema/static
+graft ecinema/templates
+global-exclude *.pyc
