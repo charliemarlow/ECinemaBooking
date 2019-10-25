@@ -30,12 +30,13 @@ def create_app(test_config=None):
     from ecinema.controllers import RegisterController
     from ecinema.controllers import LoginController
     from ecinema.controllers import IndexController
-    from ecinema.controllers import EditProfileController
     from ecinema.controllers import AccountController
+    from ecinema.controllers import ResetPasswordController
 
     app.register_blueprint(RegisterController.bp)
     app.register_blueprint(LoginController.bp)
     app.register_blueprint(IndexController.bp)
     app.register_blueprint(AccountController.bp)
+    app.register_blueprint(ResetPasswordController.bp)
 
     return app
