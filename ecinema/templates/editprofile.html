@@ -66,7 +66,7 @@
                          class="single-input">
               </div>
               <div class="mt-10">
-                  <input type="text" name="" placeholder="{{ user['email'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['email'] }}'"
+                  <input type="text" name="email" placeholder="{{ user['email'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['email'] }}'"
                          class="single-input">
               </div>
                 <div class="button-group-area mt-40">
@@ -76,35 +76,38 @@
               <h3 class="text-heading" style="margin-top: .5em">Address</h3>
 
               <div class="mt-10">
-                <input type="text" name="Street" placeholder="{{ address['street'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['street'] }}'"
+                <input type="text" name="street" placeholder="{{ address['street'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['street'] }}'"
                  class="single-input">
               </div>
               <div class="mt-10">
-                  <input type="text" name="City" placeholder="{{ address['city'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['city'] }}'"
+                  <input type="text" name="city" placeholder="{{ address['city'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['city'] }}'"
                          class="single-input">
               </div>
               <div class="mt-10">
-                  <input type="text" name="State" placeholder="{{ address['state'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['state'] }}'"
+                  <input type="text" name="state" placeholder="{{ address['state'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['state'] }}'"
                          class="single-input">
               </div>
               <div class="mt-10">
-                  <input type="text" name="zip" placeholder="{{ address['zip'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['zip'] }}'"
+                  <input type="text" name="zip" placeholder="{{ address['zip_code'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['zip_code'] }}'"
                          class="single-input">
+              </div>
+              <h3 class="text-heading" style="margin-top: .5em">Edit Payment</h3>
+              <div class="button-group-area mt-40">
+                  <a href="manage_payment" class="genric-btn primary e-large" style="font-size: 2em">Edit Payment</a>
+              </div>
+              <div class="login_form_inner">
+                  <button type="submit" value="submit" class="primary-btn">Save Information</button>
               </div>
 
-            </form>
+          </form>
+          {% for message in get_flashed_messages() %}
+          <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
+          {% endfor %}
+
         </div>
-              <h3 class="text-heading" style="margin-top: .5em">Edit Payment</h3>
-                <div class="button-group-area mt-40">
-                     <a href="manage_payment" class="genric-btn primary e-large" style="font-size: 2em">Edit Payment</a>
-                </div>
 
 
     </div>
-          <div class="login_form_inner">
-                <button type="submit" value="submit" class="primary-btn">Save Information</button>
-           </div>
-
   </section>
 
 {% endblock %}
