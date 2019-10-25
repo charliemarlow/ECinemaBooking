@@ -17,7 +17,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-  {% block title %} My Account {% endblock %}
+  <title>My Account</title>
 	<!--
 		CSS
 		============================================= -->
@@ -34,8 +34,8 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 {% endblock %}
-{% block content %}
 <body>
+{% block content %}
 	<!-- start banner Area -->
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
@@ -59,7 +59,7 @@
 					<div class="col-md-4">
 						<div class="single-defination">
                             <div class="button-group-area mt-40">
-                                <a href="editprofile.html" class="genric-btn primary e-large" style="font-size: 2em">Edit<br>Profile</a>
+                                <a href="editprofile" class="genric-btn primary e-large" style="font-size: 2em">Edit<br>Profile</a>
                              </div>
 						</div>
 					</div>

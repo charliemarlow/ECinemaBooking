@@ -15,6 +15,7 @@ bp = Blueprint('AccountController', __name__, url_prefix='/')
 @bp.route('/account', methods=('GET', 'POST'))
 @login_required
 def account():
+    print("account function!!!!!!\n\n\n\n")
     return render_template('account.html')
 
 

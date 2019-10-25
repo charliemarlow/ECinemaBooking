@@ -1,5 +1,11 @@
 import re
+from werkzeug.security import check_password_hash
 
+'''
+Place any code for validating user input here
+Anywhere in the code base can access these by using
+from ecinema.tools.validation import validateEmail, etc
+'''
 
 def validateEmail(email: str) -> bool:
     return re.match(
@@ -28,3 +34,10 @@ def validateUsername(username: str, db) -> bool:
         'SELECT admin_id FROM admin WHERE username = ?',
         (username,)
     ).fetchone() is not None)
+
+def validate_new_password(new_password, username: str, db) -> bool:
+    password = db.execute(
+        'SELECT * FROM customer WHERE username = ?',
+        (username,)
+    ).fetchone()
+    return not check_password_hash(password['password'], new_password)
