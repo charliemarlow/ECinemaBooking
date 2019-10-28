@@ -111,8 +111,26 @@ class Customer(Model, User):
     def set_status(self, status):
         self.__status = status
 
+    def send_profile_change_email(self):
+        email = self.get_email()
+        subject = "Profile Change Notification"
+
+        message = """Hey {},
+
+        Your profile information was just changed at E-Cinema Booking. """\
+            + """If you did not authorize this, please reset your """\
+            + """password using the forgot my password feature """\
+            + """at the login page"""\
+            + """
+
+Best,
+
+E-Cinema Booking
+        """
+        message = message.format(self.get_first_name())
+        send_email(email, subject, message)
+
     def send_password_reset_email(self, email: str, name: str):
-        receivers = [email]
         subject = "Password Change Notification"
 
         message = """Hey {},
@@ -131,7 +149,6 @@ E-Cinema Booking
         send_email(email, subject, message)
 
     def send_confirmation_email(self, email: str, name: str):
-        receivers = [email]
         subject = "Registration Confirmation"
 
         message = """Hey {},

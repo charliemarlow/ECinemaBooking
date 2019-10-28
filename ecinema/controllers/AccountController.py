@@ -33,13 +33,14 @@ def edit_profile():
     user_id = session.get('user_id')
     customer.fetch(user_id)
 
+    info_changed = False
+
     if(not customer.fetch(user_id)):
         return render_template("index.html")
 
     if request.method == 'POST':
         first_name = request.form.get('first')
         last_name = request.form.get('last')
-        email = request.form.get('email')
         subscribe = request.form.get('subscribe') is not None
         street = request.form.get('street')
         city = request.form.get('city')
@@ -49,31 +50,35 @@ def edit_profile():
         error = None
         if first_name is not None and validate_name(first_name):
             customer.set_first_name(first_name)
+            info_changed = True
 
         if last_name is not None and validate_name(last_name):
             customer.set_last_name(last_name)
+            info_changed = True
 
-        if (email is not None and validate_email(email)
-                and validate_unique_email(email)):
-            customer.set_email(email)
-        elif email is not None:
-            error = "Email is invalid or already in use"
+        if customer.get_promo() is not subscribe:
+            customer.set_promo(subscribe)
+            info_changed = True
 
-        customer.set_promo(subscribe)
         if not customer.save():
-            error = error + " , issue saving details"
+            error = error + "Issue saving customer details"
+            info_changed = False
 
         if street is not None:
             addr.set_street(street)
+            info_changed = True
 
         if city is not None:
             addr.set_city(city)
+            info_changed = True
 
         if state is not None:
             addr.set_state(state)
+            info_changed = True
 
         if zip_code is not None:
             addr.set_zip(zip_code)
+            info_changed = True
 
         # either create, or save addr here
         # get address ID from customer
@@ -87,6 +92,9 @@ def edit_profile():
         '''
         if error is not None:
             flash(error)
+
+        if info_changed:
+            customer.send_profile_change_email()
 
     address = addr.obj_as_dict(addr.get_id())
     if not address:
