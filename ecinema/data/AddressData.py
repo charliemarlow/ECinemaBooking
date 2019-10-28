@@ -1,18 +1,42 @@
+from ecinema.data.access import DataAccess
 from ecinema.data.db import get_db
 
 
-class AddressData:
+class AddressData(DataAccess):
 
     def __init__(self):
         self.__db = get_db()
 
-    def get_address_info(self, cust_id: str):
-        addr = self.__db.execute(
+    def get_info(self, key: str):
+        return self.__db.execute(
             'SELECT * FROM address WHERE cid = ?',
-            (cust_id,)
-        ).fetchone()
+            (key,)
+        ).fetchall()
 
-        return addr
+    def insert_info(self, data) -> str:
+        cursor = self.__db.cursor()
+        cursor.execute(
+            'INSERT INTO address '
+            '(cid, street, city, state, zip_code) '
+            'VALUES (?, ?, ?, ?, ?)',
+            data
+        )
+
+        row_id = cursor.lastrowid
+        self.__db.commit()
+        return row_id
+
+    def update_info(self, data) -> str:
+        self.__db.execute(
+            'UPDATE address SET cid = ?, street = ?, '
+            'city = ?, state = ?, zip_code = ?'
+            'WHERE address_id = ?',
+            data
+        )
+        self.__db.commit()
+
+    def get_address_info(self, cust_id: str):
+        return self.get_info(cust_id)
 
     def set_street(self, cid: str, street: str):
         self.__db.execute(

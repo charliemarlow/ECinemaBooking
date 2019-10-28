@@ -21,18 +21,19 @@ def reset_password():
         password = request.form['password']
         confirmation = request.form['confirm']
         user_id = session.get('user_id')
-        error = None
+        error = None1
 
         customer = Customer()
         customer.fetch(user_id)
+        print(user_id)
 
         # validate the fields
         # per issue 7, we'll change this to javascript
         if not validate_password(password, confirmation):
             error = 'Password is required and must be at least 8 '\
                 + 'characters with 1 uppercase, and 1 number'
-        elif not check_password_hash(customer.get_password(),
-                                     password):
+        elif check_password_hash(customer.get_password(),
+                                 password):
             error = 'Password must be different from your old '\
                 + 'password'
 
@@ -44,6 +45,7 @@ def reset_password():
             customer.send_password_reset_email(customer.get_email(),
                                                customer.get_first_name())
 
+            # TODO: change this to a password change confirm screen
             return redirect(url_for('AccountController.edit_profile'))
 
         flash(error)

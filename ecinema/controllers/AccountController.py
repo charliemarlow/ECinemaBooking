@@ -5,9 +5,14 @@ from flask import (
 )
 
 from ecinema.models.Customer import Customer
-from ecinema.controllers.LoginController import login_required
+
+from ecinema.controllers.LoginController import (
+    login_required, verify_username_password, get_user
+)
+
 from ecinema.data.CustomerData import CustomerData
 from ecinema.data.AddressData import AddressData
+
 from ecinema.tools.validation import (
     validate_name, validate_email, validate_unique_email
 )
@@ -24,16 +29,17 @@ def account():
 @bp.route('/editprofile', methods=('GET', 'POST'))
 @login_required
 def edit_profile():
-    customer = CustomerData()
+    customer = Customer()
     addr = AddressData()
     user_id = session.get('user_id')
-    user = customer.get_user_info(user_id)
+    user = customer.obj_as_dict(user_id)
     cid = user['customer_id']
 
     if request.method == 'POST':
         first_name = request.form.get('first')
         last_name = request.form.get('last')
         email = request.form.get('email')
+        subscribe = request.form.get('subscribe') is not None
         street = request.form.get('street')
         city = request.form.get('city')
         state = request.form.get('state')
@@ -52,6 +58,8 @@ def edit_profile():
         elif email is not None:
             error = "Email is invalid or already in use"
 
+        # TODO: fix subscribe
+
         if street is not None:
             addr.set_street(cid, street)
 
@@ -65,9 +73,10 @@ def edit_profile():
             addr.set_zip_code(cid, zip_code)
 
         flash(error)
-    user = customer.get_user_info(user_id)
     print(user['first_name'])
-    address = addr.get_address_info(user['customer_id'])
+    address = addr.get_info(user['customer_id'])
+    print("\n\n")
+    print(address)
     if address is None:
         address = {
             'state': 'State',
@@ -101,5 +110,25 @@ def make_payment():
 
 
 @bp.route('/verify_password', methods=('GET', 'POST'))
+@login_required
 def verify_password():
+    # use previous tools to verify the password
+    if request.method == 'POST':
+        username = session['user_id']
+        password = request.form['password']
+
+        user = get_user(username)
+
+        error = None
+
+        if user is not None:
+            error = verify_username_password(username, password,
+                                             user.get_password())
+        if error is None and user is not None:
+            return redirect(
+                url_for('ResetPasswordController.reset_password')
+            )
+
+        flash(error)
+
     return render_template('verify_password.html')

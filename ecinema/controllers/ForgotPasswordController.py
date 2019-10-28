@@ -11,7 +11,7 @@ from ecinema.tools.validation import (
 from itsdangerous import URLSafeTimedSerializer
 import datetime
 
-#from ecinema.token import generate_confirmation_token, confirm_token
+# from ecinema.token import generate_confirmation_token, confirm_token
 
 bp = Blueprint('ForgotPasswordController', __name__, url_prefix='/')
 
@@ -55,7 +55,8 @@ def forgot():
 '''
 def generate_confirmation_token(email):
     serializer = URLSafeTimedSerializer(app.config['IAMSOFLUBINSECUREuuKEY'])
-    return serializer.dumps(email, salt=app.config['THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT'])
+    return serializer.dumps(email,
+salt=app.config['THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT'])
 
 
 def confirm_token(token, expiration=1200):
@@ -71,12 +72,14 @@ def confirm_token(token, expiration=1200):
     return email
 '''
 
+
 @bp.route('/confirm_user/<token>')
 def confirm_email(token):
     try:
         email = confirm_token(token)
-    except:
-        flash('The confirmation link is invalid or has expired.', 'danger')
+    except BaseException:
+        flash('The confirmation link is invalid or has expired.',
+              'danger')
     user = User.query.filter_by(email=email).first_or_404()
     if user.confirmed:
         flash('Account already confirmed. Please login.', 'success')

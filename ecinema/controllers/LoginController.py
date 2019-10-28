@@ -35,18 +35,9 @@ def login():
         loggedin = request.form.get('loggedin')
         loggedin = False if loggedin is None else True
 
-        user = None
-        customer = Customer()
-        admin = Admin()
-        customer_exists = customer.fetch(username)
-
-        if customer_exists:
-            user = customer
-        else:
-            user = admin if admin.fetch(username) else None
+        user = get_user(username)
 
         error = None
-
         if user is not None:
             error = verify_username_password(username, password,
                                              user.get_password())
@@ -60,6 +51,20 @@ def login():
     return render_template('login.html')
 
 
+def get_user(username: str):
+    user = None
+    customer = Customer()
+    admin = Admin()
+    customer_exists = customer.fetch(username)
+
+    if customer_exists:
+        user = customer
+    else:
+        user = admin if admin.fetch(username) else None
+
+    return user
+
+
 def setup_session(user: str, remember_me: bool):
     session.clear()
     session['user_id'] = user
@@ -71,9 +76,9 @@ def verify_username_password(user: str, password: str, db_pass: str) -> str:
     if user is None:
         error = 'Incorrect username.'
     elif not validate_password(password, password):
-        error = 'Incorrect password. Password must be at '
-        + 'least 8 characters with at least 1 uppercase '
-        + 'letter and at least 1 number.'
+        error = 'Incorrect password. Password must be at ' + \
+            'least 8 characters with at least 1 uppercase ' + \
+            'letter and at least 1 number.'
     elif not check_password_hash(db_pass, password):
         error = 'Incorrect password.'
 
