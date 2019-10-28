@@ -14,6 +14,7 @@ def init_db():
     db = get_db()
 
     for sqlFile in schema_list:
+        print(sqlFile)
         with current_app.open_resource(sqlFile) as f:
             db.executescript(f.read().decode('utf8'))
 

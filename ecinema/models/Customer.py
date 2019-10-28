@@ -16,7 +16,8 @@ class Customer(Model, User):
         self.__username = None
         self.__password = None
         self.__status = None
-        self.__is_init = False
+        self.__address_id = None
+        self._Model__is_init = False
         self.__data_access = CustomerData()
 
     def obj_as_dict(self, key: str):
@@ -45,8 +46,6 @@ class Customer(Model, User):
 
         self.set_first_name(user['first_name'])
         self.set_last_name(user['last_name'])
-        print(user['email'])
-        print("\n\n\n")
         self.set_email(user['email'])
         promo = (True if user['subscribe_to_promo'] == 'True'
                  else False)
@@ -64,7 +63,8 @@ class Customer(Model, User):
         # set your id
         self.set_id(self.__data_access.insert_info(member_tup))
 
-    # this is more of an update function, create saves auto
+    # this is more of an update function
+    # create saves automatically
 
     def save(self) -> str:
         if not self.is_initialized():

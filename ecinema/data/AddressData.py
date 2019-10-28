@@ -9,7 +9,7 @@ class AddressData(DataAccess):
 
     def get_info(self, key: str):
         return self.__db.execute(
-            'SELECT * FROM address WHERE cid = ?',
+            'SELECT * FROM address WHERE address_id = ?',
             (key,)
         ).fetchall()
 
@@ -17,8 +17,8 @@ class AddressData(DataAccess):
         cursor = self.__db.cursor()
         cursor.execute(
             'INSERT INTO address '
-            '(cid, street, city, state, zip_code) '
-            'VALUES (?, ?, ?, ?, ?)',
+            '(street, city, state, zip_code) '
+            'VALUES (?, ?, ?, ?)',
             data
         )
 
@@ -28,7 +28,7 @@ class AddressData(DataAccess):
 
     def update_info(self, data) -> str:
         self.__db.execute(
-            'UPDATE address SET cid = ?, street = ?, '
+            'UPDATE address SET street = ?, '
             'city = ?, state = ?, zip_code = ?'
             'WHERE address_id = ?',
             data

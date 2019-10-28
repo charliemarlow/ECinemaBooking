@@ -6,7 +6,6 @@ class Address(Model):
 
     def __init__(self):
         self.__id = None
-        self.__customer_id = None
         self.__street = None
         self.__city = None
         self.__state = None
@@ -21,7 +20,6 @@ class Address(Model):
         addr = self.obj_as_dict(key)
         if addr is not None:
             self.set_id(addr['address_id'])
-            self.set_customer(addr['cid'])
             self.set_street(addr['street'])
             self.set_city(addr['city'])
             self.set_state(addr['state'])
@@ -37,24 +35,24 @@ class Address(Model):
             addr[key] = value
 
         self.set_id(addr['address_id'])
-        self.set_customer(addr['cid'])
         self.set_street(addr['street'])
         self.set_city(addr['city'])
         self.set_state(addr['state'])
         self.set_zip(addr['zip_code'])
         self.set_is_init()
 
-        member_tup = (self.get_customer(),
-                      self.get_street(), self.get_state(),
+        member_tup = (self.get_street(),
+                      self.get_city(),
+                      self.get_state(),
                       self.get_zip())
 
         self.set_id(self.__data_access.insert_info(member_tup))
 
     def save(self) -> str:
-        if not self.is_initalized():
+        if not self.is_initialized():
             return False
 
-        member_tup = (self.get_customer(), self.get_street(),
+        member_tup = (self.get_street(),
                       self.get_city(), self.get_state(),
                       self.get_zip(), self.get_id())
 
@@ -66,12 +64,6 @@ class Address(Model):
 
     def set_id(self, addr_id: str):
         self.__id = addr_id
-
-    def get_customer(self) -> str:
-        return self.__customer_id
-
-    def set_customer(self, cid: str):
-        self.__customer_id = cid
 
     def get_street(self) -> str:
         return self.__street
@@ -87,6 +79,9 @@ class Address(Model):
 
     def get_state(self) -> str:
         return self.__state
+
+    def is_initialized(self) -> bool:
+        return self.__is_init
 
     def set_state(self, state: str):
         self.__state = state

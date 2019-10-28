@@ -5,13 +5,11 @@ from flask import (
 )
 
 from ecinema.models.Customer import Customer
+from ecinema.models.Address import Address
 
 from ecinema.controllers.LoginController import (
     login_required, verify_username_password, get_user
 )
-
-from ecinema.data.CustomerData import CustomerData
-from ecinema.data.AddressData import AddressData
 
 from ecinema.tools.validation import (
     validate_name, validate_email, validate_unique_email
@@ -30,10 +28,13 @@ def account():
 @login_required
 def edit_profile():
     customer = Customer()
-    addr = AddressData()
+    addr = Address()
+
     user_id = session.get('user_id')
-    user = customer.obj_as_dict(user_id)
-    cid = user['customer_id']
+    customer.fetch(user_id)
+
+    if(not customer.fetch(user_id)):
+        return render_template("index.html")
 
     if request.method == 'POST':
         first_name = request.form.get('first')
@@ -45,46 +46,57 @@ def edit_profile():
         state = request.form.get('state')
         zip_code = request.form.get('zip')
 
-        error = ""
+        error = None
         if first_name is not None and validate_name(first_name):
-            customer.set_first_name(cid, first_name)
+            customer.set_first_name(first_name)
 
         if last_name is not None and validate_name(last_name):
-            customer.set_last_name(cid, last_name)
+            customer.set_last_name(last_name)
 
         if (email is not None and validate_email(email)
                 and validate_unique_email(email)):
-            customer.set_email(cid, email)
+            customer.set_email(email)
         elif email is not None:
             error = "Email is invalid or already in use"
 
-        # TODO: fix subscribe
+        customer.set_promo(subscribe)
+        if not customer.save():
+            error = error + " , issue saving details"
 
         if street is not None:
-            addr.set_street(cid, street)
+            addr.set_street(street)
 
         if city is not None:
-            addr.set_city(cid, city)
+            addr.set_city(city)
 
         if state is not None:
-            addr.set_state(cid, state)
+            addr.set_state(state)
 
         if zip_code is not None:
-            addr.set_zip_code(cid, zip_code)
+            addr.set_zip(zip_code)
 
-        flash(error)
-    print(user['first_name'])
-    address = addr.get_info(user['customer_id'])
-    print("\n\n")
-    print(address)
-    if address is None:
+        # either create, or save addr here
+        # get address ID from customer
+        '''
+        addr_id = customer.get_address_id()
+        if addr_id is None:
+            addr.create(...)
+        else:
+            addr.save()
+
+        '''
+        if error is not None:
+            flash(error)
+
+    address = addr.obj_as_dict(addr.get_id())
+    if not address:
         address = {
             'state': 'State',
             'city': 'City',
             'street': 'Street',
             'zip_code': 'ZIP Code'
         }
-
+    user = customer.obj_as_dict(user_id)
     return render_template('editprofile.html', user=user, address=address)
 
 

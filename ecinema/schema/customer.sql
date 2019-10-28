@@ -8,5 +8,7 @@ CREATE TABLE `customer` (
   `subscribe_to_promo` tinyint(1) DEFAULT NULL,
   `username` varchar(100) NOT NULL UNIQUE,
   `password` binary(64) NOT NULL,
-  `status` TEXT CHECK( status IN ('active', 'inactive', 'suspended') ) NOT NULL DEFAULT 'active'
+  `address_id` int(11) DEFAULT NULL,
+  `status` TEXT CHECK( status IN ('active', 'inactive', 'suspended') ) NOT NULL DEFAULT 'active',
+  FOREIGN KEY (address_id) REFERENCES address (address_id)
 )

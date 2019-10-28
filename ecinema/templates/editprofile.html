@@ -66,11 +66,11 @@
                          class="single-input">
               </div>
               <div class="mt-10">
-                  <input type="text" name="email" placeholder="{{ user['email'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['email'] }}'"
-                         class="single-input">
+                  <p type="text" name="email" placeholder="{{ user['email'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['email'] }}'"
+                     class="single-input">{{ user['email']}}</p>
               </div>
 
-              <input type="checkbox" name="subscribe" value="subscribe" checked> Subscribe To Promotions! <br>
+              <input type="checkbox" name="subscribe" value="subscribe" {% if user['subscribe_to_promo'] is eq(1) %} checked {% endif %}> Subscribe To Promotions! <br>
 
                 <div class="button-group-area mt-40">
                      <a href="verify_password" class="genric-btn primary circle medium" style="font-size: 2em">Change Password</a>
