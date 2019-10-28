@@ -15,7 +15,6 @@ from ecinema.controllers.LoginController import setup_session
 from ecinema.models.Customer import Customer
 
 from itsdangerous import URLSafeTimedSerializer
-import datetime
 
 # from ecinema.token import generate_confirmation_token, confirm_token
 
@@ -73,7 +72,7 @@ E-Cinema Booking
 
 
             # talk to me about handling it
-            return render_template('forgotconfirmation.html')
+            return redirect(url_for('ForgotPasswordController.confirm_forgot'))
 
         flash(error)
 
@@ -100,6 +99,13 @@ def confirm_token(token, expiration=1200):
         return False
     return email
 
+@bp.route('/confirm_forgot')
+def confirm_forgot():
+      return render_template('forgotconfirmation.html')
+
+@bp.route('/forgot_error')
+def forgot_error():
+    return render_template('forgotfail.html')
 
 @bp.route('/confirm/<token>')
 def confirm_email(token):
@@ -109,14 +115,12 @@ def confirm_email(token):
         flash('The confirmation link is invalid or has expired.',
               'danger')
         # make a page explaining this to the user
-        # TODO: make this point to forgot password fail page
-        return redirect(url_for('IndexController.index'))
+        return redirect(url_for('ForgotPasswordController.forgot_error'))
     customer = Customer()
     if customer.fetch_by_email(email):
         # log user in, redirect to reset password
         setup_session(customer.get_username(), False)
 
         return redirect(url_for('ResetPasswordController.reset_password'))
-
     # TODO: make this point to forgot password fail page
-    return redirect(url_for('IndexController.index'))
+    return redirect(url_for('ForgotPasswordController.forgot_error'))

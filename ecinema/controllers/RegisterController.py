@@ -62,8 +62,13 @@ def register():
             customer.save()
             customer.send_confirmation_email(email, firstname)
 
-            return redirect(url_for('LoginController.login'))
+            return redirect(url_for('RegisterController.confirm_registration'))
 
         flash(error)
 
     return render_template('registration.html')
+
+@bp.route('/confirm_registration')
+@logout_required
+def confirm_registration():
+    return render_template('register_confirm.html')

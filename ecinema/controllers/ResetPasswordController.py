@@ -11,6 +11,9 @@ from ecinema.controllers.LoginController import login_required
 
 bp = Blueprint('ResetPasswordController', __name__, url_prefix='/')
 
+@bp.route('/reset_confirm')
+def reset_confirm():
+    return render_template('resetpasswordconfirm.html')
 
 @bp.route('/reset', methods=('GET', 'POST'))
 @login_required
@@ -46,7 +49,7 @@ def reset_password():
                                                customer.get_first_name())
 
             # TODO: change this to a password change confirm screen
-            return redirect(url_for('AccountController.edit_profile'))
+            return redirect(url_for('ResetPasswordController.reset_confirm'))
 
         flash(error)
 
