@@ -21,7 +21,7 @@ def reset_password():
         password = request.form['password']
         confirmation = request.form['confirm']
         user_id = session.get('user_id')
-        error = None1
+        error = None
 
         customer = Customer()
         customer.fetch(user_id)

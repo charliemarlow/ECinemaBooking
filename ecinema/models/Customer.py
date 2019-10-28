@@ -39,6 +39,23 @@ class Customer(Model, User):
 
         return False
 
+    def fetch_by_email(self, email: str):
+        user_data = self.__data_access.get_info_by_email(email)
+        if user_data is not None:
+            self.set_id(user_data['customer_id'])
+            self.set_first_name(user_data['first_name'])
+            self.set_last_name(user_data['last_name'])
+            self.set_email(user_data['email'])
+            self.set_promo(user_data['subscribe_to_promo'])
+            self.set_username(user_data['username'])
+            self.set_password(user_data['password'])
+            self.set_status(user_data['status'])
+            self.set_is_init()
+            return True
+
+        return False
+
+
     def create(self, **kwargs):
         user = {}
         for key, value in kwargs.items():

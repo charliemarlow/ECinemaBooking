@@ -8,6 +8,12 @@ from ecinema.tools.validation import (
     validate_name, validate_password, validate_email,
     validate_username, validate_unique_email, validate_user_status
 )
+from ecinema.tools.sendEmail import send_email
+
+from ecinema.controllers.LoginController import setup_session
+
+from ecinema.models.Customer import Customer
+
 from itsdangerous import URLSafeTimedSerializer
 import datetime
 
@@ -26,6 +32,7 @@ def forgot():
         # 3. user status is active
         # 4. not none
         error = None
+        customer = Customer()
 
         if email is None:
             error = 'Email is required'
@@ -38,11 +45,32 @@ def forgot():
 
         # then send an email that they have to respond to quick
         if error is None:
-            token = generate_confirmation_token(email)
 
             # Generate the token
+            token = generate_confirmation_token(email)
 
             # send the email (check out tools/sendEmail.py)
+            subject = "Forgot Password?"
+
+            # TODO: send an email of a link that can be clicked on
+            # instead of just plaintext
+            message = """Hey
+
+            A forgot password request has been made for your account """\
+                + """at Ecinema Booking. Please follow this link """\
+                + """to reset your email. If you did not request this """\
+                + """then please ignore this email"""\
+                + """Link: http://127.0.0.1:5000/confirm/{}"""\
+                + """
+
+Best,
+
+E-Cinema Booking
+        """
+            message = message.format(token)
+
+            send_email(email, subject, message)
+
 
             # talk to me about handling it
             return render_template('forgotconfirmation.html')
@@ -52,41 +80,43 @@ def forgot():
     return render_template('forgot.html')
 
 
-'''
+
 def generate_confirmation_token(email):
-    serializer = URLSafeTimedSerializer(app.config['IAMSOFLUBINSECUREuuKEY'])
+    serializer = URLSafeTimedSerializer('IAMSOFLUBINSECUREuuKEY')
     return serializer.dumps(email,
-salt=app.config['THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT'])
+                            salt=
+                            'THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT')
 
 
 def confirm_token(token, expiration=1200):
-    serializer = URLSafeTimedSerializer(app.config['IAMSOFLUBINSECUREuuKEY'])
+    serializer = URLSafeTimedSerializer('IAMSOFLUBINSECUREuuKEY')
     try:
         email = serializer.loads(
             token,
-            salt=app.config['THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT'],
+            salt='THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT',
             max_age=expiration
         )
     except:
         return False
     return email
-'''
 
 
-@bp.route('/confirm_user/<token>')
+@bp.route('/confirm/<token>')
 def confirm_email(token):
     try:
         email = confirm_token(token)
     except BaseException:
         flash('The confirmation link is invalid or has expired.',
               'danger')
-    user = User.query.filter_by(email=email).first_or_404()
-    if user.confirmed:
-        flash('Account already confirmed. Please login.', 'success')
-    else:
-        user.confirmed = True
-        user.confirmed_on = datetime.datetime.now()
-        db.session.add(user)
-        db.session.commit()
-        flash('You have confirmed your account. Thanks!', 'success')
-    return redirect(url_for('index'))
+        # make a page explaining this to the user
+        # TODO: make this point to forgot password fail page
+        return redirect(url_for('IndexController.index'))
+    customer = Customer()
+    if customer.fetch_by_email(email):
+        # log user in, redirect to reset password
+        setup_session(customer.get_username(), False)
+
+        return redirect(url_for('ResetPasswordController.reset_password'))
+
+    # TODO: make this point to forgot password fail page
+    return redirect(url_for('IndexController.index'))

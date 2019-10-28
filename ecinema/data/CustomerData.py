@@ -36,6 +36,11 @@ class CustomerData(DataAccess):
             'SELECT * FROM customer WHERE username = ?', (user_id,)
         ).fetchone()
 
+    def get_info_by_email(self, email: str):
+        return self.__db.execute(
+            'SELECT * FROM customer WHERE email = ?', (email,)
+        ).fetchone()
+
     def set_first_name(self, cid: str, first: str):
         self.__db.execute(
             'UPDATE customer SET first_name = ? WHERE customer_id = ?',
