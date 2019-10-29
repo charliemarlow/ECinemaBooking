@@ -88,7 +88,7 @@ def confirm_account(token):
 
     if customer.fetch_by_email(email):
         setup_session(customer.get_username(), False)
-        if customer.get_status() is 'inactive':
+        if customer.get_status() == 'inactive':
             customer.set_status('active')
             customer.save()
             return redirect(url_for('RegisterController.account_verification_success'))
