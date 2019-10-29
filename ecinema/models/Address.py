@@ -25,6 +25,7 @@ class Address(Model):
             self.set_state(addr['state'])
             self.set_zip(addr['zip_code'])
             self.set_is_init()
+            print(self.is_initialized())
             return True
 
         return False
@@ -34,7 +35,6 @@ class Address(Model):
         for key, value in kwargs.items():
             addr[key] = value
 
-        self.set_id(addr['address_id'])
         self.set_street(addr['street'])
         self.set_city(addr['city'])
         self.set_state(addr['state'])
@@ -55,7 +55,7 @@ class Address(Model):
         member_tup = (self.get_street(),
                       self.get_city(), self.get_state(),
                       self.get_zip(), self.get_id())
-
+        print(member_tup)
         self.__data_access.update_info(member_tup)
         return True
 
@@ -82,6 +82,9 @@ class Address(Model):
 
     def is_initialized(self) -> bool:
         return self.__is_init
+
+    def set_is_init(self):
+        self.__is_init = True
 
     def set_state(self, state: str):
         self.__state = state

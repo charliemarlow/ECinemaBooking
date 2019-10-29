@@ -11,7 +11,7 @@ class AddressData(DataAccess):
         return self.__db.execute(
             'SELECT * FROM address WHERE address_id = ?',
             (key,)
-        ).fetchall()
+        ).fetchone()
 
     def insert_info(self, data) -> str:
         cursor = self.__db.cursor()

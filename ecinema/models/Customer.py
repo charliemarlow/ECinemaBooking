@@ -34,6 +34,7 @@ class Customer(Model, User):
             self.set_username(user_data['username'])
             self.set_password(user_data['password'])
             self.set_status(user_data['status'])
+            self.set_address_id(user_data['address_id'])
             self.set_is_init()
             return True
 
@@ -50,6 +51,7 @@ class Customer(Model, User):
             self.set_username(user_data['username'])
             self.set_password(user_data['password'])
             self.set_status(user_data['status'])
+            self.set_address_id(user_data['address_id'])
             self.set_is_init()
             return True
 
@@ -93,6 +95,7 @@ class Customer(Model, User):
                       self.get_username(),
                       self.get_password(),
                       self.get_status(),
+                      self.get_address_id(),
                       self.get_username())
         self.__data_access.update_info(member_tup)
         return True
@@ -126,6 +129,12 @@ class Customer(Model, User):
 
     def set_status(self, status):
         self.__status = status
+
+    def get_address_id(self) -> str:
+        return self.__address_id
+
+    def set_address_id(self, addr_id: str):
+        self.__address_id = addr_id
 
     def send_profile_change_email(self):
         email = self.get_email()

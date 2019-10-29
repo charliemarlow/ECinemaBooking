@@ -42,54 +42,72 @@ def edit_profile():
         first_name = request.form.get('first')
         last_name = request.form.get('last')
         subscribe = request.form.get('subscribe') is not None
+
         street = request.form.get('street')
         city = request.form.get('city')
         state = request.form.get('state')
         zip_code = request.form.get('zip')
 
         error = None
-        if first_name is not None and validate_name(first_name):
+        if first_name != '' and validate_name(first_name):
             customer.set_first_name(first_name)
             info_changed = True
 
-        if last_name is not None and validate_name(last_name):
+        if last_name != '' and validate_name(last_name):
             customer.set_last_name(last_name)
             info_changed = True
 
         if customer.get_promo() is not subscribe:
+            if customer.get_promo() != subscribe:
+                info_changed = True
             customer.set_promo(subscribe)
-            info_changed = True
 
         if not customer.save():
             error = error + "Issue saving customer details"
             info_changed = False
 
-        if street is not None:
-            addr.set_street(street)
-            info_changed = True
-
-        if city is not None:
-            addr.set_city(city)
-            info_changed = True
-
-        if state is not None:
-            addr.set_state(state)
-            info_changed = True
-
-        if zip_code is not None:
-            addr.set_zip(zip_code)
-            info_changed = True
-
         # either create, or save addr here
         # get address ID from customer
-        '''
+
         addr_id = customer.get_address_id()
+        print("addr_id")
+        print(addr_id)
         if addr_id is None:
-            addr.create(...)
+            if (street != '' and city != '' and
+                state != '' and zip_code != ''):
+                print("About to Create")
+                addr.create(street=street, city=city,
+                            state=state, zip_code=zip_code)
+                customer.set_address_id(addr.get_id())
+                customer.save()
+                info_changed = True
+            else:
+                error = "To create a home address, all address information is required"
         else:
+            print("about to fetch addr")
+            print(addr.fetch(addr_id))
+
+            if street != '':
+                print("street")
+                print(street)
+                addr.set_street(street)
+                info_changed = True
+
+            if city != '':
+                addr.set_city(city)
+                info_changed = True
+
+            if state != '':
+                addr.set_state(state)
+                info_changed = True
+
+            if zip_code != '':
+                addr.set_zip(zip_code)
+                info_changed = True
+
+            print("About to save")
             addr.save()
 
-        '''
         if error is not None:
             flash(error)
 
@@ -99,10 +117,10 @@ def edit_profile():
     address = addr.obj_as_dict(addr.get_id())
     if not address:
         address = {
-            'state': 'State',
-            'city': 'City',
-            'street': 'Street',
-            'zip_code': 'ZIP Code'
+            'state': 'State (Required)',
+            'city': 'City (Required)',
+            'street': 'Street (Required)',
+            'zip_code': 'ZIP Code (Required)'
         }
     user = customer.obj_as_dict(user_id)
     return render_template('editprofile.html', user=user, address=address)

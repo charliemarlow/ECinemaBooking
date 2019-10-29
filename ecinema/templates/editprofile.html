@@ -58,14 +58,17 @@
       <div class="">
           <form action="#" method="post">
               <div class="mt-10">
+                  <label>First name: </label>
                   <input type="text" name="first" placeholder="{{ user['first_name'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['first_name'] }}'"
                          class="single-input">
               </div>
               <div class="mt-10">
+                  <label>Last Name:</label>
                   <input type="text" name="last" placeholder="{{ user['last_name'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['last_name'] }}'"
                          class="single-input">
               </div>
               <div class="mt-10">
+                  <label>Email:</label>
                   <p type="text" name="email" placeholder="{{ user['email'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['email'] }}'"
                      class="single-input">{{ user['email']}}</p>
               </div>
@@ -76,21 +79,25 @@
                      <a href="verify_password" class="genric-btn primary circle medium" style="font-size: 2em">Change Password</a>
                 </div>
 
-              <h3 class="text-heading" style="margin-top: .5em">Address</h3>
+              <h3 class="text-heading" style="margin-top: .5em">Home Address</h3>
 
               <div class="mt-10">
+                  <label>Street:</label>
                 <input type="text" name="street" placeholder="{{ address['street'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['street'] }}'"
                  class="single-input">
               </div>
               <div class="mt-10">
+                  <label>City:</label>
                   <input type="text" name="city" placeholder="{{ address['city'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['city'] }}'"
                          class="single-input">
               </div>
               <div class="mt-10">
+                  <label>State:</label>
                   <input type="text" name="state" placeholder="{{ address['state'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['state'] }}'"
                          class="single-input">
               </div>
               <div class="mt-10">
+                  <label>Zip Code:</label>
                   <input type="text" name="zip" placeholder="{{ address['zip_code'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['zip_code'] }}'"
                          class="single-input">
               </div>
