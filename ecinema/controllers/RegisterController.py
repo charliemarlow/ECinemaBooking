@@ -74,6 +74,7 @@ def register():
 
     return render_template('registration.html')
 
+
 @bp.route('/confirm_account/<token>')
 def confirm_account(token):
     print("account is being confirmed")
@@ -82,7 +83,8 @@ def confirm_account(token):
     except BaseException:
         flash("The confirmation link is invalid or has expired")
         # return a failure page here
-        return redirect(url_for('RegisterController.account_verification_fail'))
+        return redirect(
+            url_for('RegisterController.account_verification_fail'))
 
     customer = Customer()
 
@@ -91,24 +93,29 @@ def confirm_account(token):
         if customer.get_status() == 'inactive':
             customer.set_status('active')
             customer.save()
-            return redirect(url_for('RegisterController.account_verification_success'))
+            return redirect(
+                url_for('RegisterController.account_verification_success'))
         else:
             return redirect(url_for('IndexController.index'))
 
     # some failure page
     return redirect(url_for('RegisterController.account_verification_fail'))
 
+
 @bp.route('/account_verification_success')
 def account_verification_success():
     return render_template('verify_account_success.html')
+
 
 @bp.route('/account_verification_fail')
 def account_verification_fail():
     return render_template('verify_account_fail.html')
 
+
 @bp.route('verify_account.html')
 def verify_account():
     return render_template('verify_account.html')
+
 
 @bp.route('/confirm_registration')
 @logout_required

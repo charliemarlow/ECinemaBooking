@@ -55,7 +55,6 @@ class Customer(Model, User):
 
         return False
 
-
     def create(self, **kwargs):
         user = {}
         for key, value in kwargs.items():

@@ -70,7 +70,6 @@ E-Cinema Booking
 
             send_email(email, subject, message)
 
-
             # talk to me about handling it
             return redirect(url_for('ForgotPasswordController.confirm_forgot'))
 
@@ -81,11 +80,13 @@ E-Cinema Booking
 
 @bp.route('/confirm_forgot')
 def confirm_forgot():
-      return render_template('forgotconfirmation.html')
+    return render_template('forgotconfirmation.html')
+
 
 @bp.route('/forgot_error')
 def forgot_error():
     return render_template('forgotfail.html')
+
 
 @bp.route('/confirm/<token>')
 def confirm_email(token):

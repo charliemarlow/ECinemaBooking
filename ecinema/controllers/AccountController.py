@@ -108,7 +108,6 @@ def edit_profile():
     return render_template('editprofile.html', user=user, address=address)
 
 
-
 @bp.route('/manage_payment', methods=('GET', 'POST'))
 def manage_payment():
     return render_template('manage_payment.html')

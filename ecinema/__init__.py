@@ -7,6 +7,7 @@ from ecinema.controllers import (
     TestController, ForgotPasswordController
 )
 
+
 def not_found(e):
     return render_template('error.html'), 404
 

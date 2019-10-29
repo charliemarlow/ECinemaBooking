@@ -3,6 +3,7 @@ from ecinema.data.CreditCardData import CreditCard
 from ecinema.models.Address import Address
 from datetime import datetime
 
+
 class CreditCard(Model):
 
     def _init__(self):
@@ -18,7 +19,7 @@ class CreditCard(Model):
         return self.__data_access.get_info(key)
 
     def fetch(self, key: str):
-        card = self.obj_as_dict(key))
+        card = self.obj_as_dict(key)
         if card is not None:
             self.set_id(card['card_id'])
             self.set_cc_number(card['cc_number'])
@@ -29,12 +30,11 @@ class CreditCard(Model):
             return True
 
         return False
-    
+
     def create(self, **kwargs):
         card = {}
         for key, value in kwargs.items():
             card[key] = value
-
 
         self.set_id(card['card_id'])
         self.set_cc_number(card['cc_number'])
@@ -55,8 +55,8 @@ class CreditCard(Model):
             return False
 
         member_tup = (self.get_cc_number(),
-                       self.get_cvv(), self.get_expiration_date(),
-                       self.get_billing_address(), self.get_id())
+                      self.get_cvv(), self.get_expiration_date(),
+                      self.get_billing_address(), self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
@@ -90,7 +90,3 @@ class CreditCard(Model):
 
     def set_billing_address(self, billing_address: Address):
         self.__billing_address = billing_address
-
-
-
-                      

@@ -28,7 +28,7 @@ class CreditCardData(DataAccess):
         self.__db.commit()
         return row_id
 
-    def update_info(self, data) ->str:
+    def update_info(self, data) -> str:
         self.__db.execute(
             'UPDATE credit_card SET cc_number = ?, '
             'cvv = ?, expiration_date = ?, billing_address = ?'
@@ -67,4 +67,3 @@ class CreditCardData(DataAccess):
             (billing_address, cid)
         )
         self.__db.commit()
-    

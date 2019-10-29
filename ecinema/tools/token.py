@@ -1,10 +1,10 @@
 from itsdangerous import URLSafeTimedSerializer
 
+
 def generate_confirmation_token(email):
     serializer = URLSafeTimedSerializer('IAMSOFLUBINSECUREuuKEY')
     return serializer.dumps(email,
-                            salt=
-                            'THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT')
+                            salt='THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT')
 
 
 def confirm_token(token, expiration=1200):
@@ -15,6 +15,6 @@ def confirm_token(token, expiration=1200):
             salt='THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT',
             max_age=expiration
         )
-    except:
+    except BaseException:
         return False
     return email

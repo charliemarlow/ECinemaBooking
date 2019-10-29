@@ -114,9 +114,9 @@ def login_required(view):
         customer = Customer()
         if g.user is None:
             return redirect(url_for('LoginController.login'))
-        elif customer.fetch(g.user['username']) and customer.get_status() == 'inactive':
+        elif (customer.fetch(g.user['username']) and
+              customer.get_status() == 'inactive'):
             return redirect(url_for('RegisterController.verify_account'))
-
 
         return view(**kwargs)
 
