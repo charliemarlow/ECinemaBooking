@@ -6,6 +6,8 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ecinema.models.Customer import Customer
+from ecinema.models.Address import Address
+from ecinema.models.CreditCard import CreditCard
 
 from ecinema.tools.token import (
     generate_confirmation_token, confirm_token
@@ -71,6 +73,22 @@ def register():
             return redirect(url_for('RegisterController.confirm_registration'))
 
         flash(error)
+    elif request.method == 'GET':
+        # Pull data from form
+        streetAddress = request.form.get('streetaddress')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        zipcode = request.form.get('zipcode')
+        phoneNumber = request.form.get('phone')
+        cardNumber = request.form.get('cardnumber')
+        expDate = request.form.get('expdate')
+        cvv = request.form.get('cvv')
+
+        # TODO: Check if any address field is empty, send error if one is not empty but rest are
+        # TODO: create address
+        # TODO: check if creditcard info is empty or nor
+        # TODO: create Creditcard
+
 
     return render_template('registration.html')
 
@@ -121,3 +139,7 @@ def verify_account():
 @logout_required
 def confirm_registration():
     return render_template('register_confirm.html')
+
+@bp.route('/register2')
+def optional_registration():
+    return render_template('registration_optional.html')

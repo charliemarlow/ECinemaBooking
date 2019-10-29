@@ -12,7 +12,8 @@ from ecinema.controllers.LoginController import (
 )
 
 from ecinema.tools.validation import (
-    validate_name, validate_email, validate_unique_email
+    validate_name, validate_email, validate_unique_email,
+    validate_cvv, validat_cc_number, validate_expiration_date
 )
 
 bp = Blueprint('AccountController', __name__, url_prefix='/')

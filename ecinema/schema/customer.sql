@@ -5,6 +5,7 @@ CREATE TABLE `customer` (
   `first_name` varchar(100) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
   `email` varchar(100) NOT NULL UNIQUE,
+  'phone_number' varchar(100) NOT NULL,
   `subscribe_to_promo` tinyint(1) DEFAULT NULL,
   `username` varchar(100) NOT NULL UNIQUE,
   `password` binary(64) NOT NULL,
