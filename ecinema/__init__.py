@@ -1,11 +1,14 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 from ecinema.controllers import (
     RegisterController, LoginController, IndexController,
     AccountController, ResetPasswordController,
     TestController, ForgotPasswordController
 )
+
+def not_found(e):
+    return render_template('error.html'), 404
 
 
 def create_app(test_config=None):
@@ -38,5 +41,8 @@ def create_app(test_config=None):
     app.register_blueprint(AccountController.bp)
     app.register_blueprint(ResetPasswordController.bp)
     app.register_blueprint(ForgotPasswordController.bp)
+
+    # load error handlers
+    app.register_error_handler(404, not_found)
 
     return app
