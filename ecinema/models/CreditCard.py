@@ -1,5 +1,5 @@
 from ecinema.models.model import Model
-from ecinema.data.CreditCardData import CreditCard
+from ecinema.data.CreditCardData import CreditCardData
 from ecinema.models.Address import Address
 from datetime import datetime
 

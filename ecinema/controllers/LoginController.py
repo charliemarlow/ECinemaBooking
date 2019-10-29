@@ -118,6 +118,7 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         customer = Customer()
+        admin = Admin()
         if g.user is None:
             return redirect(url_for('LoginController.login'))
         elif (customer.fetch(g.user['username']) and
