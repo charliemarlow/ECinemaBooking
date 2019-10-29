@@ -4,7 +4,8 @@ from flask import Flask, render_template
 from ecinema.controllers import (
     RegisterController, LoginController, IndexController,
     AccountController, ResetPasswordController,
-    TestController, ForgotPasswordController
+    TestController, ForgotPasswordController,
+    AdminController
 )
 
 
@@ -42,6 +43,7 @@ def create_app(test_config=None):
     app.register_blueprint(AccountController.bp)
     app.register_blueprint(ResetPasswordController.bp)
     app.register_blueprint(ForgotPasswordController.bp)
+    app.register_blueprint(AdminController.bp)
 
     # load error handlers
     app.register_error_handler(404, not_found)

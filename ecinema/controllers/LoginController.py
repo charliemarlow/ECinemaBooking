@@ -41,10 +41,15 @@ def login():
         if user is not None:
             error = verify_username_password(username, password,
                                              user.get_password())
+        else:
+            error = "User {} does not exist".format(username)
 
         if error is None and user is not None:
             setup_session(user.get_username(), loggedin)
-            return redirect(url_for('IndexController.index'))
+            if user.is_admin():
+                return redirect(url_for('AdminController.admin'))
+            else:
+                return redirect(url_for('IndexController.index'))
 
         flash(error)
 
@@ -58,6 +63,7 @@ def get_user(username: str):
     customer_exists = customer.fetch(username)
 
     if customer_exists:
+        print("custy exists")
         user = customer
     else:
         user = admin if admin.fetch(username) else None
@@ -117,6 +123,19 @@ def login_required(view):
         elif (customer.fetch(g.user['username']) and
               customer.get_status() == 'inactive'):
             return redirect(url_for('RegisterController.verify_account'))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
+def admin_login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        admin = Admin()
+        if g.user is None:
+            return redirect(url_for('LoginController.login'))
+        elif not admin.fetch(g.user['username']):
+            return redirect(url_for('IndexController.index'))
 
         return view(**kwargs)
 

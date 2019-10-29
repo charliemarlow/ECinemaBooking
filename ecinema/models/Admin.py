@@ -43,3 +43,6 @@ class Admin(Model, User):
                       self.get_username())
         self.__data_access.update_info(member_tup)
         return True
+
+    def is_admin(self) -> bool:
+        return True

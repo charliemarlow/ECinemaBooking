@@ -100,6 +100,9 @@ class Customer(Model, User):
         self.__data_access.update_info(member_tup)
         return True
 
+    def is_admin(self) -> bool:
+        return False
+
     def get_first_name(self) -> str:
         return self.__first_name
 
