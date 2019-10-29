@@ -69,7 +69,7 @@ class Customer(Model, User):
         self.set_promo(promo)
         self.set_username(user['username'])
         self.set_password(user['password'])
-        self.set_status('active')
+        self.set_status('inactive')
         self.set_is_init()
 
         member_tup = (self.get_first_name(),
@@ -165,13 +165,17 @@ E-Cinema Booking
         message = message.format(name)
         send_email(email, subject, message)
 
-    def send_confirmation_email(self, email: str, name: str):
+    def send_confirmation_email(self, email: str, name: str, token: str):
         subject = "Registration Confirmation"
 
         message = """Hey {},
 
         You have successfully registered an account at E-Cinema """\
-            + """Booking under this email address. We're looking """\
+            + """Booking under this email address. """\
+            + """Please verify your account at this link: {} """\
+            + """ -- some account information will be unavailable"""\
+            + """ until you do so. """\
+            + """We're looking """\
             + """forward to seeing you soon!"""\
             + """
 
@@ -179,6 +183,7 @@ Best,
 
 E-Cinema Booking
         """
-        message = message.format(name)
+        url = "http://127.0.0.1:5000/confirm_account/" + token
+        message = message.format(name, url)
 
         send_email(email, subject, message)

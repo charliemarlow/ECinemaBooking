@@ -6,12 +6,16 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ecinema.models.Customer import Customer
+
+from ecinema.tools.token import (
+    generate_confirmation_token, confirm_token
+)
 from ecinema.tools.validation import (
     validate_name, validate_password, validate_email,
     validate_username, validate_unique_email
 )
 
-from ecinema.controllers.LoginController import logout_required
+from ecinema.controllers.LoginController import logout_required, setup_session
 
 bp = Blueprint('RegisterController', __name__, url_prefix='/')
 
@@ -49,7 +53,7 @@ def register():
             error = 'Email is required and must be valid'
         elif not validate_unique_email(email):
             error = 'Email is already registered to an account'
-        elif validate_username(username):
+        elif not validate_username(username):
             error = 'Username {} is already taken.'.format(username)
 
         # create a new user
@@ -59,14 +63,52 @@ def register():
                             password=generate_password_hash(password),
                             username=username, email=email,
                             subscribe_to_promo=subscribe)
+            customer.set_status('inactive')
             customer.save()
-            customer.send_confirmation_email(email, firstname)
+            token = generate_confirmation_token(email)
+            customer.send_confirmation_email(email, firstname, token)
 
             return redirect(url_for('RegisterController.confirm_registration'))
 
         flash(error)
 
     return render_template('registration.html')
+
+@bp.route('/confirm_account/<token>')
+def confirm_account(token):
+    print("account is being confirmed")
+    try:
+        email = confirm_token(token, expiration=86400)
+    except BaseException:
+        flash("The confirmation link is invalid or has expired")
+        # return a failure page here
+        return redirect(url_for('RegisterController.account_verification_fail'))
+
+    customer = Customer()
+
+    if customer.fetch_by_email(email):
+        setup_session(customer.get_username(), False)
+        if customer.get_status() is 'inactive':
+            customer.set_status('active')
+            customer.save()
+            return redirect(url_for('RegisterController.account_verification_success'))
+        else:
+            return redirect(url_for('IndexController.index'))
+
+    # some failure page
+    return redirect(url_for('RegisterController.account_verification_fail'))
+
+@bp.route('/account_verification_success')
+def account_verification_success():
+    return render_template('verify_account_success.html')
+
+@bp.route('/account_verification_fail')
+def account_verification_fail():
+    return render_template('verify_account_fail.html')
+
+@bp.route('verify_account.html')
+def verify_account():
+    return render_template('verify_account.html')
 
 @bp.route('/confirm_registration')
 @logout_required

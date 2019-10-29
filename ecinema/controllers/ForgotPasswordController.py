@@ -4,19 +4,19 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
+
 from ecinema.tools.validation import (
     validate_name, validate_password, validate_email,
     validate_username, validate_unique_email, validate_user_status
 )
+from ecinema.tools.token import (
+    generate_confirmation_token, confirm_token
+)
 from ecinema.tools.sendEmail import send_email
 
+
 from ecinema.controllers.LoginController import setup_session
-
 from ecinema.models.Customer import Customer
-
-from itsdangerous import URLSafeTimedSerializer
-
-# from ecinema.token import generate_confirmation_token, confirm_token
 
 bp = Blueprint('ForgotPasswordController', __name__, url_prefix='/')
 
@@ -58,8 +58,8 @@ def forgot():
             A forgot password request has been made for your account """\
                 + """at Ecinema Booking. Please follow this link """\
                 + """to reset your email. If you did not request this """\
-                + """then please ignore this email"""\
-                + """Link: http://127.0.0.1:5000/confirm/{}"""\
+                + """then please ignore this email."""\
+                + """ Link: http://127.0.0.1:5000/confirm/{}"""\
                 + """
 
 Best,
@@ -78,26 +78,6 @@ E-Cinema Booking
 
     return render_template('forgot.html')
 
-
-
-def generate_confirmation_token(email):
-    serializer = URLSafeTimedSerializer('IAMSOFLUBINSECUREuuKEY')
-    return serializer.dumps(email,
-                            salt=
-                            'THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT')
-
-
-def confirm_token(token, expiration=1200):
-    serializer = URLSafeTimedSerializer('IAMSOFLUBINSECUREuuKEY')
-    try:
-        email = serializer.loads(
-            token,
-            salt='THl72DfWa36wdEPJOEGbe71GSCDWADuuSALT',
-            max_age=expiration
-        )
-    except:
-        return False
-    return email
 
 @bp.route('/confirm_forgot')
 def confirm_forgot():

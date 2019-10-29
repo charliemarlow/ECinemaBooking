@@ -111,8 +111,12 @@ def logout():
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
+        customer = Customer()
         if g.user is None:
             return redirect(url_for('LoginController.login'))
+        elif customer.fetch(g.user['username']) and customer.get_status() == 'inactive':
+            return redirect(url_for('RegisterController.verify_account'))
+
 
         return view(**kwargs)
 

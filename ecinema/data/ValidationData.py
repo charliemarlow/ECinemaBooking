@@ -14,10 +14,10 @@ def is_unique_username(username: str):
     return (db.execute(
         'SELECT customer_id FROM customer WHERE username = ?',
         (username,)
-    ).fetchone() is not None and db.execute(
+    ).fetchone() is None and db.execute(
         'SELECT admin_id FROM admin WHERE username = ?',
         (username,)
-    ).fetchone() is not None)
+    ).fetchone() is None)
 
 # eventually fix this
 

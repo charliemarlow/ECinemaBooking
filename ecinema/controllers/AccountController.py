@@ -108,16 +108,6 @@ def edit_profile():
     return render_template('editprofile.html', user=user, address=address)
 
 
-def login_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if g.user is None:
-            return redirect(url_for('LoginController.login'))
-
-        return view(**kwargs)
-
-    return wrapped_view
-
 
 @bp.route('/manage_payment', methods=('GET', 'POST'))
 def manage_payment():
