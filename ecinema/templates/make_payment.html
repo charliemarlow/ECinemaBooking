@@ -68,9 +68,28 @@
 							</div>
                             
 							<div class="mt-10">
-								<input type="text" name="CVV" placeholder="CVV" onfocus="this.placeholder = ''" onblur="this.placeholder = 'CVV'"
-								 required class="single-input" value="">
+								  <input type="text" name="CVV" placeholder="CVV" onfocus="this.placeholder = ''" onblur="this.placeholder = 'CVV'"
+								         required class="single-input" value="">
 							</div>
+              <h3 class="text-heading" style="margin-top: .5em">Billing Address</h3>
+
+              <div class="mt-10">
+                  <input type="text" name="street" placeholder="{{ address['street'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'address['street']'"
+                         class="single-input">
+              </div>
+              <div class="mt-10">
+                  <input type="text" name="city" placeholder="{{ address['city'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['city'] }}'"
+                         class="single-input">
+              </div>
+              <div class="mt-10">
+                  <input type="text" name="state" placeholder="{{ address['state'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['state'] }}'"
+                         class="single-input">
+              </div>
+              <div class="mt-10">
+                  <input type="text" name="zip" placeholder="{{ address['zip_code'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['zip_code'] }}'"
+                         class="single-input">
+              </div>
+              
                             
                             <button type="submit" value="submit" class="primary-btn">Submit New Payment</button>
                             

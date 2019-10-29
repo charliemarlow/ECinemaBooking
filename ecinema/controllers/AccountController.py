@@ -115,7 +115,14 @@ def manage_payment():
 
 @bp.route('/make_payment', methods=('GET', 'POST'))
 def make_payment():
-    return render_template('make_payment.html')
+    address = {
+        'state': 'State',
+        'city': 'City',
+        'street': 'Street',
+        'zip_code': 'ZIP Code'
+    }
+
+    return render_template('make_payment.html', address=address)
 
 
 @bp.route('/verify_password', methods=('GET', 'POST'))
