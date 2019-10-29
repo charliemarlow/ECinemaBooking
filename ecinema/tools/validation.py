@@ -4,6 +4,7 @@ from ecinema.data.ValidationData import (
     is_new_email, is_unique_username,
     is_active_user
 )
+from datetime import datetime
 
 '''
 Place any code for validating user input here
@@ -40,3 +41,15 @@ def validate_username(username: str) -> bool:
 
 def validate_user_status(email: str) -> bool:
     return is_active_user(email)
+
+
+def validate_cvv(cvv: str) -> bool:
+    return len(cvv) > 2 and len(cvv) < 5
+
+
+def validate_cc_number(cc_number: str) -> bool:
+    return len(cc_number) > 12 and len(cc_number) < 20
+
+
+def validate_expiration_date(expiration_date: datetime) -> bool:
+    return (expiration_date.year > today.year) or (expiration_date.year == today.year and expiration_date.month > today.month)
