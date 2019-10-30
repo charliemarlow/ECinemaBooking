@@ -32,8 +32,9 @@ def register():
         lastname = request.form['lastname']
         password = request.form['password']
         confirmation = request.form['confirm']
-        username = request.form['userid']
+        phonenumber = request.form['phone']
         email = request.form['email']
+        username = "user123"
         # IMPORTANT: non-required fields should use the .get method
         subscribe = str(request.form.get('subscribe') is not None)
 
@@ -64,7 +65,7 @@ def register():
             customer.create(first_name=firstname, last_name=lastname,
                             password=generate_password_hash(password),
                             username=username, email=email,
-                            subscribe_to_promo=subscribe)
+                            subscribe_to_promo=subscribe, phone_number=phonenumber)
             customer.set_status('inactive')
             customer.save()
             token = generate_confirmation_token(email)
@@ -79,7 +80,6 @@ def register():
         city = request.form.get('city')
         state = request.form.get('state')
         zipcode = request.form.get('zipcode')
-        phoneNumber = request.form.get('phone')
         cardNumber = request.form.get('cardnumber')
         expDate = request.form.get('expdate')
         cvv = request.form.get('cvv')

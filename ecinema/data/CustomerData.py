@@ -14,8 +14,8 @@ class CustomerData(DataAccess):
         cursor = self.__db.cursor()
         cursor.execute(
             'INSERT INTO customer (first_name, last_name, '
-            'email, subscribe_to_promo, username, password, status) '
-            'VALUES (?, ?, ?, ?, ?, ?, ?)',
+            'email, subscribe_to_promo, phone_number, username, password, status) '
+            'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             data
         )
         row_id = cursor.lastrowid
@@ -26,7 +26,7 @@ class CustomerData(DataAccess):
         self.__db.execute(
             'UPDATE customer SET first_name = ?, last_name = ?, '
             'email = ?, subscribe_to_promo = ?, username = ?, '
-            'password = ?, status = ?, address_id = ? WHERE username = ?',
+            'password = ?, phone_number = ?, status = ?, address_id = ? WHERE username = ?',
             data
         )
         self.__db.commit()
