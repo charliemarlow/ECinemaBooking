@@ -54,7 +54,7 @@
   <!--================Optional Info Box Area =================-->
     <section class="login_box_area section_gap">
         <div class="login_form_inner">
-            <h3>Enter This optional Information and Click Submit</h3>
+            <h3>Enter This optional Information and Click Register</h3>
             <form class="row login_form" method="get" id="contactForm" novalidate="novalidate">
                 <div class="col-md-12 form-group p_star">
                     <input type="text" class="form-control" id="streetaddress" name="streetaddress"
@@ -81,15 +81,24 @@
                     placeholder="Card Number" onfocus="this.placeholder=''" onblur="this.placeholder = 'Card Number'">
                 </div>
                 <div class="col-md-12 form-group p_star">
-                    <input type="month" class="form-control" id="expdate" name="expdate"
+                    <input type="text" class="form-control" id="expdate" name="expdate"
                     placeholder="Exp Date" onfocus="this.placeholder=''" onblur="this.placeholder = 'Exp Date'">
                 </div>
                 <div class="col-md-12 form-group p_star">
                     <input type="text" class="form-control" id="cvv" name="cvv"
                     placeholder="CVV Number" onfocus="this.placeholder=''" onblur="this.placeholder = 'CVV Number'">
                 </div>
+                <div class="col-md-12 form-group p_star">
+                  <select class="form-control" id="cardtype" name="cardtype" size="5">
+                    <option value=""></option>
+                    <option value="visa">Visa</option>
+                    <option value="masterCard">Master Card</option>
+                    <option value="discover">Discover</option>
+                    <option value="americanExpress">American Express</option>
+                  </select>
+              </div>
                 <div class="col-md-12 form-group">
-                    <button type="submit" value="Register" class="primary-btn">Submit</button>
+                    <button type="submit" value="Register" class="primary-btn">Register</button>
                 </div>
             </form>
         {% for message in get_flashed_messages() %}

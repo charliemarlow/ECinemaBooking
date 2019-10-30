@@ -25,7 +25,8 @@ bp = Blueprint('RegisterController', __name__, url_prefix='/')
 
 @bp.route('/register', methods=('GET', 'POST'))
 @logout_required
-def register():
+def register():    
+    
     # if the submit button has been presselsd...
     if request.method == 'POST':
         # pull data from forms
@@ -70,27 +71,10 @@ def register():
                             phone=phonenumber)
             customer.set_status('inactive')
             customer.save()
-            token = generate_confirmation_token(email)
-            customer.send_confirmation_email(email, firstname, token)
-
-            return redirect(url_for('RegisterController.confirm_registration'))
+            session['customer'] = customer
+            return redirect(url_for('RegisterController.optional_registration'))
 
         flash(error)
-    elif request.method == 'GET':
-        # Pull data from form
-        streetAddress = request.form.get('streetaddress')
-        city = request.form.get('city')
-        state = request.form.get('state')
-        zipcode = request.form.get('zipcode')
-        cardNumber = request.form.get('cardnumber')
-        expDate = request.form.get('expdate')
-        cvv = request.form.get('cvv')
-
-        # TODO: Check if any address field is empty, send error if one is not empty but rest are
-        # TODO: create address
-        # TODO: check if creditcard info is empty or nor
-        # TODO: create Creditcard
-
 
     return render_template('registration.html')
 
@@ -144,4 +128,46 @@ def confirm_registration():
 
 @bp.route('/register2')
 def optional_registration():
+    # Pull data from form
+    streetAddress = request.form.get('streetaddress')
+    city = request.form.get('city')
+    state = request.form.get('state')
+    zipcode = request.form.get('zipcode')
+
+    cardNumber = request.form.get('cardnumber')
+    expDate = request.form.get('expdate')
+    cvv = request.form.get('cvv')
+    cardtype = request.form.get('cardtype')
+
+    error = None
+
+    if not (streetAddress == "" and city == "" and state == "" and zipcode == ""):
+        error = 'Please complete your Address Information'
+        
+    if not (cardNumber == "" and expDate == "" and cvv == "" and cardtype == ""):
+        error = 'Please complete your Payment Information'
+
+    if error is None:
+        if 'customer' in session:
+            address = Address()
+            address.create(street=streetAddress, city=city, state=state, zip_code=zipcode)
+            session['customer'].set_address_id(address.get_id())
+            session['customer'].customer.save()
+
+            creditcard = CreditCard()
+            last_four = cardNumber[-4:]
+            creditcard.create(cid=session['customer'].customer.get_id(), aid=address.get_id(), cardNumber=cardNumber, 
+                            exp_date=expDate, cvv=cvv, type=cardtype, last_four=last_four)
+            creditcard.set_customer(session['customer'].customer.get_id())
+            creditcard.save()
+
+            token = generate_confirmation_token(session['customer'].get_email())
+            session['customer'].customer.send_confirmation_email(session['customer'].get_email, session['customer'].get_firstname, token)
+
+            return redirect(url_for('RegisterController.confirm_registration'))
+        else:
+            print("Something wrong with option2")
+        
+    
+                  
     return render_template('registration_optional.html')
