@@ -65,7 +65,7 @@ def register():
             customer.create(first_name=firstname, last_name=lastname,
                             password=generate_password_hash(password),
                             username=username, email=email,
-                            subscribe_to_promo=subscribe, phone_number=phonenumber)
+                            subscribe_to_promo=subscribe, phone=phonenumber)
             customer.set_status('inactive')
             customer.save()
             token = generate_confirmation_token(email)

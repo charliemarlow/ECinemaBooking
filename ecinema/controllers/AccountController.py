@@ -26,7 +26,7 @@ def account():
 
 
 @bp.route('/editprofile', methods=('GET', 'POST'))
-#@login_required
+@login_required
 def edit_profile():
     customer = Customer()
     addr = Address()
@@ -128,13 +128,13 @@ def edit_profile():
 
 
 @bp.route('/manage_payment', methods=('GET', 'POST'))
-#@login_required
+@login_required
 def manage_payment():
     return render_template('manage_payment.html')
 
 
 @bp.route('/make_payment', methods=('GET', 'POST'))
-#@login_required
+@login_required
 def make_payment():
     address = {
         'state': 'State',
