@@ -14,6 +14,7 @@ class Customer(Model, User):
         self.__email = None
         self.__phone = None
         self.__subscribed = None
+        self.__phone_number = None
         self.__username = None
         self.__password = None
         self.__status = None
@@ -34,6 +35,7 @@ class Customer(Model, User):
             self.set_phone(user_data['phone_number'])
             self.set_promo(user_data['subscribe_to_promo'])
             self.set_username(user_data['username'])
+            self.set_phone_numebr(user_data['phone_number'])
             self.set_password(user_data['password'])
             self.set_status(user_data['status'])
             self.set_address_id(user_data['address_id'])
@@ -52,6 +54,7 @@ class Customer(Model, User):
             self.set_phone(user_data['phone_number'])
             self.set_promo(user_data['subscribe_to_promo'])
             self.set_username(user_data['username'])
+            self.set_phone_numebr(user_data['phone_number'])
             self.set_password(user_data['password'])
             self.set_status(user_data['status'])
             self.set_address_id(user_data['address_id'])
@@ -73,6 +76,7 @@ class Customer(Model, User):
                  else False)
         self.set_promo(promo)
         self.set_username(user['username'])
+        self.set_phone_numebr(user['phone_number'])
         self.set_password(user['password'])
         self.set_status('inactive')
 
@@ -81,7 +85,7 @@ class Customer(Model, User):
 
         self.set_is_init()
 
-        member_tup = (self.get_first_name(),
+        member_tup = (self.get_first_name(), self.get_phone_numebr(),
                       self.get_last_name(), self.get_email(),
                       self.get_promo(), self.get_username(),
                       self.get_password(), self.get_status()
@@ -102,6 +106,7 @@ class Customer(Model, User):
                       self.get_phone_number(),
                       self.get_promo(),
                       self.get_username(),
+                      self.get_phone_numebr(),
                       self.get_password(),
                       self.get_status(),
                       self.get_address_id(),
@@ -123,6 +128,12 @@ class Customer(Model, User):
 
     def set_last_name(self, last: str):
         self.__last_name = last
+    
+    def get_phone_numebr(self) -> str:
+        return self.__phone_number
+
+    def set_phone_numebr(self, phonenumber: str):
+        self.__phone_number = phonenumber
 
     def get_email(self) -> str:
         return self.__email

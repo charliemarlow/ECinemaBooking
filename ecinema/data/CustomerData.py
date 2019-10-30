@@ -14,8 +14,7 @@ class CustomerData(DataAccess):
         cursor = self.__db.cursor()
         cursor.execute(
             'INSERT INTO customer (first_name, last_name, '
-            'email, phone_number, subscribe_to_promo, username, '
-            'password, status) '
+            'email, subscribe_to_promo, phone_number, username, password, status) '
             'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             data
         )
@@ -26,9 +25,8 @@ class CustomerData(DataAccess):
     def update_info(self, data) -> str:
         self.__db.execute(
             'UPDATE customer SET first_name = ?, last_name = ?, '
-            'email = ?, phone_number = ?, subscribe_to_promo = ?, '
-            'username = ?, password = ?, status = ?, address_id = ? '
-            'WHERE username = ?',
+            'email = ?, subscribe_to_promo = ?, username = ?, '
+            'password = ?, phone_number = ?, status = ?, address_id = ? WHERE username = ?',
             data
         )
         self.__db.commit()
