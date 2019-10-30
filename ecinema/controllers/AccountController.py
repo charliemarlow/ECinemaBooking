@@ -14,8 +14,9 @@ from ecinema.controllers.LoginController import (
 from ecinema.tools.validation import (
     validate_name, validate_email, validate_unique_email,
     validate_cvv, validate_cc_number, validate_expiration_date,
-    validate_zip, validate_state
+    validate_zip, validate_state, validate_phone
 )
+from ecinema.tools.clean import clean_phone
 
 bp = Blueprint('AccountController', __name__, url_prefix='/')
 
@@ -43,6 +44,7 @@ def edit_profile():
     if request.method == 'POST':
         first_name = request.form.get('first')
         last_name = request.form.get('last')
+        phone = request.form.get('phone')
         subscribe = request.form.get('subscribe') is not None
 
         street = request.form.get('street')
@@ -51,13 +53,26 @@ def edit_profile():
         zip_code = request.form.get('zip')
 
         error = None
-        if first_name != '' and validate_name(first_name):
-            customer.set_first_name(first_name)
-            info_changed = True
+        if first_name != '':
+            if validate_name(first_name):
+                customer.set_first_name(first_name)
+                info_changed = True
+            else:
+                error = "Invalid name"
 
-        if last_name != '' and validate_name(last_name):
-            customer.set_last_name(last_name)
-            info_changed = True
+        if last_name != '':
+            if validate_name(last_name):
+                customer.set_last_name(last_name)
+                info_changed = True
+            else:
+                error = "Invalid name"
+
+        if phone != '' and phone is not None:
+            if validate_phone(phone):
+                customer.set_phone(clean_phone(phone))
+                info_changed = True
+            else:
+                error = "Invalid phone number"
 
         if customer.get_promo() is not subscribe:
             if customer.get_promo() != subscribe:

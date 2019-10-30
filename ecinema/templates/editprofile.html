@@ -68,9 +68,19 @@
                          class="single-input">
               </div>
               <div class="mt-10">
+                  <label>Phone Number:</label>
+                  <input type="text" name="phone" placeholder="{{ user['phone_number'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['phone_number'] }}'"
+                         class="single-input">
+              </div>
+              <div class="mt-10">
                   <label>Email:</label>
                   <p type="text" name="email" placeholder="{{ user['email'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['email'] }}'"
                      class="single-input">{{ user['email']}}</p>
+              </div>
+              <div class="mt-10">
+              <label>Username:</label>
+              <p type="text" name="username" placeholder="{{ user['username'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ user['username'] }}'"
+                 class="single-input">{{ user['username']}}</p>
               </div>
 
               <input type="checkbox" name="subscribe" value="subscribe" {% if user['subscribe_to_promo'] is eq(1) %} checked {% endif %}> Subscribe To Promotions! <br>

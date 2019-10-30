@@ -59,7 +59,7 @@ def validate_expiration_date(expiration_date: datetime) -> bool:
 def validate_phone(phone: str):
     num = ""
     for c in phone:
-        if not (c == '+' or c == '-' or c == '(' or c == ')'):
+        if not (c == ' ' or c == '+' or c == '-' or c == '(' or c == ')'):
             num = num + c
 
     return len(num) == 10 or len(num) == 11
