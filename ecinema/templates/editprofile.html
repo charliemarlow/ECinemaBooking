@@ -99,7 +99,7 @@
               <div class="mt-10">
                   <label>Zip Code:</label>
                   <input type="text" name="zip" placeholder="{{ address['zip_code'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['zip_code'] }}'"
-                         class="single-input" required>
+                         class="single-input">
               </div>
               <h3 class="text-heading" style="margin-top: .5em">Edit Payment</h3>
               <div class="button-group-area mt-40">
@@ -111,7 +111,7 @@
 
           </form>
           {% for message in get_flashed_messages() %}
-          <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
+          <div class="flash" style="text-align: center; color:red; background:#FFDEDE;">{{ message }}</div>
           {% endfor %}
 
         </div>

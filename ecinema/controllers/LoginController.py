@@ -61,6 +61,8 @@ def get_user(username: str):
     customer = Customer()
     admin = Admin()
     customer_exists = customer.fetch(username)
+    customer_exists = (customer_exists or
+                       customer.fetch_by_email(username))
 
     if customer_exists:
         print("custy exists")
