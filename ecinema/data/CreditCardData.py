@@ -19,8 +19,9 @@ class CreditCardData(DataAccess):
         cursor = self.db.cursor()
         cursor.execute(
             'INSERT INTO credit_card '
-            '(cc_number, cvv, expiration_date, billing_address) '
-            'VALUES (?, ?, ?, ?)',
+            '(cid, aid, card_number, last_four, cvv, '
+            'exp_date) '
+            'VALUES (?, ?, ?, ?, ?, ?)',
             data
         )
 
@@ -30,8 +31,9 @@ class CreditCardData(DataAccess):
 
     def update_info(self, data) -> str:
         self.__db.execute(
-            'UPDATE credit_card SET cc_number = ?, '
-            'cvv = ?, expiration_date = ?, billing_address = ?'
+            'UPDATE credit_card SET cid = ?, aid = ?, '
+            'card_number = ?, last_four = ?, cvv = ?, '
+            'exp_date = ? '
             'WHERE credit_card_id = ?',
             data
         )

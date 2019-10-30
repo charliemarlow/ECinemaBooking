@@ -8,11 +8,13 @@ class CreditCard(Model):
 
     def _init__(self):
         self.__id = None
+        self.__customer_id = None
         self.__cc_number = None
+        self.__last_four = None
         self.__cvv = None
         self.__expiration_date = None
-        self.__billing_address = None
-        self.__is_init = False
+        self.__address = None
+        self._Model__is_init = False
         self.__data_access = CreditCardData()
 
     def obj_as_dict(self, key: str):
@@ -22,10 +24,12 @@ class CreditCard(Model):
         card = self.obj_as_dict(key)
         if card is not None:
             self.set_id(card['card_id'])
-            self.set_cc_number(card['cc_number'])
+            self.set_customer(card['cid'])
+            self.set_address(card['aid'])
+            self.set_cc_number(card['card_number'])
+            self.set_last_four(card['last_four'])
             self.set_cvv(card['cvv'])
-            self.set_expiration_date(card['expiration_date'])
-            self.set_billing_address(card['billing_address'])
+            self.set_expiration_date(card['exp_date'])
             self.set_is_init()
             return True
 
@@ -36,17 +40,18 @@ class CreditCard(Model):
         for key, value in kwargs.items():
             card[key] = value
 
-        self.set_id(card['card_id'])
-        self.set_cc_number(card['cc_number'])
+        self.set_cc_number(card['card_number'])
+        self.set_customer(card['customer_id'])
+        self.set_address(card['address_id'])
+        self.set_last_four(card['last_four'])
         self.set_cvv(card['cvv'])
-        self.set_expiration_date(card['expiration_date'])
-        self.set_billing_address(card['billing_address'])
+        self.set_expiration_date(card['exp_date'])
         self.set_is_init()
 
-        member_tup = (self.get_cc_number(),
-                      self.get_cvv(),
-                      self.get_expiration_date(),
-                      self.get_billing_address())
+        member_tup = (self.get_customer(), self.get_address(),
+                      self.get_cc_number(), self.get_last_four(),
+                      self.get_cvv(), self.get_expiration_date()
+                      )
 
         self.set_id(self.__data_access.insert_info(member_tup))
 
@@ -54,9 +59,10 @@ class CreditCard(Model):
         if not self.is_initialized():
             return False
 
-        member_tup = (self.get_cc_number(),
+        member_tup = (self.get_customer(),
+                      self.get_address(), self.get_cc_number(),
                       self.get_cvv(), self.get_expiration_date(),
-                      self.get_billing_address(), self.get_id())
+                      self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
@@ -85,8 +91,20 @@ class CreditCard(Model):
     def set_expiration_date(self, expiration_date: datetime):
         self.__expiration_date = expiration_date
 
-    def get_billing_address(self) -> Address:
-        return self.__billing_address
+    def get_address(self) -> str:
+        return self.__address
 
-    def set_billing_address(self, billing_address: Address):
-        self.__billing_address = billing_address
+    def set_address(self, billing_address: str):
+        self.__address = billing_address
+
+    def get_customer(self) -> str:
+        return self.__customer_id
+
+    def set_customer(self, customer_id: str):
+        self.__customer_id = customer_id
+
+    def get_last_four(self) -> str:
+        return self.__last_four
+
+    def set_last_four(self, last_four: str):
+        return self.__last_four

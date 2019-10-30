@@ -14,8 +14,9 @@ class CustomerData(DataAccess):
         cursor = self.__db.cursor()
         cursor.execute(
             'INSERT INTO customer (first_name, last_name, '
-            'email, subscribe_to_promo, username, password, status) '
-            'VALUES (?, ?, ?, ?, ?, ?, ?)',
+            'email, phone_number, subscribe_to_promo, username, '
+            'password, status) '
+            'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             data
         )
         row_id = cursor.lastrowid
@@ -25,8 +26,9 @@ class CustomerData(DataAccess):
     def update_info(self, data) -> str:
         self.__db.execute(
             'UPDATE customer SET first_name = ?, last_name = ?, '
-            'email = ?, subscribe_to_promo = ?, username = ?, '
-            'password = ?, status = ?, address_id = ? WHERE username = ?',
+            'email = ?, phone_number = ?, subscribe_to_promo = ?, '
+            'username = ?, password = ?, status = ?, address_id = ? '
+            'WHERE username = ?',
             data
         )
         self.__db.commit()
@@ -40,24 +42,3 @@ class CustomerData(DataAccess):
         return self.__db.execute(
             'SELECT * FROM customer WHERE email = ?', (email,)
         ).fetchone()
-
-    def set_first_name(self, cid: str, first: str):
-        self.__db.execute(
-            'UPDATE customer SET first_name = ? WHERE customer_id = ?',
-            (first, cid)
-        )
-        self.__db.commit()
-
-    def set_last_name(self, cid: str, last: str):
-        self.__db.execute(
-            'UPDATE customer SET last_name = ? WHERE customer_id = ?',
-            (last, cid)
-        )
-        self.__db.commit()
-
-    def set_email(self, cid: str, email: str):
-        self.__db.execute(
-            'UPDATE customer SET email = ? WHERE customer_id = ?',
-            (email, cid)
-        )
-        self.__db.commit()
