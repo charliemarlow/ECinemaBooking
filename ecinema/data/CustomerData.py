@@ -26,7 +26,7 @@ class CustomerData(DataAccess):
         self.__db.execute(
             'UPDATE customer SET first_name = ?, last_name = ?, '
             'email = ?, subscribe_to_promo = ?, username = ?, '
-            'password = ?, phone_number = ?, status = ?, address_id = ? WHERE username = ?',
+            'password = ?, phone_number = ?, status = ?, address_id = ? WHERE customer_id = ?',
             data
         )
         self.__db.commit()

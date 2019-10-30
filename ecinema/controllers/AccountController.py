@@ -13,8 +13,10 @@ from ecinema.controllers.LoginController import (
 
 from ecinema.tools.validation import (
     validate_name, validate_email, validate_unique_email,
-    validate_cvv, validate_cc_number, validate_expiration_date
+    validate_cvv, validate_cc_number, validate_expiration_date,
+    validate_zip, validate_state, validate_phone
 )
+from ecinema.tools.clean import clean_phone
 
 bp = Blueprint('AccountController', __name__, url_prefix='/')
 
@@ -42,6 +44,7 @@ def edit_profile():
     if request.method == 'POST':
         first_name = request.form.get('first')
         last_name = request.form.get('last')
+        phone = request.form.get('phone')
         subscribe = request.form.get('subscribe') is not None
 
         street = request.form.get('street')
@@ -50,13 +53,26 @@ def edit_profile():
         zip_code = request.form.get('zip')
 
         error = None
-        if first_name != '' and validate_name(first_name):
-            customer.set_first_name(first_name)
-            info_changed = True
+        if first_name != '':
+            if validate_name(first_name):
+                customer.set_first_name(first_name)
+                info_changed = True
+            else:
+                error = "Invalid name"
 
-        if last_name != '' and validate_name(last_name):
-            customer.set_last_name(last_name)
-            info_changed = True
+        if last_name != '':
+            if validate_name(last_name):
+                customer.set_last_name(last_name)
+                info_changed = True
+            else:
+                error = "Invalid name"
+
+        if phone != '' and phone is not None:
+            if validate_phone(phone):
+                customer.set_phone(clean_phone(phone))
+                info_changed = True
+            else:
+                error = "Invalid phone number"
 
         if customer.get_promo() is not subscribe:
             if customer.get_promo() != subscribe:
@@ -76,14 +92,24 @@ def edit_profile():
         if addr_id is None:
             if (street != '' and city != '' and
                 state != '' and zip_code != ''):
+                addr_error = None
+                if not validate_zip(zip_code):
+                    addr_error = 'Zip code must be a valid zip code and '\
+                        + 'be entered in ##### or #####-#### format'
+                elif not validate_state(state):
+                    addr_error = 'State must be valid and entered in ## format'
+
                 print("About to Create")
-                addr.create(street=street, city=city,
-                            state=state, zip_code=zip_code)
-                customer.set_address_id(addr.get_id())
-                customer.save()
-                info_changed = True
+                if addr_error is None:
+                    addr.create(street=street, city=city,
+                                state=state, zip_code=zip_code)
+                    customer.set_address_id(addr.get_id())
+                    customer.save()
+                    info_changed = True
+                else:
+                    error = addr_error
             else:
-                error = "To create a home address, all address information is required"
+                error = "To create a home address, all address information is required with zip code in #####-#### format and state in ## format"
         else:
             print("about to fetch addr")
             print(addr.fetch(addr_id))
@@ -99,12 +125,21 @@ def edit_profile():
                 info_changed = True
 
             if state != '':
-                addr.set_state(state)
-                info_changed = True
+                if validate_state(state):
+                    addr.set_state(state)
+                    info_changed = True
+                else:
+                    error = 'State must be valid USA state '\
+                        + 'in ## format (example, GA)'
 
             if zip_code != '':
-                addr.set_zip(zip_code)
-                info_changed = True
+                if validate_zip(zip_code):
+                    addr.set_zip(zip_code)
+                    print("setting ZIP code")
+                    info_changed = True
+                else:
+                    error = 'Zip code must be a valid USA zip code'\
+                        + ' in ##### or #####-#### format'
 
             print("About to save")
             addr.save()
@@ -142,6 +177,48 @@ def make_payment():
         'street': 'Street',
         'zip_code': 'ZIP Code'
     }
+    card = CreditCard()
+    if request.method == 'POST':
+        cc_number = request.form.get('Payment')
+        cvv = request.form.get('CVV')
+        expiration_date = request.form.get('ExpirationDate')
+        street = request.form.get('street')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        zip_code = request.form.get('zip')
+
+        if cc_number != '' and validate_cc_number(cc_number):
+            card.set_cc_number(cc_number)
+
+        if cvv != '' and validate_cvv(cvv):
+            card.set_cvv(cvv)
+
+        if expiration_date != '' and validate_expiration_date(expiration_date):
+            card.set_expiration_date(expiration_date)
+
+        if street != '' and validate_name(first_name):
+            customer.set_first_name(first_name)
+
+        addr = Address()
+
+        if street != '':
+            addr.set_street(street)
+
+        if city != '':
+            addr.set_city(city)
+
+        if state != '':
+            addr.set_state(state)
+
+        if zip_code != '':
+            addr.set_zip(zip_code)
+
+        addr.create(street=street, city=city,
+            state=state, zip_code=zip_code)
+
+        address = addr.obj_as_dict(addr.get_id())
+
+        card.set_address(addr.get_id())
 
     return render_template('make_payment.html', address=address)
 

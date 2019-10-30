@@ -4,6 +4,9 @@
 export FLASK_APP=ecinema
 export FLASK_ENV=development
 
+ALSO:
+$ . venv/bin/activate
+
 ## To run:
 - install Python3.7 and Flask
 - run pip3 install -e . from the project's directory
