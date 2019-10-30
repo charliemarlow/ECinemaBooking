@@ -105,7 +105,7 @@ class Customer(Model, User):
                       self.get_phone(),
                       self.get_status(),
                       self.get_address_id(),
-                      self.get_username())
+                      self.get_id())
         self.__data_access.update_info(member_tup)
         return True
 
@@ -191,13 +191,16 @@ E-Cinema Booking
         message = message.format(name)
         send_email(email, subject, message)
 
-    def send_confirmation_email(self, email: str, name: str, token: str):
+    def send_confirmation_email(self, email: str, name: str, username: str, token: str):
         subject = "Registration Confirmation"
 
         message = """Hey {},
 
         You have successfully registered an account at E-Cinema """\
-            + """Booking under this email address. """\
+            + """Booking under this email address.
+            Your account ID is {}
+
+            """\
             + """Please verify your account at this link: {} """\
             + """ -- some account information will be unavailable"""\
             + """ until you do so. """\
@@ -210,6 +213,6 @@ Best,
 E-Cinema Booking
         """
         url = "http://127.0.0.1:5000/confirm_account/" + token
-        message = message.format(name, url)
+        message = message.format(name, username, url)
 
         send_email(email, subject, message)

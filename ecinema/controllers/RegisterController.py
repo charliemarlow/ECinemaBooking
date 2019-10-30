@@ -17,6 +17,7 @@ from ecinema.tools.validation import (
     validate_username, validate_unique_email,
     validate_phone
 )
+from ecinema.tools.generate import generate_username
 
 from ecinema.controllers.LoginController import logout_required, setup_session
 
@@ -69,10 +70,10 @@ def register():
                             subscribe_to_promo=subscribe,
                             phone=phonenumber)
             customer.set_status('inactive')
+            customer.set_username(generate_username(firstname, customer.get_id()))
             customer.save()
             token = generate_confirmation_token(email)
-            customer.send_confirmation_email(email, firstname, token)
-
+            customer.send_confirmation_email(email, firstname, customer.get_username(), token)
             return redirect(url_for('RegisterController.confirm_registration'))
 
         flash(error)
