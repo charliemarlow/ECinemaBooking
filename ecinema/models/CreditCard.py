@@ -14,6 +14,7 @@ class CreditCard(Model):
         self.__cvv = None
         self.__expiration_date = None
         self.__address = None
+        self.__type = None
         self._Model__is_init = False
         self.__data_access = CreditCardData()
 
@@ -30,6 +31,7 @@ class CreditCard(Model):
             self.set_last_four(card['last_four'])
             self.set_cvv(card['cvv'])
             self.set_expiration_date(card['exp_date'])
+            self.set_type(card['type'])
             self.set_is_init()
             return True
 
@@ -46,11 +48,13 @@ class CreditCard(Model):
         self.set_last_four(card['last_four'])
         self.set_cvv(card['cvv'])
         self.set_expiration_date(card['exp_date'])
+        self.set_type(card['type'])
         self.set_is_init()
 
         member_tup = (self.get_customer(), self.get_address(),
                       self.get_cc_number(), self.get_last_four(),
-                      self.get_cvv(), self.get_expiration_date()
+                      self.get_cvv(), self.get_expiration_date(),
+                      self.get_type()
                       )
 
         self.set_id(self.__data_access.insert_info(member_tup))
@@ -62,7 +66,7 @@ class CreditCard(Model):
         member_tup = (self.get_customer(),
                       self.get_address(), self.get_cc_number(),
                       self.get_cvv(), self.get_expiration_date(),
-                      self.get_id())
+                      self.get_type(), self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
@@ -108,3 +112,9 @@ class CreditCard(Model):
 
     def set_last_four(self, last_four: str):
         return self.__last_four
+
+    def get_type(self) -> str:
+        return self.__type
+
+    def set_type(self, card_type: str):
+        self.__type = card_type

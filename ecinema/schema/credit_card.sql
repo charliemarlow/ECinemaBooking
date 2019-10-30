@@ -9,6 +9,7 @@ CREATE TABLE `credit_card` (
   `last_four` varchar(4) NOT NULL,
   `cvv` varchar(100) NOT NULL,
   `exp_date` datetime NOT NULL,
+  `type` TEXT CHECK( type IN ('amex', 'master', 'visa', 'discover') ) NOT NULL,
   FOREIGN KEY (cid) REFERENCES customer (customer_id),
   FOREIGN KEY (aid) REFERENCES address (address_id)
 )

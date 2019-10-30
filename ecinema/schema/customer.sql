@@ -10,6 +10,6 @@ CREATE TABLE `customer` (
   `username` varchar(100) NOT NULL UNIQUE,
   `password` binary(64) NOT NULL,
   `address_id` int(11) DEFAULT NULL,
-  `status` TEXT CHECK( status IN ('active', 'inactive', 'suspended') ) NOT NULL DEFAULT 'active',
+  `status` TEXT CHECK( status IN ('active', 'inactive', 'suspended') ) NOT NULL DEFAULT 'inactive',
   FOREIGN KEY (address_id) REFERENCES address (address_id)
 )

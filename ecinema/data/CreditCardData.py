@@ -20,8 +20,8 @@ class CreditCardData(DataAccess):
         cursor.execute(
             'INSERT INTO credit_card '
             '(cid, aid, card_number, last_four, cvv, '
-            'exp_date) '
-            'VALUES (?, ?, ?, ?, ?, ?)',
+            'exp_date, type) '
+            'VALUES (?, ?, ?, ?, ?, ?, ?)',
             data
         )
 
@@ -33,7 +33,7 @@ class CreditCardData(DataAccess):
         self.__db.execute(
             'UPDATE credit_card SET cid = ?, aid = ?, '
             'card_number = ?, last_four = ?, cvv = ?, '
-            'exp_date = ? '
+            'exp_date = ?, type = ?'
             'WHERE credit_card_id = ?',
             data
         )
@@ -41,31 +41,3 @@ class CreditCardData(DataAccess):
 
     def get_credit_card_info(self, cust_id: str):
         return self.get_info(cust_id)
-
-    def set_cc_number(self, cid: str, cc_number: str):
-        self.__db.execute(
-            'UPDATE credit_card SET cc_number = ? WHERE cid = ?',
-            (cc_number, cid)
-        )
-        self.__db.commit()
-
-    def set_cvv(self, cid: str, cvv: str):
-        self.__db.execute(
-            'UPDATE credit_card SET cvv = ? WHERE cid = ?',
-            (cvv, cid)
-        )
-        self.__db.commit()
-
-    def set_expiration_date(self, cid: str, expiration_date: datetime):
-        self.__db.execute(
-            'UPDATE credit_card SET expiration_date = ? WHERE cid = ?'
-            (expiration_date, cid)
-        )
-        self.__db.commit()
-
-    def set_billing_address(self, cid: str, billing_address: Address):
-        self.__db.execute(
-            'UPDATE credit_card SET billing_address = ? WHERE cid = ?'
-            (billing_address, cid)
-        )
-        self.__db.commit()
