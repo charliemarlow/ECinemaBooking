@@ -65,8 +65,11 @@ def validate_phone(phone: str):
     return len(num) == 10 or len(num) == 11
 
 def validate_zip(zip_code: str):
-    return is_real(zip_code)
+    try:
+        return is_real(zip_code)
+    except ValueError:
+        return False
 
 def validate_state(state: str):
     state = state.upper()
-    return state in state_dict
+    return len(state) == 2 and state in state_dict

@@ -13,7 +13,8 @@ from ecinema.controllers.LoginController import (
 
 from ecinema.tools.validation import (
     validate_name, validate_email, validate_unique_email,
-    validate_cvv, validate_cc_number, validate_expiration_date
+    validate_cvv, validate_cc_number, validate_expiration_date,
+    validate_zip, validate_state
 )
 
 bp = Blueprint('AccountController', __name__, url_prefix='/')
@@ -76,14 +77,24 @@ def edit_profile():
         if addr_id is None:
             if (street != '' and city != '' and
                 state != '' and zip_code != ''):
+                addr_error = None
+                if not validate_zip(zip_code):
+                    addr_error = 'Zip code must be a valid zip code and '\
+                        + 'be entered in ##### or #####-#### format'
+                elif not validate_state(state):
+                    addr_error = 'State must be valid and entered in ## format'
+
                 print("About to Create")
-                addr.create(street=street, city=city,
-                            state=state, zip_code=zip_code)
-                customer.set_address_id(addr.get_id())
-                customer.save()
-                info_changed = True
+                if addr_error is None:
+                    addr.create(street=street, city=city,
+                                state=state, zip_code=zip_code)
+                    customer.set_address_id(addr.get_id())
+                    customer.save()
+                    info_changed = True
+                else:
+                    error = addr_error
             else:
-                error = "To create a home address, all address information is required"
+                error = "To create a home address, all address information is required with zip code in #####-#### format and state in ## format"
         else:
             print("about to fetch addr")
             print(addr.fetch(addr_id))
@@ -99,12 +110,21 @@ def edit_profile():
                 info_changed = True
 
             if state != '':
-                addr.set_state(state)
-                info_changed = True
+                if validate_state(state):
+                    addr.set_state(state)
+                    info_changed = True
+                else:
+                    error = 'State must be valid USA state '\
+                        + 'in ## format (example, GA)'
 
             if zip_code != '':
-                addr.set_zip(zip_code)
-                info_changed = True
+                if validate_zip(zip_code):
+                    addr.set_zip(zip_code)
+                    print("setting ZIP code")
+                    info_changed = True
+                else:
+                    error = 'Zip code must be a valid USA zip code'\
+                        + ' in ##### or #####-#### format'
 
             print("About to save")
             addr.save()

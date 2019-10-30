@@ -79,9 +79,6 @@ class Address(Model):
     def get_state(self) -> str:
         return self.__state
 
-    def set_is_init(self):
-        self.__is_init = True
-
     def set_state(self, state: str):
         self.__state = state
 
