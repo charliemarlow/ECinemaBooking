@@ -52,7 +52,6 @@ class Customer(Model, User):
             self.set_phone(user_data['phone_number'])
             self.set_promo(user_data['subscribe_to_promo'])
             self.set_username(user_data['username'])
-            self.set_phone_numebr(user_data['phone_number'])
             self.set_password(user_data['password'])
             self.set_status(user_data['status'])
             self.set_address_id(user_data['address_id'])

@@ -14,7 +14,8 @@ from ecinema.tools.token import (
 )
 from ecinema.tools.validation import (
     validate_name, validate_password, validate_email,
-    validate_username, validate_unique_email
+    validate_username, validate_unique_email,
+    validate_phone
 )
 
 from ecinema.controllers.LoginController import logout_required, setup_session
@@ -34,7 +35,7 @@ def register():
         confirmation = request.form['confirm']
         phonenumber = request.form['phone']
         email = request.form['email']
-        username = "user123"
+        username = email
         # IMPORTANT: non-required fields should use the .get method
         subscribe = str(request.form.get('subscribe') is not None)
 
@@ -56,8 +57,8 @@ def register():
             error = 'Email is required and must be valid'
         elif not validate_unique_email(email):
             error = 'Email is already registered to an account'
-        elif not validate_username(username):
-            error = 'Username {} is already taken.'.format(username)
+        elif not validate_phone(phonenumber):
+            error = 'Phone number is invalid'
 
         # create a new user
         if error is None:
@@ -65,7 +66,8 @@ def register():
             customer.create(first_name=firstname, last_name=lastname,
                             password=generate_password_hash(password),
                             username=username, email=email,
-                            subscribe_to_promo=subscribe, phone=phonenumber)
+                            subscribe_to_promo=subscribe,
+                            phone=phonenumber)
             customer.set_status('inactive')
             customer.save()
             token = generate_confirmation_token(email)

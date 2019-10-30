@@ -53,3 +53,12 @@ def validate_cc_number(cc_number: str) -> bool:
 
 def validate_expiration_date(expiration_date: datetime) -> bool:
     return (expiration_date.year > today.year) or (expiration_date.year == today.year and expiration_date.month > today.month)
+
+def validate_phone(phone: str):
+    num = ""
+    for c in phone:
+        if not (c == '+' or c == '-' or c == '(' or c == ')'):
+            num = num + c
+
+    return len(num) == 10 or len(num) == 11
+
