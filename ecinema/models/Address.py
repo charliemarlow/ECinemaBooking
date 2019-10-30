@@ -10,7 +10,7 @@ class Address(Model):
         self.__city = None
         self.__state = None
         self.__zip = None
-        self.__is_init = False
+        self._Model__is_init = False
         self.__data_access = AddressData()
 
     def obj_as_dict(self, key: str):
@@ -25,7 +25,6 @@ class Address(Model):
             self.set_state(addr['state'])
             self.set_zip(addr['zip_code'])
             self.set_is_init()
-            print(self.is_initialized())
             return True
 
         return False
@@ -79,9 +78,6 @@ class Address(Model):
 
     def get_state(self) -> str:
         return self.__state
-
-    def is_initialized(self) -> bool:
-        return self.__is_init
 
     def set_is_init(self):
         self.__is_init = True

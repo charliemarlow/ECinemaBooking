@@ -40,24 +40,3 @@ class CustomerData(DataAccess):
         return self.__db.execute(
             'SELECT * FROM customer WHERE email = ?', (email,)
         ).fetchone()
-
-    def set_first_name(self, cid: str, first: str):
-        self.__db.execute(
-            'UPDATE customer SET first_name = ? WHERE customer_id = ?',
-            (first, cid)
-        )
-        self.__db.commit()
-
-    def set_last_name(self, cid: str, last: str):
-        self.__db.execute(
-            'UPDATE customer SET last_name = ? WHERE customer_id = ?',
-            (last, cid)
-        )
-        self.__db.commit()
-
-    def set_email(self, cid: str, email: str):
-        self.__db.execute(
-            'UPDATE customer SET email = ? WHERE customer_id = ?',
-            (email, cid)
-        )
-        self.__db.commit()
