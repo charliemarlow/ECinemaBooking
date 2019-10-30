@@ -177,6 +177,48 @@ def make_payment():
         'street': 'Street',
         'zip_code': 'ZIP Code'
     }
+    card = CreditCard()
+    if request.method == 'POST':
+        cc_number = request.form.get('Payment')
+        cvv = request.form.get('CVV')
+        expiration_date = request.form.get('ExpirationDate')
+        street = request.form.get('street')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        zip_code = request.form.get('zip')
+
+        if cc_number != '' and validate_cc_number(cc_number):
+            card.set_cc_number(cc_number)
+
+        if cvv != '' and validate_cvv(cvv):
+            card.set_cvv(cvv)
+
+        if expiration_date != '' and validate_expiration_date(expiration_date):
+            card.set_expiration_date(expiration_date)
+
+        if street != '' and validate_name(first_name):
+            customer.set_first_name(first_name)
+
+        addr = Address()
+
+        if street != '':
+            addr.set_street(street)
+
+        if city != '':
+            addr.set_city(city)
+
+        if state != '':
+            addr.set_state(state)
+
+        if zip_code != '':
+            addr.set_zip(zip_code)
+
+        addr.create(street=street, city=city,
+            state=state, zip_code=zip_code)
+
+        address = addr.obj_as_dict(addr.get_id())
+
+        card.set_address(addr.get_id())
 
     return render_template('make_payment.html', address=address)
 
