@@ -142,9 +142,11 @@
           <input type="checkbox" class="form-control" id="subscribe" name="subscribe" style="display: inline-block; height: 10px; width: 10px;">
           <label for="subscribe">I would like to subscribe for promotions</label>
         </div>
-        <div class="col-md-12 form-group">
+        <div class="col-md-5" id="Spacer"></div>
+        <div class="col-md-2 form-group">
           <button type="submit" value="Register" class="primary-btn">Register</button>
         </div>
+        <div class="col-md-5" id="Spacer"></div>
       </form>
       {% for message in get_flashed_messages() %}
       <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
