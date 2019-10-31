@@ -16,7 +16,7 @@ class CreditCardData(DataAccess):
         ).fetchone()
 
     def insert_info(self, data) -> str:
-        cursor = self.db.cursor()
+        cursor = self.__db.cursor()
         cursor.execute(
             'INSERT INTO credit_card '
             '(cid, aid, card_number, last_four, cvv, '

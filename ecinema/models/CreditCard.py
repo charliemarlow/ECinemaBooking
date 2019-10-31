@@ -111,7 +111,7 @@ class CreditCard(Model):
         return self.__last_four
 
     def set_last_four(self, last_four: str):
-        return self.__last_four
+        self.__last_four = last_four
 
     def get_type(self) -> str:
         return self.__type

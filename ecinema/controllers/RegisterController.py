@@ -38,6 +38,17 @@ def register():
         phonenumber = request.form['phone']
         email = request.form['email']
         username = email
+
+        streetAddress = request.form.get('streetaddress')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        zipcode = request.form.get('zipcode')
+
+        cardNumber = request.form.get('cardnumber')
+        expDate = request.form.get('expdate')
+        cvv = request.form.get('cvv')
+        cardtype = request.form.get('cardtype')
+
         # IMPORTANT: non-required fields should use the .get method
         subscribe = str(request.form.get('subscribe') is not None)
 
@@ -60,7 +71,12 @@ def register():
         elif not validate_unique_email(email):
             error = 'Email is already registered to an account'
         elif not validate_phone(phonenumber):
-            error = 'Phone number is invalid'
+            error = 'Phone number is invalid'  
+        # TODO: Find better way to check each field is either all full or all empty      
+        # elif not (streetAddress == "" and city == "" and state == "" and zipcode == ""):
+        #     error = 'Please complete your Address Information'            
+        # elif not (cardNumber == "" and expDate == "" and cvv == "" and cardtype == ""):
+        #     error = 'Please complete your Payment Information'
 
         # create a new user
         if error is None:
@@ -73,6 +89,20 @@ def register():
             customer.set_status('inactive')
             customer.set_username(generate_username(firstname, customer.get_id()))
             customer.save()
+
+            address = Address()
+            address.create(street=streetAddress, city=city, state=state, zip_code=zipcode)
+            customer.set_address_id(address.get_id())
+            customer.save()
+
+            # TODO: Fix error when creating Credit Card
+            # creditcard = CreditCard()
+            # last_four = cardNumber[-4:]
+            # creditcard.create(customer_id=customer.get_id(), address_id=address.get_id(), card_number=cardNumber, 
+            #                 exp_date=expDate, cvv=cvv, type=cardtype, last_four=last_four)
+            # creditcard.set_customer(customer.get_id())
+            # creditcard.save()
+
             token = generate_confirmation_token(email)
             customer.send_confirmation_email(email, firstname, customer.get_username(), token)
             return redirect(url_for('RegisterController.confirm_registration'))
@@ -128,49 +158,3 @@ def verify_account():
 @logout_required
 def confirm_registration():
     return render_template('register_confirm.html')
-
-@bp.route('/register2')
-def optional_registration():
-    # Pull data from form
-    streetAddress = request.form.get('streetaddress')
-    city = request.form.get('city')
-    state = request.form.get('state')
-    zipcode = request.form.get('zipcode')
-
-    cardNumber = request.form.get('cardnumber')
-    expDate = request.form.get('expdate')
-    cvv = request.form.get('cvv')
-    cardtype = request.form.get('cardtype')
-
-    error = None
-
-    if not (streetAddress == "" and city == "" and state == "" and zipcode == ""):
-        error = 'Please complete your Address Information'
-        
-    if not (cardNumber == "" and expDate == "" and cvv == "" and cardtype == ""):
-        error = 'Please complete your Payment Information'
-
-    if error is None:
-        if 'customer' in session:
-            address = Address()
-            address.create(street=streetAddress, city=city, state=state, zip_code=zipcode)
-            session['customer'].set_address_id(address.get_id())
-            session['customer'].customer.save()
-
-            creditcard = CreditCard()
-            last_four = cardNumber[-4:]
-            creditcard.create(cid=session['customer'].customer.get_id(), aid=address.get_id(), cardNumber=cardNumber, 
-                            exp_date=expDate, cvv=cvv, type=cardtype, last_four=last_four)
-            creditcard.set_customer(session['customer'].customer.get_id())
-            creditcard.save()
-
-            token = generate_confirmation_token(session['customer'].get_email())
-            session['customer'].customer.send_confirmation_email(session['customer'].get_email, session['customer'].get_firstname, token)
-
-            return redirect(url_for('RegisterController.confirm_registration'))
-        else:
-            print("Something wrong with option2")
-        
-    
-                  
-    return render_template('registration_optional.html')
