@@ -60,6 +60,11 @@ class Customer(Model, User):
 
         return False
 
+    def get_all_cards(self):
+        # eventually, fetch all the credit cards
+        # and pass back a list of the objects
+        return self.__data_access.get_cards(self.get_id())
+
     def create(self, **kwargs):
         user = {}
         for key, value in kwargs.items():

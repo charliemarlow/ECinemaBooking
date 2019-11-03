@@ -15,6 +15,13 @@ class CreditCardData(DataAccess):
             (key,)
         ).fetchone()
 
+    def delete(self, key: str):
+        self.__db.execute(
+            'DELETE FROM credit_card WHERE credit_card_id = ?',
+            key
+        )
+        self.__db.commit()
+
     def insert_info(self, data) -> str:
         cursor = self.__db.cursor()
         cursor.execute(

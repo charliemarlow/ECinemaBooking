@@ -10,6 +10,12 @@ class CustomerData(DataAccess):
     def get_info(self, key: str):
         return self.get_user_info(key)
 
+    def get_cards(self, key: str):
+        return self.__db.execute(
+            'SELECT * FROM credit_card WHERE cid = ?',
+            (key,)
+        ).fetchall()
+
     def insert_info(self, data) -> str:
         cursor = self.__db.cursor()
         cursor.execute(

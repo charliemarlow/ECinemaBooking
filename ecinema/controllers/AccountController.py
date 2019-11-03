@@ -167,7 +167,29 @@ def edit_profile():
 @bp.route('/manage_payment', methods=('GET', 'POST'))
 @login_required
 def manage_payment():
-    return render_template('manage_payment.html')
+    # call customer object to return a list of all
+    # credit cards
+
+    if request.method == 'POST':
+        card_id = request.form.get('cid')
+        card = CreditCard()
+        card.delete(card_id)
+
+    customer = Customer()
+    if customer.fetch(session['user_id']):
+        print(customer.get_id())
+        cards = customer.get_all_cards()
+        if cards is not None:
+            for card in cards:
+                print("CARD")
+                print(card['last_four'])
+        else:
+            print("cards is None")
+
+    else:
+        print("FAIL")
+    print("re render")
+    return render_template('manage_payment.html', cards=cards)
 
 
 @bp.route('/make_payment', methods=('GET', 'POST'))
@@ -194,7 +216,7 @@ def make_payment():
         zip_code = request.form.get('zip')
 
         expiration_date = datetime.datetime.now()
-        print(expiration_month)
+        print(card_type)
         print(int(expiration_month[0:2]))
         if validate_year(expiration_year):
             expiration_date = datetime.datetime(int(expiration_year),
@@ -202,6 +224,10 @@ def make_payment():
                                                 1, 1, 1)
 
         error = None
+
+        customer = Customer()
+        if customer.fetch(session['user_id']) and len(customer.get_all_cards()) >= 3:
+            error = "Customer has hit limit of 3 cards, cannot add anymore"
         # check that all fields are filled out and valid
         # for BOTH credit card and address
         if cc_number == '' or not validate_cc_number(cc_number):
@@ -226,10 +252,11 @@ def make_payment():
                         state=state, zip_code=zip_code)
 
             # get the customer's id via fetching the username
-            customer = Customer()
             if customer.fetch(session['user_id']):
                 # get the last four
                 last_four = cc_number[-4:]
+                print("ID:")
+                print(customer.get_id())
                 card.create(card_number=cc_number,
                             customer_id=customer.get_id(),
                             address_id=addr.get_id(),
@@ -237,7 +264,7 @@ def make_payment():
                             cvv=cvv, exp_date=expiration_date,
                             cardtype=card_type)
                 # return the home profile
-                return render_template('manage_payment.html')
+                return redirect(url_for('AccountController.manage_payment'))
             else:
                 error = "Invalid customer"
 

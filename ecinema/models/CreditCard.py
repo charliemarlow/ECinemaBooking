@@ -16,7 +16,6 @@ class CreditCard(Model):
         self.__address = None
         self.__type = None
         self._Model__is_init = False
-        print("Innitting")
         self.__data_access = CreditCardData()
 
     def obj_as_dict(self, key: str):
@@ -71,6 +70,9 @@ class CreditCard(Model):
 
         self.__data_access.update_info(member_tup)
         return True
+
+    def delete(self, key: str):
+        self.__data_access.delete(key)
 
     def get_id(self) -> str:
         return self.__id
