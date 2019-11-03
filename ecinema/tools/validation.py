@@ -54,7 +54,8 @@ def validate_cc_number(cc_number: str) -> bool:
 
 
 def validate_expiration_date(expiration_date: datetime) -> bool:
-    return (expiration_date.year > today.year) or (expiration_date.year == today.year and expiration_date.month > today.month)
+    today = datetime.now()
+    return (expiration_date.year >= today.year) or (expiration_date.year == today.year and expiration_date.month > today.month)
 
 def validate_phone(phone: str):
     num = ""
@@ -69,6 +70,9 @@ def validate_zip(zip_code: str):
         return is_real(zip_code)
     except ValueError:
         return False
+
+def validate_year(year: str):
+    return len(year) == 4
 
 def validate_state(state: str):
     state = state.upper()

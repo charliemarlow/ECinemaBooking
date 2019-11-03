@@ -26,8 +26,8 @@ bp = Blueprint('RegisterController', __name__, url_prefix='/')
 
 @bp.route('/register', methods=('GET', 'POST'))
 @logout_required
-def register():    
-    
+def register():
+
     # if the submit button has been presselsd...
     if request.method == 'POST':
         # pull data from forms
@@ -71,10 +71,10 @@ def register():
         elif not validate_unique_email(email):
             error = 'Email is already registered to an account'
         elif not validate_phone(phonenumber):
-            error = 'Phone number is invalid'  
-        # TODO: Find better way to check each field is either all full or all empty      
+            error = 'Phone number is invalid'
+        # TODO: Find better way to check each field is either all full or all empty
         # elif not (streetAddress == "" and city == "" and state == "" and zipcode == ""):
-        #     error = 'Please complete your Address Information'            
+        #     error = 'Please complete your Address Information'
         # elif not (cardNumber == "" and expDate == "" and cvv == "" and cardtype == ""):
         #     error = 'Please complete your Payment Information'
 
@@ -98,7 +98,7 @@ def register():
             # TODO: Fix error when creating Credit Card
             # creditcard = CreditCard()
             # last_four = cardNumber[-4:]
-            # creditcard.create(customer_id=customer.get_id(), address_id=address.get_id(), card_number=cardNumber, 
+            # creditcard.create(customer_id=customer.get_id(), address_id=address.get_id(), card_number=cardNumber,
             #                 exp_date=expDate, cvv=cvv, type=cardtype, last_four=last_four)
             # creditcard.set_customer(customer.get_id())
             # creditcard.save()

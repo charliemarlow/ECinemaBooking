@@ -1,4 +1,5 @@
 import functools
+import datetime
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -6,6 +7,7 @@ from flask import (
 
 from ecinema.models.Customer import Customer
 from ecinema.models.Address import Address
+from ecinema.models.CreditCard import CreditCard
 
 from ecinema.controllers.LoginController import (
     login_required, verify_username_password, get_user
@@ -14,7 +16,7 @@ from ecinema.controllers.LoginController import (
 from ecinema.tools.validation import (
     validate_name, validate_email, validate_unique_email,
     validate_cvv, validate_cc_number, validate_expiration_date,
-    validate_zip, validate_state, validate_phone
+    validate_zip, validate_state, validate_phone, validate_year
 )
 from ecinema.tools.clean import clean_phone
 
@@ -172,53 +174,75 @@ def manage_payment():
 @login_required
 def make_payment():
     address = {
-        'state': 'State',
-        'city': 'City',
-        'street': 'Street',
-        'zip_code': 'ZIP Code'
+        'state': 'State (REQUIRED)',
+        'city': 'City (REQUIRED)',
+        'street': 'Street (REQUIRED)',
+        'zip_code': 'ZIP Code (REQUIRED)'
     }
+    print("Creating the card")
     card = CreditCard()
+    addr = Address()
     if request.method == 'POST':
+        card_type = request.form.get('cardtype')
         cc_number = request.form.get('Payment')
         cvv = request.form.get('CVV')
-        expiration_date = request.form.get('ExpirationDate')
+        expiration_month = request.form.get('month')
+        expiration_year = request.form.get('ExpirationYear')
         street = request.form.get('street')
         city = request.form.get('city')
         state = request.form.get('state')
         zip_code = request.form.get('zip')
 
-        if cc_number != '' and validate_cc_number(cc_number):
-            card.set_cc_number(cc_number)
+        expiration_date = datetime.datetime.now()
+        print(expiration_month)
+        print(int(expiration_month[0:2]))
+        if validate_year(expiration_year):
+            expiration_date = datetime.datetime(int(expiration_year),
+                                                int(expiration_month[0:2]),
+                                                1, 1, 1)
 
-        if cvv != '' and validate_cvv(cvv):
-            card.set_cvv(cvv)
+        error = None
+        # check that all fields are filled out and valid
+        # for BOTH credit card and address
+        if cc_number == '' or not validate_cc_number(cc_number):
+            error = "Invalid credit card number"
+        elif cvv == '' or not validate_cvv(cvv):
+            error = "Invalid CVV"
+        elif expiration_date == '' or not validate_expiration_date(expiration_date):
+            error = "Invalid expiration date"
+        elif card_type == '':
+            error = "Invalid card type"
 
-        if expiration_date != '' and validate_expiration_date(expiration_date):
-            card.set_expiration_date(expiration_date)
+        if (error is None and street != '' and city != '' and
+            state != '' and zip_code != ''):
+            if not validate_zip(zip_code):
+                error = 'Zip code must be a valid zip code and '\
+                    + 'be entered in ##### or #####-#### format'
+            elif not validate_state(state):
+                error = 'State must be valid and entered in ## format'
 
-        if street != '' and validate_name(first_name):
-            customer.set_first_name(first_name)
+        if error is None:
+            addr.create(street=street, city=city,
+                        state=state, zip_code=zip_code)
 
-        addr = Address()
+            # get the customer's id via fetching the username
+            customer = Customer()
+            if customer.fetch(session['user_id']):
+                # get the last four
+                last_four = cc_number[-4:]
+                card.create(card_number=cc_number,
+                            customer_id=customer.get_id(),
+                            address_id=addr.get_id(),
+                            last_four=last_four,
+                            cvv=cvv, exp_date=expiration_date,
+                            cardtype=card_type)
+                # return the home profile
+                return render_template('manage_payment.html')
+            else:
+                error = "Invalid customer"
 
-        if street != '':
-            addr.set_street(street)
-
-        if city != '':
-            addr.set_city(city)
-
-        if state != '':
-            addr.set_state(state)
-
-        if zip_code != '':
-            addr.set_zip(zip_code)
-
-        addr.create(street=street, city=city,
-            state=state, zip_code=zip_code)
-
-        address = addr.obj_as_dict(addr.get_id())
-
-        card.set_address(addr.get_id())
+        # else flash the error message
+        flash(error)
 
     return render_template('make_payment.html', address=address)
 

@@ -6,7 +6,7 @@ from datetime import datetime
 
 class CreditCard(Model):
 
-    def _init__(self):
+    def __init__(self):
         self.__id = None
         self.__customer_id = None
         self.__cc_number = None
@@ -16,6 +16,7 @@ class CreditCard(Model):
         self.__address = None
         self.__type = None
         self._Model__is_init = False
+        print("Innitting")
         self.__data_access = CreditCardData()
 
     def obj_as_dict(self, key: str):
@@ -48,7 +49,7 @@ class CreditCard(Model):
         self.set_last_four(card['last_four'])
         self.set_cvv(card['cvv'])
         self.set_expiration_date(card['exp_date'])
-        self.set_type(card['type'])
+        self.set_type(card['cardtype'])
         self.set_is_init()
 
         member_tup = (self.get_customer(), self.get_address(),
