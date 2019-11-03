@@ -38,6 +38,8 @@ def edit_profile():
     user_id = session.get('user_id')
     customer.fetch(user_id)
 
+    if customer.get_address_id() is not None:
+        addr.fetch(customer.get_address_id())
     info_changed = False
 
     if(not customer.fetch(user_id)):

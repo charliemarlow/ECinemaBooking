@@ -16,6 +16,7 @@ class CreditCard(Model):
         self.__address = None
         self.__type = None
         self._Model__is_init = False
+        self._Model__id = None
         self.__data_access = CreditCardData()
 
     def obj_as_dict(self, key: str):

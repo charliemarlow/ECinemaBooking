@@ -77,3 +77,35 @@ def validate_year(year: str):
 def validate_state(state: str):
     state = state.upper()
     return len(state) == 2 and state in state_dict
+
+def validate_address(street: str, city: str, state: str, zip_code: str) -> str:
+    error = None
+    if (street != '' and city != '' and
+        state != '' and zip_code != ''):
+        if not validate_zip(zip_code):
+            error = 'Zip code must be a valid zip code and '\
+                + 'be entered in ##### or #####-#### format'
+        elif not validate_state(state):
+            error = 'State must be valid and entered in ## format'
+    else:
+        error = "To create a new address, all address information is required with zip code in #####-#### format and state in ## format"
+
+    return error
+
+def validate_card(card_type: str, card_number: str, expiration: datetime, cvv: str):
+    error = None
+    if (card_type != '' and card_number != '' and
+        expiration is not None and cvv != ''):
+         if not validate_cc_number(card_number):
+             error = "Invalid credit card number"
+         elif not validate_cvv(cvv):
+             error = "Invalid CVV"
+         elif not validate_expiration_date(expiration):
+             error = "Invalid expiration date"
+         elif card_type not in ['amex', 'master',
+                               'visa', 'discover']:
+             error = "Invalid card type"
+    else:
+        error = "To create a new credit card, all fields for the credit card are required"
+
+    return error

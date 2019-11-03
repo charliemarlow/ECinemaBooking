@@ -54,104 +54,45 @@
   <!--================Login Box Area =================-->
   <section class="login_box_area section_gap">
     <div class="login_form_inner">
-      <h3>Sign up now!</h3>
-      <form class="row login_form" method="post" id="contactForm" novalidate="novalidate" style="max-width: 1500px;">
+            <h3>Sign up now!</h3>
+            <form class="row login_form" method="post" id="contactForm" novalidate="novalidate">
+                            <div class="col-md-12 form-group p_star">
+                <input type="text" class="form-control" id="firstname" name="firstname"
+                placeholder="First Name (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'First Name (Required)'" required>
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                <input type="text" class="form-control" id="lastname" name="lastname"
+                placeholder="Last Name (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'last Name (Required)'" required>
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                <input type="password" class="form-control" id="password" name="password"
+                placeholder="Password (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Password (Required)'" required>
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                <input type="password" class="form-control" id="confirm" name="confirm"
+                placeholder="Confirm (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Re-type Password (Required)'" required>
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                <input type="text" class="form-control" id="phone" name="phone"
+                placeholder="Phone Number (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Phone Number (Required)'" required>
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                <input type="text" class="form-control" id="email" name="email"
+                placeholder="Email (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Email (Required)'" required>
+                            </div>
+                                 <div class="col-md-12 form-group">
+                 <input type="checkbox" class="form-control" id="subscribe" name="subscribe" style="display: inline-block; height: 10px; width: 10px;">
+                 <label for="subscribe">I would like to subscribe for promotions</label>
+ </div>
+              <div class="col-md-12 form-group">
+                <button type="submit" value="Register" class="primary-btn">Next</button>
+              </div>
+            </form>
+  {% for message in get_flashed_messages() %}
+    <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
+  {% endfor %}
+</div>
 
-        <div class="col-md-8" id="Spacer"></div>
-        <div class="col-md-4" id="Optional Header"><h4>Optional Information</h4></div>
-
-        <!-- First Row -->
-        <div class="col-md-3 form-group p_star">
-          <input type="text" class="form-control" id="firstname" name="firstname"
-          placeholder="First Name (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'First Name (Required)'" required>
-        </div>
-        <div class="col-md-3 form-group p_star">
-          <input type="text" class="form-control" id="lastname" name="lastname"
-          placeholder="Last Name (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'last Name (Required)'" required>
-        </div>
-        <div class="col-md-2" id="Spacer"></div>
-        <div class="col-md-4 form-group p_star">
-          <input type="text" class="form-control" id="streetaddress" name="streetaddress"
-          placeholder="Street Address" onfocus="this.placeholder=''" onblur="this.placeholder = 'Street Address'">
-        </div>
-
-        <!-- Second Row -->
-        <div class="col-md-4 form-group p_star">
-          <input type="password" class="form-control" id="password" name="password"
-          placeholder="Password (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Password (Required)'" required>
-        </div>
-        <div class="col-md-4" id="Spacer"></div>
-        <div class="col-md-2 form-group p_star">
-          <input type="text" class="form-control" id="city" name="city"
-          placeholder="City" onfocus="this.placeholder=''" onblur="this.placeholder = 'City'">
-        </div>
-        <div class="col-md-2 form-group p_star">
-          <input type="text" class="form-control" id="state" name="state"
-          placeholder="State" onfocus="this.placeholder=''" onblur="this.placeholder = 'State'">
-        </div>
-
-        <!-- Third Row -->
-        <div class="col-md-4 form-group p_star">
-          <input type="password" class="form-control" id="confirm" name="confirm"
-          placeholder="Confirm (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Re-type Password (Required)'" required>
-        </div>
-        <div class="col-md-4" id="Spacer"></div>
-        <div class="col-md-2 form-group p_star">
-          <input type="text" class="form-control" id="zipcode" name="zipcode"
-          placeholder="Zip Code" onfocus="this.placeholder=''" onblur="this.placeholder = 'Zip Code'">
-        </div>
-        <div class="col-md-2" id="Spacer"></div>
-
-        <!-- Fourth Row -->
-        <div class="col-md-4 form-group p_star">
-          <input type="text" class="form-control" id="phone" name="phone"
-          placeholder="Phone Number (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Phone Number (Required)'" required>
-        </div>
-        <div class="col-md-4" id="Spacer"></div>
-        <div class="col-md-4 form-group p_star">
-          <input type="text" class="form-control" id="cardnumber" name="cardnumber"
-          placeholder="Credit Card Number" onfocus="this.placeholder=''" onblur="this.placeholder = 'Credit Card Number'">
-        </div>
-
-        <!-- Fifth Row -->
-        <div class="col-md-3 form-group p_star">
-          <input type="text" class="form-control" id="email" name="email"
-          placeholder="Email (Required)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Email (Required)'" required>
-        </div>
-        <div class="col-md-5" id="Spacer"></div>
-        <div class="col-md-1 form-group p_star">
-            <input type="text" class="form-control" id="expdate" name="expdate"
-            placeholder="Exp Date" onfocus="this.placeholder=''" onblur="this.placeholder = 'Exp Date'">
-        </div>
-        <div class="col-md-1 form-group p_star">
-            <input type="text" class="form-control" id="cvv" name="cvv"
-            placeholder="CVV" onfocus="this.placeholder=''" onblur="this.placeholder = 'CVV'">
-        </div>
-        <div class="col-md-2 form-group p_star">
-            <select class="form-control" id="cardtype" name="cardtype" size="5">
-              <option value=""></option>
-              <option value="visa">Visa</option>
-              <option value="masterCard">Master Card</option>
-              <option value="discover">Discover</option>
-              <option value="americanExpress">American Express</option>
-            </select>
-        </div>
-
-        <!-- Last Row -->
-        <div class="col-md-12 form-group">
-          <input type="checkbox" class="form-control" id="subscribe" name="subscribe" style="display: inline-block; height: 10px; width: 10px;">
-          <label for="subscribe">I would like to subscribe for promotions</label>
-        </div>
-        <div class="col-md-5" id="Spacer"></div>
-        <div class="col-md-2 form-group">
-          <button type="submit" value="Register" class="primary-btn">Register</button>
-        </div>
-        <div class="col-md-5" id="Spacer"></div>
-      </form>
-      {% for message in get_flashed_messages() %}
-      <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
-      {% endfor %}
-    </div>
   </section>
   <!--================End Login Box Area =================-->
 {% endblock%}

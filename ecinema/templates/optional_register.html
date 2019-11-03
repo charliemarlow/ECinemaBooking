@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block header %}
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+  <!-- Mobile Specific Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Favicon-->
+  <link rel="shortcut icon" href="img/fav.png">
+  <!-- Author Meta -->
+  <meta name="author" content="CodePixar">
+  <!-- Meta Description -->
+  <meta name="description" content="">
+  <!-- Meta Keyword -->
+  <meta name="keywords" content="">
+  <!-- meta character set -->
+  <meta charset="UTF-8">
+  <!-- Site Title -->
+  <title>Register</title>
+
+  <!--
+    CSS
+    ============================================= -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/nouislider.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+{% endblock %}
+
+{% block content %}
+
+  <!-- Start Banner Area -->
+  <section class="banner-area organic-breadcrumb">
+    <div class="container">
+      <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+        <div class="col-first">
+          <h1>Create Account</h1>
+          <nav class="d-flex align-items-center">
+            <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+            <a href="category.html">Register</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Banner Area -->
+
+  <!--================Login Box Area =================-->
+  <section class="login_box_area">
+    <div class="login_form_inner">
+        <h3>A verification email has been sent<br>Meanwhile, you can fill out some optional account information or <a href="/index">go to home</a></h3>
+        <h4>To submit home address, each address field should be filled out.<br>To submit a credit card, all credit card and billing address fields should be filled out.</h4>
+        <form class="row login_form" method="post" id="contactForm" novalidate="novalidate">
+
+            <h3 class="text-heading" style="margin-top: .5em">Home Address</h3>
+
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="hstreet" placeholder="Street" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Street'"
+                       class="single-input"  >
+            </div>
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="hcity" placeholder="City" onfocus="this.placeholder = ''" onblur="this.placeholder = 'City'"
+                       class="single-input"  >
+            </div>
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="hstate" placeholder="State" onfocus="this.placeholder = ''" onblur="this.placeholder = 'State'"
+                       class="single-input"  >
+            </div>
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="hzip" placeholder="Zip Code" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zip Code'"
+                       class="single-input"  >
+            </div>
+            <h3>Credit Card</h3>
+            <div class="col-md-12 form-group p_star">
+                <select class="form-control" id="cardtype" name="cardtype" size="5" placeholder="Card Type  "  >
+                    <option value='' disabled selected hidden> Card Type  </option>
+                    <option value="visa">Visa</option>
+                    <option value="master">Master Card</option>
+                    <option value="discover">Discover</option>
+                    <option value="amex">American Express</option>
+                </select>
+            </div>
+
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="card_number" placeholder="Payment Number  " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Payment Number  '"
+                         class="single-input" value="">
+            </div>
+            <div class="col-md-12 form-group p_star">
+                <label>Expiration Month  </label>
+                <select class="form-control" id="exp_month" name="exp_month" size="5"   >
+                    <option value="" disabled selected hidden>Month  </option>
+                    <option>01 - January</option>
+                    <option>02 - February</option>
+                    <option>03 - March</option>
+                    <option>04 - April</option>
+                    <option>05 - May</option>
+                    <option>06 - June</option>
+                    <option>07 - July</option>
+                    <option>08 - August</option>
+                    <option>09 - September</option>
+                    <option>10 - October</option>
+                    <option>11 - November</option>
+                    <option>12 - December</option>
+                </select>
+            </div>
+
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="exp_year" placeholder="Expiration Year  " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Expiration Year  '"
+                         class="single-input" value="">
+            </div>
+
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="cvv" placeholder="CVV  " onfocus="this.placeholder = ''" onblur="this.placeholder = 'CVV '"
+                         class="single-input" value="">
+            </div>
+            <h3 class="text-heading" style="margin-top: .5em">Billing Address</h3>
+            <div class="col-md-12 form-group">
+                <input type="checkbox" class="form-control" id="billing" name="billing" style="display: inline-block; height: 10px; width: 10px;">
+                <label for="billing">Billing address same as home address</label>
+            </div>
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="bstreet" placeholder="Street" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Street'"
+                       class="single-input"  >
+            </div>
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="bcity" placeholder="City" onfocus="this.placeholder = ''" onblur="this.placeholder = 'City'"
+                       class="single-input"  >
+            </div>
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="bstate" placeholder="State" onfocus="this.placeholder = ''" onblur="this.placeholder = 'State'"
+                       class="single-input"  >
+            </div>
+            <div class="col-md-12 form-group p_star">
+                <input type="text" name="bzip" placeholder="Zip Code" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Zip Code'"
+                       class="single-input"  >
+            </div>
+
+
+            <button type="submit" value="submit" class="primary-btn">Submit Optional Information</button>
+            {% for message in get_flashed_messages() %}
+            <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
+            {% endfor %}
+        </form>
+    </div>
+
+  </section>
+  <!--================End Login Box Area =================-->
+{% endblock%}
+{% block last %}
+  <script src="{{ url_for('static', filename='js/vendor/jquery-2.2.4.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+   crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/vendor/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.ajaxchimp.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.sticky.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/nouislider.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.magnific-popup.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+  <!--gmaps Js-->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+  <script src="{{ url_for('static', filename='js/gmaps.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
+{% endblock %}

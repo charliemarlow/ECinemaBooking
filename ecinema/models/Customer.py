@@ -19,6 +19,7 @@ class Customer(Model, User):
         self.__status = None
         self.__address_id = None
         self._Model__is_init = False
+        self._Model__id = None
         self.__data_access = CustomerData()
 
     def obj_as_dict(self, key: str):
