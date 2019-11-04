@@ -142,9 +142,11 @@ def optional_register():
 
             # if billing checkbox is None, then validate billing
             if not billing_same_as_home and filled_billing:
-                error = validate_address(home_street, home_city,
-                                                  home_state, home_zip)
+                error = validate_address(billing_street, billing_city,
+                                         billing_state, billing_zip)
                 print(error)
+            elif not billing_same_as_home and not filled_billing:
+                error = "Billing address should be filled out"
 
             if billing_same_as_home and not filled_home:
                 error = "Billing address required when home address is not filled out"

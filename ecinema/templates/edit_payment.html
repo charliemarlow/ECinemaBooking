@@ -87,13 +87,13 @@
 
               <div class="mt-10">
                   <label>Expiration Year</label>
-                  <input type="text" name="year" placeholder="{{ card['exp_date'][0:4]}}"onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ card['exp_date'][0:5]}}'"
+                  <input type="text" name="year" placeholder="{{ card['exp_date'][0:4]}}"onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ card['exp_date'][0:4]}}'"
                           class="single-input" value="">
               </div>
 
               <div class="mt-10">
                   <label> CVV </label>
-                  <input type="text" name="cvv" placeholder="{{ card['cvv']}}" onfocus="this.placeholder = ''" onblur="this.placeholder = ' card['cvv']}}'"
+                  <input type="text" name="cvv" placeholder="{{ card['cvv']}}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{card['cvv']}}'"
                           class="single-input" value="">
               </div>
               <h3 class="text-heading" style="margin-top: .5em">Billing Address</h3>
@@ -125,9 +125,10 @@
               <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
               {% endfor %}
 
-            </form>
-
-            </div>
+          </form>
+          <div>
+              <a href="/manage_payment">Or return to Manage Payments</a>
+          </div>
 
           </div>
 

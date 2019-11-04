@@ -18,7 +18,7 @@ $ . venv/bin/activate
 
 $ flask run
 
-This will start the webserver
+This will start the webserver, and give you a local IP to visit
 
 ## To reset the database
 flask init-db
