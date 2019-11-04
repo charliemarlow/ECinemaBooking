@@ -25,7 +25,7 @@ class CreditCard(Model):
     def fetch(self, key: str):
         card = self.obj_as_dict(key)
         if card is not None:
-            self.set_id(card['card_id'])
+            self.set_id(card['credit_card_id'])
             self.set_customer(card['cid'])
             self.set_address(card['aid'])
             self.set_cc_number(card['card_number'])

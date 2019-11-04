@@ -178,8 +178,9 @@ def manage_payment():
     if request.method == 'POST':
         card_id = request.form.get('cid')
         card = CreditCard()
-        card.delete(card_id)
-        customer.send_delete_card_email()
+        if card.fetch(card_id):
+            card.delete(card_id)
+            customer.send_delete_card_email()
 
     if fetched:
         print(customer.get_id())
