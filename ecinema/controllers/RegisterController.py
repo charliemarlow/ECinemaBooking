@@ -183,7 +183,7 @@ def optional_register():
             # then create the credit card
             card = CreditCard()
             last_four = card_number[-4:]
-            card.create(card_number=card_number,
+            card.create(card_number=generate_password_hash(card_number),
                         customer_id=session['customer_id'],
                         address_id=card_addr_id,
                         last_four=last_four,

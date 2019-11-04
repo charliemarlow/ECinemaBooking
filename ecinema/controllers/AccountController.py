@@ -4,6 +4,7 @@ import datetime
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
+from werkzeug.security import generate_password_hash
 
 from ecinema.models.Customer import Customer
 from ecinema.models.Address import Address
@@ -171,14 +172,16 @@ def edit_profile():
 def manage_payment():
     # call customer object to return a list of all
     # credit cards
+    customer = Customer()
+    fetched = customer.fetch(session['user_id'])
 
     if request.method == 'POST':
         card_id = request.form.get('cid')
         card = CreditCard()
         card.delete(card_id)
+        customer.send_delete_card_email()
 
-    customer = Customer()
-    if customer.fetch(session['user_id']):
+    if fetched:
         print(customer.get_id())
         cards = customer.get_all_cards()
         if cards is not None:
@@ -190,6 +193,8 @@ def manage_payment():
 
     else:
         print("FAIL")
+
+
     print("re render")
     return render_template('manage_payment.html', cards=cards)
 
@@ -259,12 +264,13 @@ def make_payment():
                 last_four = cc_number[-4:]
                 print("ID:")
                 print(customer.get_id())
-                card.create(card_number=cc_number,
+                card.create(card_number=generate_password_hash(cc_number),
                             customer_id=customer.get_id(),
                             address_id=addr.get_id(),
                             last_four=last_four,
                             cvv=cvv, exp_date=expiration_date,
                             cardtype=card_type)
+                customer.send_add_payment_email(card_type)
                 # return the home profile
                 return redirect(url_for('AccountController.manage_payment'))
             else:
