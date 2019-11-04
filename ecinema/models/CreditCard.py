@@ -66,6 +66,7 @@ class CreditCard(Model):
 
         member_tup = (self.get_customer(),
                       self.get_address(), self.get_cc_number(),
+                      self.get_last_four(),
                       self.get_cvv(), self.get_expiration_date(),
                       self.get_type(), self.get_id())
 

@@ -76,6 +76,7 @@
                     <th scope="col">Card Type</th>
                 <th scope="col">Card Number</th>
                 <th scope="col">Expiration </th>
+                <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
               </tr>
             </thead>
@@ -92,6 +93,11 @@
                     <td>
                         <p>{{card['exp_date'][5:7]}} / {{ card['exp_date'][0:4] }}</p>
                     </td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="edit_cid" value="{{card['credit_card_id']}}">
+                            <button type="submit" class="genric-btn" >Edit Payment</button>
+                        </form>
                     <td>
                         <form method="post">
                             <input type="hidden" name="cid" value="{{card['credit_card_id']}}">

@@ -260,3 +260,22 @@ E-Cinema Booking
         message = message.format(self.get_first_name(), card_type)
 
         send_email(self.get_email(), subject, message)
+
+    def send_edit_payment_email(self, card_type: str):
+        subject = "Payment Card Edited"
+
+        message = """Hey {},
+
+        A {} payment card on your account at E-Cinema """\
+            + """Booking was just edited. """\
+            + """If you did not authorize this, please reset """\
+            + """your E-Cinema Booking account password. """\
+            + """
+
+Best,
+
+E-Cinema Booking
+        """
+        message = message.format(self.get_first_name(), card_type.upper())
+
+        send_email(self.get_email(), subject, message)

@@ -19,7 +19,7 @@ from ecinema.tools.validation import (
     validate_cvv, validate_cc_number, validate_expiration_date,
     validate_zip, validate_state, validate_phone, validate_year
 )
-from ecinema.tools.clean import clean_phone
+from ecinema.tools.clean import clean_phone, clean_expiration
 
 bp = Blueprint('AccountController', __name__, url_prefix='/')
 
@@ -177,10 +177,14 @@ def manage_payment():
 
     if request.method == 'POST':
         card_id = request.form.get('cid')
+        edit_id = request.form.get('edit_cid')
         card = CreditCard()
-        if card.fetch(card_id):
+        if card_id != '' and card.fetch(card_id):
             card.delete(card_id)
             customer.send_delete_card_email()
+        elif edit_id != '':
+            print(edit_id)
+            return redirect(url_for('AccountController.edit_payment', cid=edit_id))
 
     if fetched:
         print(customer.get_id())
@@ -282,6 +286,129 @@ def make_payment():
 
     return render_template('make_payment.html', address=address)
 
+@bp.route('/edit_payment', methods=('GET','POST'))
+@login_required
+def edit_payment():
+    card_id = request.args.get('cid')
+    print(card_id)
+    if card_id is not None:
+        session['cid'] = card_id
+    else:
+        card_id = session['cid']
+
+    # fetch card and address
+    card = CreditCard()
+    card.fetch(card_id)
+    addr = Address()
+    addr.fetch(card.get_address())
+
+    if request.method == 'POST':
+        # on a post, pull the values from each field
+        card_num = request.form.get('card_number')
+        exp_month = request.form.get('month')
+        exp_year = request.form.get('year')
+        cvv = request.form.get('cvv')
+
+        street = request.form.get('street')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        zip_code = request.form.get('zip')
+
+        error = None
+        month, year = None, None
+        info_changed = False
+        month_change, year_change = False, False
+
+        print(exp_month)
+        if (exp_month != '' and exp_month is not None and
+            exp_month[0:2] != card.get_expiration_date()[5:7]):
+            month = exp_month
+            month_change = True
+        else:
+            month = card.get_expiration_date()[5:7]
+            print(exp_month)
+
+        print(exp_year)
+        if (exp_year != '' and exp_year is not None
+            and exp_year != card.get_expiration_date()[0:4]):
+            year = exp_year
+            year_change = True
+            print("year change")
+        else:
+            year = card.get_expiration_date()[0:4]
+
+        if month is not None and year is not None:
+            expiration_date, error = clean_expiration(month, year)
+            print("neither is none")
+            print(error)
+            if error is None and validate_expiration_date(expiration_date):
+                card.set_expiration_date(expiration_date)
+                print("in this")
+                if month_change or year_change:
+                    info_changed = True
+                print("exp change")
+            else:
+                error = "Invalid expiration date"
+                print("invalid exp date")
+
+        if card_num != '' and validate_cc_number(card_num):
+            card.set_cc_number(generate_password_hash(card_num))
+            card.set_last_four(card_num[-4:])
+            info_changed = True
+            print("num change")
+        elif card_num != '':
+            error = "Invalid card number"
+            print(error)
+
+        if cvv != '' and validate_cvv(cvv):
+            card.set_cvv(cvv)
+            info_changed = True
+            print("CVV change")
+        elif cvv != '':
+            error = "Invalid CVV"
+
+        # set new data for addr
+        if street != '':
+            addr.set_street(street)
+            info_changed = True
+            print("Street change")
+
+        if city != '':
+            addr.set_city(city)
+            info_changed = True
+            print("City change")
+
+        if state != '' and validate_state(state):
+            addr.set_state(state)
+            info_changed = True
+            print("State change")
+        elif state != '':
+            error = 'State must be valid and entered in ## format'
+
+        if zip_code != '' and validate_zip(zip_code):
+            addr.set_zip(zip_code)
+            info_changed = True
+            print("zip change")
+        elif zip_code != '':
+            error = 'Zip code must be a valid zip code and be entered in ##### or #####-#### format'
+
+        if info_changed:
+            # save both and send an email
+            card.save()
+            addr.save()
+            customer = Customer()
+            customer.fetch(session['user_id'])
+            customer.send_edit_payment_email(card.get_type())
+
+        if error is not None:
+            flash(error)
+
+
+    # use cid to pull up the card and billing address
+    # auto fill these in
+    credit_card = card.obj_as_dict(card.get_id())
+    address = addr.obj_as_dict(card.get_address())
+    return render_template('edit_payment.html', address=address, card=credit_card, cid=request.args.get('cid'))
 
 @bp.route('/verify_password', methods=('GET', 'POST'))
 @login_required
