@@ -55,9 +55,9 @@ def validate_cc_number(cc_number: str) -> bool:
 
 def validate_expiration_date(expiration_date: datetime) -> bool:
     today = datetime.now()
-    valid_year = expiration_date.year >= today.year
-    valid_month = valid_year and expiration_date.month > today.month
-    return valid_month
+    valid_year = expiration_date.year > today.year
+    valid_month = expiration_date.year == today.year and expiration_date.month > today.month
+    return valid_year or valid_month
 
 def validate_phone(phone: str):
     num = ""

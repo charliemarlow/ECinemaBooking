@@ -7,7 +7,11 @@ from flask.cli import with_appcontext
 schema_list = ["schema/address.sql",
                "schema/customer.sql",
                "schema/credit_card.sql",
-               "schema/admin.sql", ]
+               "schema/admin.sql",
+               "schema/movie.sql",
+               "schema/theater.sql",
+               "schema/showroom.sql",
+               "schema/showtime.sql",]
 
 
 def init_db():
@@ -21,6 +25,10 @@ def init_db():
     db.execute(
         'INSERT INTO admin (username, password) VALUES (?, ?)',
         ("admin", generate_password_hash("Password123")),
+    )
+    db.execute(
+        'INSERT INTO theater (name) VALUES (?)',
+        ("E-Cinema",)
     )
     db.commit()
 
