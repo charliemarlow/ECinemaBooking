@@ -12,6 +12,11 @@ class MovieData(DataAccess):
             (key,)
         ).fetchone()
 
+    def get_all_movies(self):
+        return self.__db.execute(
+            'SELECT * FROM movie'
+        ).fetchall()
+
     def delete(self, key: str):
         self.__db.execute(
             'DELETE FROM movie WHERE movie_id = ?',

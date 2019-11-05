@@ -21,6 +21,9 @@ class Movie(Model):
     def obj_as_dict(self, key: str):
         return self.__data_access.get_info(key)
 
+    def get_all_movies(self):
+        return self.__data_access.get_all_movies()
+
     def fetch(self, key: str):
         movie = self.obj_as_dict(key)
 

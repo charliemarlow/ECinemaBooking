@@ -14,10 +14,22 @@ from ecinema.models.Movie import Movie
 
 bp = Blueprint('AdminMoviesController', __name__, url_prefix='/')
 
-@bp.route('/manage_movies')
+@bp.route('/manage_movies', methods=('GET', 'POST'))
 @admin_login_required
 def manage_movies():
-    return render_template('manage_movies.html')
+    movie = Movie()
+
+    if request.method == 'POST':
+        movie_id = request.form['delete_movie_id']
+
+        if movie.fetch(movie_id):
+            # logic for cancelling tickets will go here?
+            movie.delete(movie_id)
+
+    # get a list of all movies
+    movies = movie.get_all_movies()
+
+    return render_template('manage_movies.html', movies=movies)
 
 @bp.route('/create_movie', methods=('GET', 'POST'))
 @admin_login_required

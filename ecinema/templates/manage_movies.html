@@ -70,69 +70,54 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col">Movie Name</th>
-								<th scope="col">Rating</th>
-								<th scope="col">Description</th>
-								<th scope="col">Duration</th>
-								<th scope="col">State</th>
-                                <th scope="col">Edit</th>
+								  <th scope="col">Movie Title</th>
+								  <th scope="col">Director</th>
+                  <th scope="col">Producer</th>
+                  <th scope="col">Synopsis</th>
+                  <th scope="col">Duration</th>
+								  <th scope="col">Rating</th>
+                  <th scope="col">Category</th>
+                <th scope="col">Edit</th>
 								<th scope="col">Delete</th>
 							</tr>
 						</thead>
 						<tbody>
-                            <!-- Start Single Promotion -->
+                <!-- Start Single Promotion -->
+                {% for movie in movies %}
 							<tr>
 								<td>
-									<h4>Avengers: Endgame</h4>
+									<h4>{{ movie['title'] }}</h4>
 								</td>
                                 <td>
-                                    <p>PG-13</p>
+                                    <p>{{ movie['director'] }}</p>
                                 </td>
                                 <td>
-                                    <p>This is the best movie by marvel so far!</p>
+                                    <p>{{ movie['producer'] }}</p>
+                                </td>
+                                <td>
+                                    <p>{{ movie['synopsis'] }}</p>
+                                </td>
+
+                                <td>
+                                    <p>{{ movie['duration_as_minutes'] }}</p>
                                 </td>
 								<td>
-									<h5>2:59:12</h5>
+									<h5>{{ movie['rating'] }}</h5>
 								</td>
 								<td>
-									<h5>Active</h5>
+									<h5>{{ movie['category'].upper() }}</h5>
 								</td>
                                 <td>
 				                    <a href="#" class="genric-btn link">Edit Movie</a>
                                 </td>
-								<td>
-									<a href="#" class="genric-btn danger">Delete Movie</a>
+								                <td>
+                                    <form method="post">
+                                        <input type="hidden" name="delete_movie_id" value="{{ movie['movie_id'] }}">
+                                        <button type="submit" class="genric-btn danger">Delete Movie</button>
+                                    </form>
 								</td>
-                            </tr>
-                            <!-- End Single Promotion -->
-                            
-                            <!-- Start Single Promotion -->
-							<tr>
-								<td>
-									<h4>Tarzan: The Sequel</h4>
-								</td>
-                                <td>
-                                    <p>R</p>
-                                </td>
-                                <td>
-                                    <p>Swinging back from our childhood!</p>
-                                </td>
-								<td>
-									<h5>1:54:34</h5>
-								</td>
-								<td>
-									<h5>Coming Soon</h5>
-								</td>
-                                <td>
-				                    <a href="#" class="genric-btn link">Edit Movie</a>
-                                </td>
-								<td>
-									<a href="#" class="genric-btn danger">Delete Movie</a>
-								</td>
-                            </tr>
-                            <!-- End Single Promotion -->
-                            
-                            
+              </tr>
+              {% endfor %}
 						</tbody>
 					</table>
 				</div>
