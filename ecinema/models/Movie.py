@@ -38,7 +38,8 @@ class Movie(Model):
             self.set_video(movie['video'])
             self.set_duration(movie['duration_as_minutes'])
             self.set_rating(movie['rating'])
-
+            self.set_is_init()
+            
             return True
 
         return False

@@ -107,8 +107,12 @@
 								<td>
 									<h5>{{ movie['category'].upper() }}</h5>
 								</td>
-                                <td>
-				                    <a href="#" class="genric-btn link">Edit Movie</a>
+                <td>
+
+                    <form method="post">
+                        <input type="hidden" name="edit_movie_id" value="{{ movie['movie_id'] }}">
+                        <button type="submit" class="genric-btn">Edit Movie</button>
+                    </form>
                                 </td>
 								                <td>
                                     <form method="post">
