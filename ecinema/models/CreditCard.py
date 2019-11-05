@@ -60,7 +60,7 @@ class CreditCard(Model):
 
         self.set_id(self.__data_access.insert_info(member_tup))
 
-    def save(self) -> str:
+    def save(self) -> bool:
         if not self.is_initialized():
             return False
 

@@ -10,6 +10,5 @@ CREATE TABLE `movie` (
   `picture` varchar(100) NOT NULL,
   `video` varchar(100) NOT NULL,
   `duration_as_minutes` int(11) NOT NULL,
-  `rating` TEXT CHECK( rating IN ('G','PG','PG-13','R','NC-17','NR') ) NOT NULL DEFAULT 'PG',
-  `genre` varchar(100) DEFAULT NULL
+  `rating` TEXT CHECK( rating IN ('G','PG','PG-13','R','NC-17','NR') ) NOT NULL DEFAULT 'PG'
 )

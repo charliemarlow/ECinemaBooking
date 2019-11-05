@@ -30,12 +30,28 @@ def validate_unique_email(email: str) -> bool:
 def validate_name(name: str) -> bool:
     return len(name) > 1 and len(name) < 100
 
+def validate_duration(duration: str) -> bool:
+    try:
+        dur = int(duration)
+        return True
+    except ValueError:
+        return False
+
+def validate_text(text: str) -> bool:
+    return text != '' and text is not None and len(text) <= 1024
 
 def validate_password(password: str, confirmation: str) -> bool:
     return (password == confirmation and len(password) >= 8 and
             bool(re.search(r'\d', password)) and
             any(char.isupper() for char in password))
 
+def validate_rating(rating: str) -> bool:
+    return rating in ['G','PG','PG-13','R','NC-17','NR']
+
+def validate_category(category: str) -> bool:
+    return category in ['action', 'comedy', 'drama', 'sci-fi',
+                        'mystery', 'crime', 'fantasy', 'thriller',
+                        'romance']
 
 def validate_username(username: str) -> bool:
     return is_unique_username(username)
