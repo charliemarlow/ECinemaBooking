@@ -28,8 +28,10 @@
 									              <!--<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>-->
 								            </ul>
 							          </li>
-
-                        {% if g.user %}
+                        {% if g.user != None and g.user.get('is_admin') %}
+                        <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                        {% elif g.user %}
                         <li class="nav-item submenu dropdown">
 								            <a href="account" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 								               aria-expanded="false">Account</a>

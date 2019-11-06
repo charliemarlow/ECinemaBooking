@@ -103,11 +103,15 @@ def load_logged_in_user():
         customer = Customer()
 
         g.user = customer.obj_as_dict(user_id)
+        if g.user is not None:
+            g.user = dict(g.user)
+            g.user['is_admin'] = False
 
         # check for admin
         if g.user is None:
             admin = Admin()
-            g.user = admin.obj_as_dict(user_id)
+            g.user = dict(admin.obj_as_dict(user_id))
+            g.user['is_admin'] = True
 
 
 @bp.route('/logout')
