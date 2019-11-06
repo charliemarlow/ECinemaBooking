@@ -146,3 +146,6 @@ class Movie(Model):
 
     def get_status(self) -> str:
         return self.__status
+
+    def has_showtimes(self):
+        return len(self.__data_access.get_all_showtimes(self.get_id())) >= 1

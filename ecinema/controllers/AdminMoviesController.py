@@ -25,7 +25,10 @@ def manage_movies():
 
         if delete_movie_id != None and movie.fetch(delete_movie_id):
             # logic for cancelling tickets will go here?
-            movie.delete(delete_movie_id)
+            if not movie.has_showtimes():
+                movie.delete(delete_movie_id)
+            else:
+                flash("Movie cannot be deleted when there are showtimes associated with it")
         elif edit_movie_id != None and movie.fetch(edit_movie_id):
             return redirect(url_for('AdminMoviesController.edit_movie', mid=edit_movie_id))
 

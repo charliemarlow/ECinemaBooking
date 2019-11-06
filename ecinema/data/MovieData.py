@@ -17,6 +17,12 @@ class MovieData(DataAccess):
             'SELECT * FROM movie'
         ).fetchall()
 
+    def get_all_showtimes(self, key):
+        return self.__db.execute(
+            'SELECT * FROM showtime WHERE movie_id = ?',
+            (key,)
+        ).fetchall()
+
     def delete(self, key: str):
         self.__db.execute(
             'DELETE FROM movie WHERE movie_id = ?',
