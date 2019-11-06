@@ -15,18 +15,20 @@
   <!-- meta character set -->
   <meta charset="UTF-8">
   <!-- Site Title -->
-  <title>Edit Showroom</title>
-
+  <title>E-Cinema Manage Showrooms</title>
   <!--
     CSS
     ============================================= -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/nouislider.min.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ion.rangeSlider.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ion.rangeSlider.skinFlat.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 
@@ -93,58 +95,80 @@
     </div>
   </header>
   <!-- End Header Area -->
-  <!-- Start Banner Area -->
+
+  <!-- start banner Area -->
   <section class="banner-area organic-breadcrumb">
     <div class="container">
       <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
         <div class="col-first">
-          <h1>Edit Showroom</h1>
+          <h1>Manage Showrooms</h1>
           <nav class="d-flex align-items-center">
             <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-            <a href="edit_showroom.html">Edit Showroom</a>
+            <a href="manage_Showrooms.html">Manage Showrooms</a>
           </nav>
         </div>
       </div>
     </div>
   </section>
-  <!-- End Banner Area -->
+  <!-- End banner Area -->
+<section class="button-area">
+    <div class="container border-top-generic whole-wrap pb-100">
+  <div class="section-top-border" style="">
+        <h3 class="mb-10" style="margin-bottom: 2em">Manage Showrooms</h3>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="single-defination">
+                            <div class="button-group-area mt-40">
+                                <a href="create_showroom" class="genric-btn primary e-large" style="font-size: 2em">Add Showroom</a>
+                             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+            <div class="order_details_table">
+        <h2>Manage Showrooms</h2>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Showroom Name</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+                <!-- Start Single Promotion -->
+                {% for showroom in showrooms %}
+              <tr>
+                <td>
+                  <h4>{{ showroom['showroom_name'] }}</h4>
+                </td>
+                                <td>
+                                    <p>{{ showroom['num_seats']}}</p>
+                                </td>
+                                <td>
+                                    <form method="post">
+                                        <input type="hidden" name="edit_showroom_id" value="{{ showroom['showroom_id'] }}">
+                                        <button type="submit" class="genric-btn">Edit Showroom</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post">
+                                        <input type="hidden" name="delete_showroom_id" value="{{ showroom['showroom_id'] }}">
+                                        <button type="submit" class="genric-btn danger">Delete Showroom</button>
+                                    </form>
+                                </td>
 
-  <!--================Login Box Area =================-->
-    <section class="sample-text-area">
-    <div class="container">
-      <h3 class="text-heading">Edit Showroom</h3>
-      <div class="">
-
-            <form method="post" action="/edit_showroom/{{ showroom['showroom_id']}}">
-                            <h4>Showroom Name:</h4>
-              <div class="mt-10">
-                <input type="text" name="showroom_name" placeholder="Showroom #" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Showroom #'"
-                 class="single-input" value="{{ showroom['showroom_name'] }}">
-              </div>
-
-                            <h4>Capacity:</h4>
-              <div class="mt-10">
-                <input type="text" name="num_seats" placeholder="Capacity" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Capacity'"
-                 class="single-input" value="{{ showroom['num_seats']}}">
-              </div>
-
-              <button type="submit" value="submit" class="primary-btn">Save Changes</button>
-              {% for message in get_flashed_messages() %}
-              <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
+              </tr>
               {% endfor %}
 
-            </form>
-
-
-            </div>
-
-          </div>
-
-  </section>
-
-
-  <!--================End Login Box Area =================-->
-
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    </section>
 <!-- start footer Area -->
   <footer class="footer-area section_gap">
     <div class="container">
@@ -197,7 +221,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   </footer>
   <!-- End footer Area -->
 
-
   <script src="{{ url_for('static', filename='js/vendor/jquery-2.2.4.min.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
    crossorigin="anonymous"></script>
@@ -206,6 +229,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   <script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/jquery.sticky.js') }}"></script>
   <script src="{{ url_for('static', filename='js/nouislider.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/countdown.js') }}"></script>
   <script src="{{ url_for('static', filename='js/jquery.magnific-popup.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
   <!--gmaps Js-->

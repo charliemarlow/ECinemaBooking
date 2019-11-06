@@ -28,7 +28,7 @@ def validate_unique_email(email: str) -> bool:
 
 
 def validate_name(name: str) -> bool:
-    return len(name) > 1 and len(name) < 100
+    return len(name) >= 1 and len(name) < 100
 
 def validate_duration(duration: str) -> bool:
     try:

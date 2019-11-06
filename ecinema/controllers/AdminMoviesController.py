@@ -20,14 +20,14 @@ def manage_movies():
     movie = Movie()
 
     if request.method == 'POST':
-        movie_id = request.form.get('delete_movie_id')
-        edit_id = request.form.get('edit_movie_id')
+        delete_movie_id = request.form.get('delete_movie_id')
+        edit_movie_id = request.form.get('edit_movie_id')
 
-        if movie_id != None and movie.fetch(movie_id):
+        if delete_movie_id != None and movie.fetch(delete_movie_id):
             # logic for cancelling tickets will go here?
-            movie.delete(movie_id)
-        elif edit_id != None and movie.fetch(edit_id):
-            return redirect(url_for('AdminMoviesController.edit_movie', mid=edit_id))
+            movie.delete(delete_movie_id)
+        elif edit_movie_id != None and movie.fetch(edit_movie_id):
+            return redirect(url_for('AdminMoviesController.edit_movie', mid=edit_movie_id))
 
     # get a list of all movies
     movies = movie.get_all_movies()
