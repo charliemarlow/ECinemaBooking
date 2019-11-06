@@ -43,7 +43,7 @@ class MovieData(DataAccess):
             'UPDATE movie SET title = ?, category = ?, '
             'director = ?, producer = ?, synopsis = ?, '
             'picture = ?, video = ?, duration_as_minutes = ?, '
-            'rating = ? '
+            'rating = ?, status = ?'
             'WHERE movie_id = ?',
             data
         )

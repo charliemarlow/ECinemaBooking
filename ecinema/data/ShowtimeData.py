@@ -1,29 +1,26 @@
 
-
-
-body = '''
 from ecinema.data.access import DataAccess
 from ecinema.data.db import get_db
 
-class {capital_name}Data(DataAccess):
+class ShowtimeData(DataAccess):
 
     def __init__(self):
         self.__db = get_db()
 
     def get_info(self, key: str):
         return self.__db.execute(
-            'SELECT * FROM {table} WHERE {table_id} = ?',
+            'SELECT * FROM showtime WHERE showtime_id = ?',
             (key,)
         ).fetchone()
 
-    def get_all_{table}s(self):
+    def get_all_showtimes(self):
         return self.__db.execute(
-            'SELECT * FROM {table}'
+            'SELECT * FROM showtime'
         ).fetchall()
 
     def delete(self, key: str):
         self.__db.execute(
-            'DELETE FROM {table} WHERE {table_id} = ?',
+            'DELETE FROM showtime WHERE showtime_id = ?',
             (key,)
         )
         self.__db.commit()
@@ -31,9 +28,9 @@ class {capital_name}Data(DataAccess):
     def insert_info(self, data) -> str:
         cursor = self.__db.cursor()
         cursor.execute(
-            'INSERT INTO {table} '
-            '({attr}) '
-            'VALUES ({values})',
+            'INSERT INTO showtime '
+            '(time, available_seats, movie_id, showroom_id) '
+            'VALUES (?, ?, ?, ?)',
             data
         )
 
@@ -43,10 +40,9 @@ class {capital_name}Data(DataAccess):
 
     def update_info(self, data) -> str:
         self.__db.execute(
-            'UPDATE {table} SET {update}'
-            'WHERE {table_id} = ?',
+            'UPDATE showtime SET time = ?, available_seats = ?, movie_id = ?, showroom_id = ?'
+            'WHERE showtime_id = ?',
             data
         )
 
         self.__db.commit()
-'''

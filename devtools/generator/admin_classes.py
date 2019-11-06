@@ -1,7 +1,9 @@
 from text import header, required_validation_1, required_validation_2, required_getter_template, optional_validation_1, optional_getter_1, body
 
-attributes = [('num_seats', 'validate_num'),
-              ('showroom_name', 'validate_name'),]
+attributes = [('time', 'validate_showtime_date'),
+              ('available_seats', 'validate_seats'),
+              ('movie_id', 'validate_movie'),
+              ('showroom_id', 'validate_showroom')]
 
 def create_validation_list():
     li = ''
@@ -15,7 +17,7 @@ def create_validation_list():
 
     return li
 
-class_name = "showroom"
+class_name = "showtime"
 model_class=class_name.title()
 model_plural_cap=model_class + "s"
 validation_list = create_validation_list()

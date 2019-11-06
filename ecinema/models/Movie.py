@@ -14,6 +14,7 @@ class Movie(Model):
         self.__video = None
         self.__duration = None
         self.__rating = None
+        self.__status = None
         self._Model__is_init = False
         self._Model__id = None
         self.__data_access = MovieData()
@@ -38,6 +39,7 @@ class Movie(Model):
             self.set_video(movie['video'])
             self.set_duration(movie['duration_as_minutes'])
             self.set_rating(movie['rating'])
+            self.set_status(movie['status'])
             self.set_is_init()
 
             return True
@@ -76,7 +78,8 @@ class Movie(Model):
                       self.get_director(), self.get_producer(),
                       self.get_synopsis(), self.get_picture(),
                       self.get_video(), self.get_duration(),
-                      self.get_rating(), self.get_id())
+                      self.get_rating(), self.get_status(),
+                      self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
@@ -137,3 +140,9 @@ class Movie(Model):
 
     def set_rating(self, rating: str):
         self.__rating = rating
+
+    def set_status(self, status: str):
+        self.__status = status
+
+    def get_status(self) -> str:
+        return self.__status

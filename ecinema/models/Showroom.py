@@ -1,6 +1,8 @@
 
 from ecinema.models.model import Model
 from ecinema.data.ShowroomData import ShowroomData
+from ecinema.models.Movie import Movie
+from datetime import datetime, timedelta
 
 class Showroom(Model):
 
@@ -80,3 +82,41 @@ class Showroom(Model):
 
     def unique_name(self, name: str) -> bool:
         return self.__data_access.unique_name(name)
+
+    def __convert_sql_time(self, stime):
+        year = int(stime[0:4])
+        month = int(stime[5:7])
+        day = int(stime[8: 10])
+
+        hour = int(stime[11:13])
+        minute = int(stime[14:16])
+
+        return datetime(year, month, day, hour, minute, 0)
+
+    def check_availability(self, dtime: datetime, timeID,
+                           myduration) -> bool:
+        showtimes = self.__data_access.get_all_showtimes(self.get_id())
+        myID = self.get_id()
+
+        for time in showtimes:
+            if (time is not None
+                and time['showroom_id'] == myID
+                and time['showtime_id'] != timeID):
+
+                othermovie = Movie()
+                othermovie.fetch(time['movie_id'])
+
+                duration = int(othermovie.get_duration())
+                start_time = self.__convert_sql_time(time['time'])
+                finish_time = start_time + timedelta(minutes=duration)
+
+                my_start_time = dtime
+                my_finish_time = my_start_time + timedelta(minutes=myduration)
+
+                if my_start_time <= finish_time and start_time <= my_finish_time:
+                    return False
+
+        return True
+
+
+

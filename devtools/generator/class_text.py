@@ -41,7 +41,7 @@ class {capital_name}(Model):
         {class_name} = self.obj_as_dict(key)
 
         if {class_name} is not None:
-            self.set_id('showroom_id')
+            self.set_id({class_name}[{class_name}_id])
 {set_all_indent_12}
             self.set_is_init()
 
@@ -54,7 +54,6 @@ class {capital_name}(Model):
         for key, value in kwargs.items():
             {class_name}[key] = value
 
-        self.set_id('showroom_id')
 {set_all_indent_8}
         self.set_is_init()
 

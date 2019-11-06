@@ -21,3 +21,15 @@ def clean_expiration(month: str, year: str):
         error = "Invalid year"
 
     return exp_date, error
+
+def create_datetime_from_sql(stime):
+    print("stime!!")
+    print(stime)
+    year = int(stime[0:4])
+    month = int(stime[5:7])
+    day = int(stime[8: 10])
+
+    hour = int(stime[11:13])
+    minute = int(stime[14:16])
+
+    return datetime(year, month, day, hour, minute, 0)

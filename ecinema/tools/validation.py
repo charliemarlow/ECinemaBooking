@@ -127,3 +127,10 @@ def validate_card(card_type: str, card_number: str, expiration: datetime, cvv: s
         error = "To create a new credit card, all fields for the credit card are required"
 
     return error
+
+def validate_seats(seats: str):
+    dur = validate_duration(seats)
+    if dur:
+        return int(seats) > 0
+
+    return False

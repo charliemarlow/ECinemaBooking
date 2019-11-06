@@ -52,3 +52,9 @@ class ShowroomData(DataAccess):
             'SELECT * FROM showroom WHERE showroom_name = ?',
             (name,)
         ).fetchone() is None
+
+    def get_all_showtimes(self, key: str):
+        return self.__db.execute(
+            'SELECT * FROM showtime WHERE showroom_id = ?',
+            (key,)
+        ).fetchall()
