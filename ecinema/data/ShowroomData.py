@@ -1,4 +1,3 @@
-
 from ecinema.data.access import DataAccess
 from ecinema.data.db import get_db
 
@@ -58,3 +57,19 @@ class ShowroomData(DataAccess):
             'SELECT * FROM showtime WHERE showroom_id = ?',
             (key,)
         ).fetchall()
+
+    def validate_seats(self, key: str, num_seats: int) -> bool:
+        return self.__db.execute(
+            'SELECT * FROM showtime WHERE showroom_id = ? AND (available_seats - ?) > 0',
+            (key, num_seats)
+        ).fetchone() is not None
+
+    def update_seat_number(self, num, sid):
+        self.__db.execute(
+            'UPDATE showtime SET available_seats = (available_seats + ?) WHERE showroom_id = ?',
+            (num, sid)
+        )
+        self.__db.commit()
+
+    def check_valid_decrease(self, num, sid):
+        return self.__db.execute('SELECT * FROM showtime WHERE showroom_id = ? AND (available_seats + ? ) < 0', (sid, num)).fetchone() is None

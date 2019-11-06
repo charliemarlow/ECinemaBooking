@@ -7,10 +7,11 @@ from flask import (
 
 from ecinema.controllers.LoginController import admin_login_required
 from ecinema.tools.validation import (
-    validate_duration, validate_name
+    validate_duration, validate_name, validate_new_seats
 )
 
 from ecinema.models.Showroom import Showroom
+from ecinema.models.Showtime import Showtime
 
 bp = Blueprint('AdminShowroomController', __name__, url_prefix='/')
 
@@ -24,15 +25,20 @@ def manage_showrooms():
         edit_showroom_id = request.form.get('edit_showroom_id')
 
         if delete_showroom_id != None and showroom.fetch(delete_showroom_id):
-            # logic for cancelling tickets will go here?
-            showroom.delete(delete_showroom_id)
+            # need to make sure there are no showtimes first
+            if not showroom.has_showtimes():
+                showroom.delete(delete_showroom_id)
+            else:
+                flash("Showroom cannot be removed when there are showtimes associated with it")
         elif edit_showroom_id != None and showroom.fetch(edit_showroom_id):
-            return redirect(url_for('AdminShowroomController.edit_showroom', sid=edit_showroom_id))
+            return redirect(url_for('AdminShowroomController.edit_showroom',
+                                    sid=edit_showroom_id))
 
     # get a list of all showrooms
     showrooms = showroom.get_all_showrooms()
 
-    return render_template('manage_showrooms.html', showrooms=showrooms)
+    return render_template('manage_showrooms.html',
+                           showrooms=showrooms)
 
 @bp.route('/edit_showroom/<sid>', methods=('GET', 'POST'))
 @admin_login_required
@@ -55,8 +61,10 @@ def edit_showroom(sid):
         elif validate_duration(num_seats) and int(num_seats) <= 0:
             error = "Number of seats must be a positive, non-zero whole number"
         elif num_seats != '':
-            print("setting")
-            showroom.set_num_seats(num_seats)
+            if showroom.update_num_seats(num_seats):
+                showroom.set_num_seats(num_seats)
+            else:
+                error = "Too many seats are booked to reduce the number of seats at this time, wait for the showtimes to pass before changing the number of seats"
 
         if showroom_name != '' and not validate_name(showroom_name):
             error = "Showroom name is invalid"

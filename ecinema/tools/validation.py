@@ -134,3 +134,15 @@ def validate_seats(seats: str):
         return int(seats) > 0
 
     return False
+
+def validate_new_seats(showroom_obj, num_seats):
+    num_seats = int(num_seats)
+    # if seats are == to old seats --> nothing
+    seats = showroom_obj.get_num_seats()
+    if seats <= num_seats:
+        return True
+    elif seats > num_seats:
+        showtime = Showtime()
+        diff = seats - num_seats
+        showtime.validate_seats(showroom_obj.get_id(), diff)
+        return True

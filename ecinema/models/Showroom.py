@@ -3,6 +3,7 @@ from ecinema.models.model import Model
 from ecinema.data.ShowroomData import ShowroomData
 from ecinema.models.Movie import Movie
 from datetime import datetime, timedelta
+from ecinema.data.db import get_db
 
 class Showroom(Model):
 
@@ -117,6 +118,28 @@ class Showroom(Model):
                     return False
 
         return True
+
+    def has_showtimes(self):
+        return len(self.__data_access.get_all_showtimes(self.get_id())) >= 1
+
+    def update_num_seats(self, num_seats) -> bool:
+        if self.is_initialized():
+
+            current_seats = int(self.get_num_seats())
+            num_seats = int(num_seats)
+            diff = num_seats - current_seats
+            myID = self.get_id()
+
+            if current_seats <= num_seats:
+                # for each showtime, update info
+                self.__data_access.update_seat_number(diff, myID)
+                return True
+            elif current_seats > num_seats:
+                if self.__data_access.check_valid_decrease(diff, myID):
+                    self.__data_access.update_seat_number(diff, myID)
+                    return True
+
+        return False
 
 
 

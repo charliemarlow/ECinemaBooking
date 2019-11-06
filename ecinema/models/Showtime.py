@@ -91,3 +91,5 @@ class Showtime(Model):
     def set_showroom_id(self, showroom_id: str):
         self.__showroom_id = showroom_id
 
+    def validate_seats(self, showroom_id, num_seats):
+        return self.__data_access.validate_seats(showroom_id, num_seats)
