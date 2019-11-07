@@ -66,7 +66,7 @@
               </div>
               <h3>Movie</h3>
               <div class="form-select" name="movie_id" required>
-                <select name="movie_id">
+                <select name="movie_id" required>
                     <option value="" disabled selected hidden>Movie (REQUIRED)</option>
                     {% for movie in movies %}
                     <option value="{{movie['movie_id']}}">{{ movie['title'] }}</option>
@@ -75,7 +75,7 @@
               </div>
               <h3>Showroom</h3>
                 <div class="form-select" name="showroom_id" required>
-                        <select name="showroom_id">
+                        <select name="showroom_id" required>
                             <option value="" disabled selected hidden>Showroom (REQUIRED)</option>
                             {% for showroom in showrooms %}
                             <option value="{{showroom['showroom_id']}}">{{ showroom['showroom_name'] }}</option>

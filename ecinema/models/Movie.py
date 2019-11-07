@@ -9,6 +9,7 @@ class Movie(Model):
         self.__category = None
         self.__director = None
         self.__producer = None
+        self.__cast = None
         self.__synopsis = None
         self.__picture = None
         self.__video = None
@@ -34,6 +35,7 @@ class Movie(Model):
             self.set_category(movie['category'])
             self.set_director(movie['director'])
             self.set_producer(movie['producer'])
+            self.set_cast(movie['cast'])
             self.set_synopsis(movie['synopsis'])
             self.set_picture(movie['picture'])
             self.set_video(movie['video'])
@@ -55,6 +57,7 @@ class Movie(Model):
         self.set_category(movie['category'])
         self.set_director(movie['director'])
         self.set_producer(movie['producer'])
+        self.set_cast(movie['cast'])
         self.set_synopsis(movie['synopsis'])
         self.set_picture(movie['picture'])
         self.set_video(movie['video'])
@@ -64,6 +67,7 @@ class Movie(Model):
 
         member_tup = (self.get_title(), self.get_category(),
                       self.get_director(), self.get_producer(),
+                      self.get_cast(),
                       self.get_synopsis(), self.get_picture(),
                       self.get_video(), self.get_duration(),
                       self.get_rating())
@@ -76,6 +80,7 @@ class Movie(Model):
 
         member_tup = (self.get_title(), self.get_category(),
                       self.get_director(), self.get_producer(),
+                      self.get_cast(),
                       self.get_synopsis(), self.get_picture(),
                       self.get_video(), self.get_duration(),
                       self.get_rating(), self.get_status(),
@@ -110,6 +115,12 @@ class Movie(Model):
 
     def set_producer(self, producer: str):
         self.__producer = producer
+
+    def get_cast(self) -> str:
+        return self.__cast
+
+    def set_cast(self, cast: str):
+        self.__cast = cast
 
     def get_synopsis(self) -> str:
         return self.__synopsis
@@ -149,3 +160,12 @@ class Movie(Model):
 
     def has_showtimes(self):
         return len(self.__data_access.get_all_showtimes(self.get_id())) >= 1
+
+    def get_all_showtimes(self):
+        return self.__data_access.get_all_showtimes(self.get_id())
+
+    def get_current_movies(self):
+        return self.__data_access.get_all_movies_by_status('active')
+
+    def get_coming_movies(self):
+        return self.__data_access.get_all_movies_by_status('inactive')

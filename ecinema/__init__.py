@@ -6,7 +6,8 @@ from ecinema.controllers import (
     AccountController, ResetPasswordController,
     TestController, ForgotPasswordController,
     AdminController, AdminMoviesController,
-    AdminShowroomController, AdminShowtimeController
+    AdminShowroomController, AdminShowtimeController,
+    MovieController, SearchController
 )
 
 
@@ -48,6 +49,8 @@ def create_app(test_config=None):
     app.register_blueprint(AdminMoviesController.bp)
     app.register_blueprint(AdminShowroomController.bp)
     app.register_blueprint(AdminShowtimeController.bp)
+    app.register_blueprint(MovieController.bp)
+    app.register_blueprint(SearchController.bp)
 
     # load error handlers
     app.register_error_handler(404, not_found)

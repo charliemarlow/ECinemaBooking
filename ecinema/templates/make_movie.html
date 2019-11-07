@@ -71,6 +71,10 @@
                          required class="single-input" value="">
               </div>
               <div class="mt-10">
+                  <input type="text" name="cast" placeholder="Cast (REQUIRED)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Cast (REQUIRED)'"
+                         required class="single-input" value="">
+              </div>
+              <div class="mt-10">
                   <input type="text" name="duration" placeholder="Duration (REQUIRED)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Duration (REQUIRED)'"
                          required class="single-input" value="">
               </div>
@@ -79,7 +83,7 @@
               </div>
               <h3>Rating/Category</h3>
               <div class="form-select" name="rating" required>
-                <select name="rating">
+                <select name="rating" required>
                     <option value="" disabled selected hidden>Rating (REQUIRED)</option>
                     <option value="G">G</option>
                     <option value="PG">PG</option>
@@ -90,7 +94,7 @@
                 </select>
                     </div>
                 <div class="form-select" name="category" required>
-                        <select name="category">
+                        <select name="category" required>
                             <option value="" disabled selected hidden>Category (REQUIRED)</option>
                             <option value="action">Action</option>
                             <option value="comedy">Comedy</option>

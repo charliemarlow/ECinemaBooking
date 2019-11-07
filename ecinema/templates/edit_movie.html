@@ -74,6 +74,12 @@
                           class="single-input" value="">
               </div>
               <div class="mt-10">
+                  <label>Cast</label>
+                  <input type="text" name="cast" placeholder="{{ movie['cast'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ movie['cast'] }}'"
+                         class="single-input" value="">
+              </div>
+
+              <div class="mt-10">
                   <label>Duration</label>
                   <input type="text" name="duration" placeholder="{{ movie['duration_as_minutes'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ movie['duration_as_minutes'] }}'"
                           class="single-input" value="">

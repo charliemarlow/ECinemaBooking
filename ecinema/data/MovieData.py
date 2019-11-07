@@ -34,9 +34,9 @@ class MovieData(DataAccess):
         cursor = self.__db.cursor()
         cursor.execute(
             'INSERT INTO movie '
-            '(title, category, director, producer, synopsis, '
+            '(title, category, director, producer, cast, synopsis, '
             'picture, video, duration_as_minutes, rating) '
-            'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             data
         )
 
@@ -47,7 +47,7 @@ class MovieData(DataAccess):
     def update_info(self, data) -> str:
         self.__db.execute(
             'UPDATE movie SET title = ?, category = ?, '
-            'director = ?, producer = ?, synopsis = ?, '
+            'director = ?, producer = ?, cast = ?, synopsis = ?, '
             'picture = ?, video = ?, duration_as_minutes = ?, '
             'rating = ?, status = ?'
             'WHERE movie_id = ?',
@@ -55,3 +55,9 @@ class MovieData(DataAccess):
         )
 
         self.__db.commit()
+
+    def get_all_movies_by_status(self, status: str):
+        return self.__db.execute(
+            'SELECT * from movie WHERE status = ?',
+            (status,)
+        ).fetchall()

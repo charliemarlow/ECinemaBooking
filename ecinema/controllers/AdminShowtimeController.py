@@ -193,6 +193,8 @@ def create_showtime():
             new_showtime = Showtime()
             showroom = Showroom()
             showroom.fetch(showroom_id)
+            movie.set_status('active')
+            movie.save()
 
             new_showtime.create(showroom_id=showroom_id,
                                 time=dtime,

@@ -48,6 +48,7 @@ def edit_movie(mid):
         title = request.form.get('title')
         director = request.form.get('director')
         producer = request.form.get('producer')
+        cast = request.form.get('cast')
         duration = request.form.get('duration')
         synopsis = request.form.get('synopsis')
         rating = request.form.get('rating')
@@ -71,6 +72,11 @@ def edit_movie(mid):
             error = "Producer name is too short or too long"
         elif producer != '':
             movie.set_producer(producer)
+
+        if cast != '' and not validate_name(cast):
+            error = "Cast name is too short or too long"
+        elif cast != '':
+            movie.set_cast(cast)
 
         if duration != '' and not validate_duration(duration):
             error = "Duration must be a whole number"
@@ -118,6 +124,7 @@ def create_movie():
         title = request.form['title']
         director = request.form['director']
         producer = request.form['producer']
+        cast = request.form['cast']
         duration = request.form['duration']
         synopsis = request.form['synopsis']
         rating = request.form['rating']
@@ -134,6 +141,8 @@ def create_movie():
             error = "Director name is too short or too long"
         elif not validate_name(producer):
             error = "Producer name is too short or too long"
+        elif not validate_name(cast):
+            error = "Cast name is too short or too long"
         elif not validate_duration(duration):
             error = "Duration must be a whole number"
         elif not validate_text(synopsis):
@@ -151,8 +160,11 @@ def create_movie():
             # if error is None, create a movie
             new_movie = Movie()
             new_movie.create(title=title, director=director,
-                         producer=producer, synopsis=synopsis,
-                         picture=picture, video=video, duration_as_minutes=int(duration), rating=rating, category=category)
+                             producer=producer, cast=cast,
+                             synopsis=synopsis, picture=picture,
+                             video=video,
+                             duration_as_minutes=int(duration),
+                             rating=rating, category=category)
 
             # then return to add movie
             return redirect(url_for('AdminMoviesController.manage_movies'))

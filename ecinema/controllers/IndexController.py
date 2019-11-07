@@ -1,18 +1,26 @@
 import functools
 
 from flask import (
-    Blueprint, render_template
+    Blueprint, render_template, redirect, url_for
 )
+
+from ecinema.models.Movie import Movie
 
 bp = Blueprint('IndexController', __name__, url_prefix='/')
 
 
 @bp.route('/')
 def index():
-    return render_template('index.html')
+    movie = Movie()
+    current_movies = movie.get_current_movies()
+    coming_soon = movie.get_coming_movies()
+
+    return render_template('index.html',
+                           current_movies=current_movies,
+                           coming_movies=coming_soon)
 
 # TODO: delete all references to /index in html
 # then delete this
 @bp.route('/index')
 def index_page():
-    return render_template('index.html')
+    return redirect(url_for('IndexController.index'))

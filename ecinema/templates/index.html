@@ -89,103 +89,35 @@
 					</div>
 				</div>
 				<div class="row">
-					<!-- single product -->
-					<div class="col-lg-3 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{ url_for('static', filename='img/product/p4.png') }}" alt="">
+					  <!-- single product -->
+            {% for movie in current_movies %}
+					  <div class="col-lg-3 col-md-6">
+						    <div class="single-product">
+							      <img class="img-fluid" style="width: 255px; height: 450px"src="{{ movie['picture'] }}" alt="">
 							<div class="product-details">
-								<h6>SPIDER-MAN Far From Home</h6>
-								<div class="price">
-									<h6>$9.00</h6>
-									<h6 class="l-through">$15.00</h6>
-								</div>
+								<h6>{{ movie['title'] }}</h6>
+								<div class="rating">
+									  <h6>Rated: {{ movie['rating'] }}</h6>
+                </div>
+                <iframe width="255" height="200" src="{{ movie['video'] }}" frameborder="0" allowfullscreen></iframe>
 								<div class="prd-bottom">
 
 									<a href="" class="social-info">
 										<span class="ti-bag"></span>
 										<p class="hover-text">Buy</p>
 									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">View Details</p>
+									<a href="/movie_details/{{movie['movie_id']}}" class="social-info">
+										  <span class="lnr lnr-move"></span>
+										  <p class="hover-text">View Details</p>
 									</a>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- single product -->
-					<div class="col-lg-3 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{ url_for('static', filename='img/product/p2.png') }}" alt="">
-							<div class="product-details">
-								<h6>Hobbs and Shaw</h6>
-								<div class="price">
-									<h6>$9.00</h6>
-									<h6 class="l-through">$15.00</h6>
-								</div>
-								<div class="prd-bottom">
+          {% endfor %}
 
-									<a href="" class="social-info">
-										<span class="ti-bag"></span>
-										<p class="hover-text">Buy</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">View Details</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- single product -->
-					<div class="col-lg-3 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{ url_for('static', filename='img/product/p3.jpg') }}" alt="">
-							<div class="product-details">
-								<h6>The Hitman's Bodyguard</h6>
-								<div class="price">
-									<h6>$9.00</h6>
-									<h6 class="l-through">$15.00</h6>
-								</div>
-								<div class="prd-bottom">
 
-									<a href="" class="social-info">
-										<span class="ti-bag"></span>
-										<p class="hover-text">Buy</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">View Details</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- single product -->
-					<div class="col-lg-3 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{ url_for('static', filename='img/product/p7.jpg') }}" alt="">
-							<div class="product-details">
-								<h6>Mr. Robot</h6>
-								<div class="price">
-									<h6>$9.00</h6>
-									<h6 class="l-through">$15.00</h6>
-								</div>
-								<div class="prd-bottom">
-
-									<a href="" class="social-info">
-										<span class="ti-bag"></span>
-										<p class="hover-text">Buy</p>
-									</a>
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">View Details</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+        </div>
 			</div>
 		</div>
 		<!-- single product slide -->
@@ -201,45 +133,33 @@
 				</div>
 				<div class="row">
 					<!-- single product -->
-					<div class="col-lg-3 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{ url_for('static', filename='img/product/p5.png') }}" alt="">
-							<div class="product-details">
-								<h6>Angel Has Fallen</h6>
-								<div class="price">
-									<h6>$9.00</h6>
-									<h6 class="l-through">$15.00</h6>
-								</div>
-								<div class="prd-bottom">
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">View Details</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- single product -->
-					<div class="col-lg-3 col-md-6">
-						<div class="single-product">
-							<img class="img-fluid" src="{{ url_for('static', filename='img/product/p6.png') }}" alt="">
-							<div class="product-details">
-								<h6>Once Upon a Time in Hollywood</h6>
-								<div class="price">
-									<h6>$9.00</h6>
-									<h6 class="l-through">$15.00</h6>
-								</div>
-								<div class="prd-bottom">
-									<a href="" class="social-info">
-										<span class="lnr lnr-move"></span>
-										<p class="hover-text">View Details</p>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+            {% for movie in coming_movies %}
+					  <div class="col-lg-3 col-md-6">
+						    <div class="single-product">
+							      <img class="img-fluid" src="{{ movie['picture'] }}" alt="">
+							      <div class="product-details">
+								        <h6>{{ movie['title'] }}</h6>
+								        <div class="rating">
+									          <h6>Rated: {{ movie['rating'] }}</h6>
+                        </div>
+                        <iframe width="255" height="200" src="{{ movie['video'] }}" frameborder="0" allowfullscreen></iframe>
+								        <div class="prd-bottom">
+
+									          <a href="" class="social-info">
+										            <span class="ti-bag"></span>
+										            <p class="hover-text">Buy</p>
+									          </a>
+									          <a href="/movie_details/{{ movie['movie_id']}}" class="social-info">
+										            <span class="lnr lnr-move"></span>
+										            <p class="hover-text">View Details</p>
+									          </a>
+								        </div>
+							      </div>
+						    </div>
+					  </div>
+            {% endfor %}
+
+        </div>
 		</div>
 	</section>
 	<!-- end product Area -->
