@@ -109,23 +109,30 @@
 
   <!--================Product Description Area =================-->
   <section class="product_description_area">
-    <div class="container">
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Reviews</a>
-        </li>
-      </ul>
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-          <p>Spider-Man: Far From Home is a 2019 American superhero film based on the Marvel Comics character Spider-Man, co-produced by Columbia Pictures and Marvel Studios, and distributed by Sony Pictures Releasing. It is the sequel to Spider-Man: Homecoming (2017) and the twenty-third film in the Marvel Cinematic Universe (MCU). The film is directed by Jon Watts, written by Chris McKenna and Erik Sommers, and stars Tom Holland as Peter Parker / Spider-Man, alongside Samuel L. Jackson, Zendaya, Cobie Smulders, Jon Favreau, J. B. Smoove, Jacob Batalon, Martin Starr, Marisa Tomei, and Jake Gyllenhaal. In Spider-Man: Far From Home, Parker is recruited by Nick Fury and Mysterio to face the Elementals while he is on a school trip to Europe.
+      <h2 style="text-align:center"> Ratings and Reviews </h2>
 
-                        Discussions had begun for a sequel to Spider-Man: Homecoming by October 2016, and the project was confirmed later that year. Holland was set to return in July 2017, with Watts and the writers also returning by the end of the year. In 2018, Jackson and Gyllenhaal joined the cast as Fury and Mysterio, respectively. Holland revealed the sequel's title ahead of filming, which began in July 2018 and took place in England, the Czech Republic, Italy, and the New York metropolitan area. Production wrapped in October 2018. The film's marketing campaign attempted to avoid revealing spoilers for Avengers: Endgame prior to that film's April 2019 release.
-
-                        Spider-Man: Far From Home premiered in Hollywood on June 26, 2019, and was theatrically released in the United States on July 2, in 3D and IMAX. The film was positively reviewed for its humor, visual effects, and performances (particularly those of Holland and Gyllenhaal). It has grossed over $1.1 billion worldwide, making it the first Spider-Man film to pass the billion-dollar mark, the third-highest-grossing film of 2019, the 23rd-highest-grossing film of all time, as well as becoming Sony Pictures' highest-grossing film. </p>
-
-        </div>
+      <div style="display:flex; flex-wrap: wrap; margin: 0 auto">
+          {% for review in reviews %}
+          <div style="padding-left: 4em; padding-right:4em; width: 500px; margin: 0 auto">
+              <h3>{{review['title']}}</h3>
+              <div style="display: flex;">
+                  <h5 style="padding-right:3em">{{review['name']}}</h5>
+                  <h5 style="color: orange">{{review['rating']}} / 5</h5>
+              </div>
+              <p>{{review['review']}}</p>
+              {% if g.user != None and g.user.get('is_admin') %}
+              <form action="/movie_details/{{movie['movie_id']}}" method="post">
+              <input type="hidden" name="review_id" value="{{review['review_id']}}">
+              <button class="genric-btn danger">Delete Review</button>
+              </form>
+              {% endif %}
+          </div>
+          {% endfor %}
       </div>
-    </div>
+      <div style="text-align: center">
+          <a class="primary-btn" style="margin-top: 1em" href="/create_review/{{ movie['movie_id'] }}">Review This Movie</a>
+      </div>
+
   </section>
   <!--================End Product Description Area =================-->
   {% endblock %}

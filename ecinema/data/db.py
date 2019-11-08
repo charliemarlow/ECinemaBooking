@@ -11,7 +11,8 @@ schema_list = ["schema/address.sql",
                "schema/movie.sql",
                "schema/theater.sql",
                "schema/showroom.sql",
-               "schema/showtime.sql",]
+               "schema/showtime.sql",
+               "schema/review.sql"]
 
 
 def init_db():
@@ -22,6 +23,7 @@ def init_db():
         with current_app.open_resource(sqlFile) as f:
             db.executescript(f.read().decode('utf8'))
 
+
     db.execute(
         'INSERT INTO admin (username, password) VALUES (?, ?)',
         ("admin", generate_password_hash("Password123")),
@@ -30,6 +32,7 @@ def init_db():
         'INSERT INTO theater (name) VALUES (?)',
         ("E-Cinema",)
     )
+
     db.commit()
 
 

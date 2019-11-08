@@ -135,6 +135,23 @@ def login_required(view):
 
     return wrapped_view
 
+# used for customer only things, like reviews
+# won't let the admin login
+def customer_login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        customer = Customer()
+
+        if g.user is None:
+            return redirect(url_for('LoginController.login'))
+        elif not customer.fetch(g.user['username']) and not customer.get_status() == 'active':
+            return redirect(url_for('IndexController.index'))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
+
 def admin_login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):

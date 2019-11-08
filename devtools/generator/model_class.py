@@ -1,8 +1,8 @@
 from class_text import setup_id_template, set_all_8, set_all_12, tup_template, get_set_template, body
 
-attributes = ['time', 'available_seats', 'movie_id', 'showroom_id']
+attributes = ['customer_id', 'movie_id', 'rating', 'subject', 'review']
 
-class_name="showtime"
+class_name="review"
 capital_name=class_name.title()
 
 def create_setup_id():
@@ -56,3 +56,5 @@ print(f)
 
 with open(capital_name + ".py", 'w') as fil:
     fil.write(f)
+    print("Writing")
+print("wrote")

@@ -12,7 +12,7 @@ tup_template="self.get_{attr}()"
 
 get_set_template='''
     def get_{attr}(self) -> str:
-        return self.__title
+        return self.__{attr}
 
     def set_{attr}(self, {attr}: str):
         self.__{attr} = {attr}
