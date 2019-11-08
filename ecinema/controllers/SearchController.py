@@ -44,7 +44,7 @@ def search():
         # execute a search
         movies, error = search.execute()
 
-        if error is not None:
+        if error is not None and error != "COMINGSOON":
             flash(error)
 
     return render_template('search.html',

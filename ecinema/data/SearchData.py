@@ -8,13 +8,13 @@ class SearchData():
 
     def search_movies(self, date, category, term):
         args = []
-        if term != '':
+        if term != '' and term is not None:
             args.append(self.get_title_arg(term))
 
-        if date != '':
+        if date != '' and date is not None:
             args.append(self.get_date_arg(date))
 
-        if category is not None:
+        if category is not None and category != '':
             args.append(self.get_category_arg(category))
 
         search_arg = self.create_search_arg(args)

@@ -26,6 +26,12 @@ class Search():
             if self.__term == '' and self.__category is None and self.__date == '':
                 error = "At least one search field must be filled"
             else:
+                # check here to find movies
+                # SELECT * from movie WHERE status = "inactive" AND title LIKE "%term%"
+                # return a list of movies
+                # add something to the template that checks if
+                # there are showtimes (maybe 3 return types?)
+                # and shows coming soon instead if thats the case
                 error = "No movies found"
             return None, error
 

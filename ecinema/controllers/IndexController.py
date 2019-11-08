@@ -9,7 +9,7 @@ from ecinema.models.Movie import Movie
 bp = Blueprint('IndexController', __name__, url_prefix='/')
 
 
-@bp.route('/')
+@bp.route('/', methods=('GET', 'POST'))
 def index():
     movie = Movie()
     current_movies = movie.get_current_movies()
