@@ -104,13 +104,17 @@
                   <h6>Rating: {{ movie[0]['rating'] }}</h6>
                 </div>
                 <div>
-                    {% for showtime in movie %}
-                    {% if date_input == '' %}
-                    <h8><a>{{ showtime['time'].strftime("%m/%d/%Y") }}</a></h8>
+                    {% if movie[0]['status'] == 'inactive' or movie[0]['time'] == None%}
+                    <h8><a>Coming Soon</a></h8>
                     {% else %}
-                    <h8><a>{{ showtime['time'].strftime("%I:%M %p") }}</a></h8>
+                        {% for showtime in movie %}
+                            {% if date_input == '' %}
+                                <h8><a>{{ showtime['time'].strftime("%m/%d/%Y") }}</a></h8>
+                            {% else %}
+                                <h8><a>{{ showtime['time'].strftime("%I:%M %p") }}</a></h8>
+                            {% endif %}
+                                {% endfor %}
                     {% endif %}
-                    {% endfor %}
                 </div>
 
 

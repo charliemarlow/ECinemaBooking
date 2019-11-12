@@ -19,22 +19,42 @@ class Search():
         self.__term = term
 
     def execute(self):
+        coming_soon = []
+
         movies = self.__data_access.search_movies(self.__date, self.__category, self.__term)
-        if len(movies) > 0:
-            return self.process_results(movies), None
-        else:
+        if self.__date == '' or self.__date is None:
+            coming_soon = self.__data_access.search_coming_soon(self.__category, self.__term)
+
+        if len(movies) <= 0 and len(coming_soon) <= 0:
             if self.__term == '' and self.__category is None and self.__date == '':
                 error = "At least one search field must be filled"
             else:
-                # check here to find movies
-                # SELECT * from movie WHERE status = "inactive" AND title LIKE "%term%"
-                # return a list of movies
-                # add something to the template that checks if
-                # there are showtimes (maybe 3 return types?)
-                # and shows coming soon instead if thats the case
                 error = "No movies found"
             return None, error
 
+        if len(movies) > 0:
+            movies = self.process_results(movies)
+        else:
+            movies = []
+
+        if len(coming_soon) > 0:
+            coming_soon = self.process_coming_soon(coming_soon)
+
+        for movie in coming_soon:
+            movies.append(movie)
+
+        return movies, None
+
+    def process_coming_soon(self, coming):
+        movies = []
+        single_movie = []
+
+        for movie in coming:
+            movie = dict(movie)
+            movie['time'] = None
+            single_movie = [movie]
+            movies.append(single_movie)
+        return movies
 
     def process_results(self, results):
         curr_id = results[0]['movie_id']
