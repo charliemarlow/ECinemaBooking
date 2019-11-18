@@ -12,8 +12,11 @@ schema_list = ["schema/address.sql",
                "schema/theater.sql",
                "schema/showroom.sql",
                "schema/showtime.sql",
-               "schema/review.sql"]
-
+               "schema/review.sql",
+               "schema/booking.sql",
+               "schema/ticket.sql",
+               "schema/promo.sql",
+               "schema/price.sql"]
 
 def init_db():
     db = get_db()

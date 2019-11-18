@@ -110,6 +110,7 @@ def load_logged_in_user():
         # check for admin
         if g.user is None:
             admin = Admin()
+            # maybe a bug here? 
             g.user = dict(admin.obj_as_dict(user_id))
             g.user['is_admin'] = True
 

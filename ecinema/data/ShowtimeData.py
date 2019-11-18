@@ -46,3 +46,9 @@ class ShowtimeData(DataAccess):
         )
 
         self.__db.commit()
+
+    def get_tickets(self, sid):
+        return self.__db.execute(
+            'SELECT * FROM ticket WHERE showtime_id = ?',
+            (sid,)
+        ).fetchall()

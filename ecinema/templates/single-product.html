@@ -75,12 +75,12 @@
             <p>{{ movie['synopsis'] }}</p>
             <iframe width="500" height="250" src="{{ movie['video'] }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             {% if is_current %}
-                        <form action="#" style="">
+                        <form action="/select_seat" method="POST" style="">
               <h4>Choose a Showtime:</h4>
               <div class="input-group-icon mt-10">
                 <div class="icon"><i class="fa " aria-hidden="true"></i></div>
                 <div class="form-select" id="default-select">
-                      <select required>
+                      <select name="showtime" required>
                           <option value="">Showtimes</option>
                           {% for showtime in showtimes %}
                           <option value="{{showtime['showtime_id']}}">{{ showtime['time'].strftime("%B %d, %y  :  %I:%M %p") }}</option>
@@ -92,7 +92,7 @@
 
 
             <div class="card_area d-flex align-items-center">
-                <a class="primary-btn" style="margin-top: 1em" href="seat_selection.html">Book this Movie</a>
+                <button> <a class="primary-btn" style="margin-top: 1em; color:white">Book this Movie</a></button>
             </div>
                         </form>
                         {% else %}
