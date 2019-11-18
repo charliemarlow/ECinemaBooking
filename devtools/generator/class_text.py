@@ -41,7 +41,7 @@ class {capital_name}(Model):
         {class_name} = self.obj_as_dict(key)
 
         if {class_name} is not None:
-            self.set_id({class_name}[{class_name}_id])
+            self.set_id({class_name}['{class_name}_id'])
 {set_all_indent_12}
             self.set_is_init()
 

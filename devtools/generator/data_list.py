@@ -1,10 +1,10 @@
 from data_text import body
 
-table = "review"
+table = "price"
 capital_name=table.title()
-table_id ="review_id"
+table_id ="price_id"
 
-attributes = ['customer_id', 'movie_id', 'rating', 'subject', 'review']
+attributes = ['price']
 
 def create_attribute_values():
 

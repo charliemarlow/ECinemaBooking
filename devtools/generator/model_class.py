@@ -1,8 +1,8 @@
 from class_text import setup_id_template, set_all_8, set_all_12, tup_template, get_set_template, body
 
-attributes = ['customer_id', 'movie_id', 'rating', 'subject', 'review']
+attributes = ['price']
 
-class_name="review"
+class_name="price"
 capital_name=class_name.title()
 
 def create_setup_id():

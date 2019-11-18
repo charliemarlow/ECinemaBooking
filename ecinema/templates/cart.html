@@ -59,32 +59,32 @@
     <!--================Cart Area =================-->
     <section class="cart_area">
         <div class="container">
+            <h2>Tickets for:</h2>
+            <img src="{{movie['picture']}}" height="250px" width="200px">
+            <h3> {{ movie['title'] }} </h3>
+            <h3>On {{ showtime.strftime("%B %d, %Y  :  %I:%M %p") }} </h3>
             <div class="cart_inner">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Movie</th>
                                 <th scope='col'>Type</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
+                                <th scope="col">Seat Number</th>
                                 <th scope='col'>Delete?</th>
-                                <th scope="col">Total</th>
+                                <th scope="col">Price</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for ticket in tickets %}
                             <tr>
                                 <td>
-                                    <h3>Spiderman</h3>
-                                </td>
-                                <td>
-                                    Adult
+                                    {{ ticket['type'].title() }}
                                 </td>
 
                                 <td>
-                                    <h5>$9.00</h5>
+                                    <h5>{{ ticket['seat'] }}</h5>
                                 </td>
-                                <td id="quantity">
+<!--                                 <td id="quantity">
                                     <div class="product_count">
                                         <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
                                             class="input-text qty">
@@ -93,14 +93,18 @@
                                         <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
                                             class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                                     </div>
+                                </td>-->
+                                <td>
+                                    <form method="post">
+                                        <input type="hidden" name="delete_ticket" value="{{ ticket['tid'] }}">
+                                        <button type="submit" class="genric-btn danger">Delete Ticket</button>
+                                    </form>
                                 </td>
                                 <td>
-                                    <a href="#" style="color:red">Delete</a>
-                                </td>
-                                <td>
-                                    <h5>$9.00</h5>
+                                    <h5>{{ ticket['price'] }}</h5>
                                 </td>
                             </tr>
+                            {% endfor %}
                             <tr class="bottom_button">
                                 <td>
                                     <a class="gray_btn" href="#">Update Cart</a>
@@ -129,46 +133,9 @@
                                     <h5>Subtotal</h5>
                                 </td>
                                 <td>
-                                    <h5>$9.00</h5>
+                                    <h5>{{ subtotal }}</h5>
                                 </td>
                             </tr>
-                            <!--
-                            <tr class="shipping_area">
-                                <td>
-
-                                </td>
-                                <td>
-
-                                </td>
-                                <!--
-                                <td>
-                                    <h5>Shipping</h5>
-                                </td>
-                                <td>
-                                    <!--
-                                    <div class="shipping_box">
-                                        <ul class="list">
-                                            <li><a href="#">Pick up at theater</a></li>
-                                            <li><a href="#">Free Shipping</a></li>
-                                            <li><a href="#">Flat Rate: $10.00</a></li>
-                                            <li class="active"><a href="#">Local Delivery: $2.00</a></li>
-                                        </ul>
-                                        <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
-                                        <select class="shipping_select">
-                                            <option value="1">Bangladesh</option>
-                                            <option value="2">India</option>
-                                            <option value="4">Pakistan</option>
-                                        </select>
-                                        <select class="shipping_select">
-                                            <option value="1">Select a State</option>
-                                            <option value="2">Select a State</option>
-                                            <option value="4">Select a State</option>
-                                        </select>
-                                        <input type="text" placeholder="Postcode/Zipcode">
-                                        <a class="gray_btn" href="#">Update Details</a>
-                                    </div>
-                                </td>
-                            </tr>-->
                             <tr class="out_button_area">
                                 <td>
 
@@ -182,7 +149,7 @@
                                 <td>
                                     <div class="checkout_btn_inner d-flex align-items-center">
                                         <a class="gray_btn" href="index.html">Back to Shop</a>
-                                        <a class="primary-btn" href="checkout.html">Proceed to checkout</a>
+                                        <a class="primary-btn" href="/checkout">Proceed to checkout</a>
                                     </div>
                                 </td>
                             </tr>
