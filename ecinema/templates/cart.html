@@ -107,7 +107,7 @@
                             {% endfor %}
                             <tr class="bottom_button">
                                 <td>
-                                    <a class="gray_btn" href="#">Update Cart</a>
+                                    <a class="gray_btn" href="/select_seat">Change Seats</a>
                                 </td>
                                 <td>
 
@@ -115,12 +115,7 @@
                                 <td>
 
                                 </td>
-                                <td>
-                                    <div class="cupon_text d-flex align-items-center">
-                                        <input type="text" placeholder="Coupon Code">
-                                        <a class="primary-btn" href="#">Apply</a>
-                                    </div>
-                                </td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>
@@ -148,7 +143,9 @@
                                 </td>
                                 <td>
                                     <div class="checkout_btn_inner d-flex align-items-center">
-                                        <a class="gray_btn" href="index.html">Back to Shop</a>
+                                        <form method="post" action="/"></form>
+                                        <button type="submit"  class="gray_btn" href="index.html">Cancel Order</button>
+                                        </form>
                                         <a class="primary-btn" href="/checkout">Proceed to checkout</a>
                                     </div>
                                 </td>

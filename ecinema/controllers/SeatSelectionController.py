@@ -46,7 +46,11 @@ def select_seat():
     # we need to get an array of tuples like
     # [(seatNo, age),]
     example = [(12, "adult"), (11, "student")]
-    session['tickets'] = example
+    print(session.get('tickets'))
+    if session.get('tickets') is not None:
+        session['tickets'] = session['tickets'] + example
+    else:
+        session['tickets'] = example
 
     #CHECKOUT
     # then we'll direct users to the checkout page
