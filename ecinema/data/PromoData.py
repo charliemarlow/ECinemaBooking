@@ -13,6 +13,12 @@ class PromoData(DataAccess):
             (key,)
         ).fetchone()
 
+    def get_info_by_code(self, key: str):
+        return self.__db.execute(
+            'SELECT * FROM promo WHERE code = ?',
+            (key,)
+        ).fetchone()
+
     def get_all_promos(self):
         return self.__db.execute(
             'SELECT * FROM promo'

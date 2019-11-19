@@ -63,3 +63,10 @@ class Price(Model):
     def set_price(self, price: str):
         self.__price = price
 
+    def get_tax_price(self):
+        tax = self.__data_access.get_tax()
+        return float(tax['price'])
+
+    def get_online_fee(self):
+        fee = self.__data_access.get_fee()
+        return float(fee['price'])

@@ -6,7 +6,7 @@ from flask import (
 )
 from datetime import datetime
 
-from ecinema.tools.clean import create_datetime_from_sql
+from ecinema.tools.clean import create_datetime_from_sql, clean_tickets
 from ecinema.tools.validation import validate_name, validate_duration, validate_text
 
 from ecinema.controllers.LoginController import customer_login_required
@@ -20,16 +20,17 @@ from ecinema.models.Price import Price
 
 bp = Blueprint('BookingController', __name__, url_prefix='/')
 
-@customer_login_required
+
 @bp.route('/confirm_booking', methods=('GET', 'POST'))
+@customer_login_required
 def confirm_booking():
 
-    if session.get('tickets') is None or session.get('tickets') == '':
+    if not session.get('tickets') or not session.get('showtime'):
         return redirect(url_for('IndexController.index'))
 
     if request.method == 'POST':
         delete_id = request.form.get('delete_ticket')
-        if delete_id != '':
+        if delete_id:
             delete_id = int(delete_id)
             tickets = session['tickets']
             del session['tickets']
@@ -40,6 +41,9 @@ def confirm_booking():
                 del tickets[delete_id]
 
             session['tickets'] = tickets
+        elif request.form.get('cancel'):
+            del session['tickets']
+            return redirect(url_for('BookingController.cancel_booking'))
 
 
     # may want to refactor by creating a booking object when they tap on book ticket
@@ -63,36 +67,25 @@ def confirm_booking():
 
     # ticket type (from tickets)
     # ticket price
-    tickets = []
-    ticket = {}
-    subtotal = 0
-    tid = 0
-    for t in session['tickets']:
-        ticket['tid'] = tid
-        tid = tid + 1
-        ticket['seat'] = t[0]
-        ticket['type'] = t[1]
-
-        # fetch a price object for that type
-        # use get price to get the actual price
-        price = Price()
-        price.fetch(ticket['type'])
-        price_amt = price.get_price()
-        ticket['price'] = "${0:.2f} USD".format(price_amt)
-        subtotal = subtotal + price_amt
-
-        tickets.append(dict(ticket))
+    tickets, subtotal = clean_tickets(session['tickets'])
 
     # then calculate subtotal for the customer
     subtotal = "${0:.2f} USD".format(subtotal)
 
-    return render_template('cart.html', tickets=tickets,
+    return render_template('cart.html',
+                           tickets=tickets,
                            movie=movie.obj_as_dict(movie.get_id()),
                            showtime=showtime.get_time(),
                            subtotal=subtotal)
 
 
-@customer_login_required
+
 @bp.route('/cancel_booking', methods=('GET', 'POST'))
+@customer_login_required
 def cancel_booking():
     return render_template("bookingfail.html")
+
+@bp.route('/payment_confirmation', methods=('GET', 'POST'))
+@customer_login_required
+def payment_confirmation():
+    return render_template('confirmation.html')

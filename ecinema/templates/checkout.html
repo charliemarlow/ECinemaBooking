@@ -55,40 +55,45 @@
 
             <div class="cupon_area">
                 <div class="check_title">
-                    <h2>Have a coupon? <a href="#coupon">Click here to enter your code</a></h2>
+                    <h2>Have a coupon? Enter your promo code here</h2>
                 </div>
-                <input type="text" id="coupon" placeholder="Enter coupon code">
-                <a class="tp_btn" href="#">Apply Coupon</a>
+                <form method="post">
+                    <input type="text" name="coupon" id="coupon" placeholder="Enter coupon code">
+                    <button type="submit" class="tp_btn">Apply Coupon</button>
+                </form>
             </div>
             <div class="billing_details">
                 <div class="row">
+                    <form style="display: inline; background-color: transparent;">
                     <div class="col-lg-8">
                         <h3>Credit Card Information</h3>
-                        <form class="row contact_form" action="#" method="post" novalidate="novalidate">
                             <div class="col-md-6 form-group p_star">
                                 <input type="text" class="form-control" id="first" name="name">
                                 <span class="placeholder" data-placeholder="First name"></span>
                             </div>
-                        </form>
                         <h3>Billing Details</h3>
-                        <form class="row contact_form" action="#" method="post" novalidate="novalidate">
                             <div class="col-md-6 form-group p_star">
                                 <input type="text" class="form-control" id="first" name="name">
                                 <span class="placeholder" data-placeholder="First name"></span>
                             </div>
                         </form>
-
                     </div>
                     <div class="col-lg-4">
                         <div class="order_box">
                             <h2>Your Order</h2>
+                            <h3>For <span style="color: #ffba00">{{ movie }}</span> <br> On <span style="color: #ffba00">{{ showtime.strftime("%B %d, %Y  :  %I:%M %p") }}</span></h3>
                             <ul class="list">
-                                <li><a href="#">Product <span>Total</span></a></li>
-                                <li><a href="#">Spiderman: Far From Home<span class="middle">x 01</span> <span class="last">$9.00</span></a></li>
+                                <li><a href="#">Ticket Type <span>Total</span></a></li>
+                                {% for ticket in tickets %}
+                                <li><a href="#">{{ ticket[0]['type'].title() }}<span class="middle">x{{ ticket|length }}</span> <span class="last">{{ ticket[0]['price'] }}</span></a></li>
+                                {% endfor %}
                             </ul>
                             <ul class="list list_2">
-                                <li><a href="#">Subtotal <span>$9.00</span></a></li>
-                                <li><a href="#">Total <span>$9.00</span></a></li>
+                                <li><a href="#">Subtotal <span>{{ subtotal }}</span></a></li>
+                                {% for fee in fees %}
+                                <li><a style="font-size: 12px">{{ fee['name'] }} <span>{{ fee['amount'] }}</span></a></li>
+                                {% endfor %}
+                                <li><a href="#">Total <span>{{ total }}</span></a></li>
                             </ul>
                             <div class="payment_item">
                                 <div class="radion_btn">
@@ -111,7 +116,7 @@
                                 <label for="f-option4">I’ve read and accept the </label>
                                 <a href="#">terms & conditions*</a>
                             </div>
-                            <a class="primary-btn" href="confirmation.html">Purchase</a>
+                            <button type="submit" class="primary-btn">Purchase</button>
                             <p class="creat_account payment_item active" style="text-align:center; margin-top: 2%">Or <a href="index.html" style="color:red">cancel</a> </p>
                         </div>
                     </div>

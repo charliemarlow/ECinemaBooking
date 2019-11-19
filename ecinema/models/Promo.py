@@ -33,6 +33,21 @@ class Promo(Model):
 
         return False
 
+    def fetch_by_code(self, key: str):
+        promo = self.__data_access.get_info_by_code(key)
+
+        if promo is not None:
+            self.set_id(promo['promo_id'])
+
+            self.set_code(promo['code'])
+            self.set_promo(promo['promo'])
+            self.set_is_init()
+
+            return True
+
+        return False
+
+
     def create(self, **kwargs):
         promo = {}
         for key, value in kwargs.items():

@@ -19,9 +19,13 @@ from ecinema.models.Customer import Customer
 
 bp = Blueprint('SeatSelectionController', __name__, url_prefix='/')
 
-@customer_login_required
 @bp.route('/select_seat', methods=('GET', 'POST'))
+@customer_login_required
 def select_seat():
+
+    if not session.get('showtime') or not g.user.get('username'):
+        return redirect(url_for('IndexController.index'))
+
     # INFO we need: showtime_id and customer
     print(session['showtime'])
     print(g.user['username'])

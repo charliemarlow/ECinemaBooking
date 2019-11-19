@@ -46,3 +46,13 @@ class PriceData(DataAccess):
         )
 
         self.__db.commit()
+
+    def get_tax(self):
+        return self.__db.execute(
+        'SELECT * FROM price WHERE price_id = "tax"'
+        ).fetchone()
+
+    def get_fee(self):
+        return self.__db.execute(
+        'SELECT * FROM price WHERE price_id = "fees"'
+        ).fetchone()
