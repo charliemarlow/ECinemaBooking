@@ -75,7 +75,7 @@
             <p>{{ movie['synopsis'] }}</p>
             <iframe width="500" height="250" src="{{ movie['video'] }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             {% if is_current %}
-                        <form action="/select_seat" method="POST" style="">
+                        <form method="POST" style="">
               <h4>Choose a Showtime:</h4>
               <div class="input-group-icon mt-10">
                 <div class="icon"><i class="fa " aria-hidden="true"></i></div>
