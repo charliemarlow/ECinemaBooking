@@ -143,10 +143,12 @@ def confirm_booking():
 
 '''
 
+
 @bp.route('/cancel_booking', methods=('GET', 'POST'))
 @customer_login_required
 def cancel_booking():
     return render_template("bookingfail.html")
+
 
 @bp.route('/payment_confirmation', methods=('GET', 'POST'))
 @customer_login_required

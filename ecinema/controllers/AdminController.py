@@ -9,6 +9,7 @@ from ecinema.controllers.LoginController import admin_login_required
 
 bp = Blueprint('AdminController', __name__, url_prefix='/')
 
+
 @bp.route('/admin')
 @admin_login_required
 def admin():

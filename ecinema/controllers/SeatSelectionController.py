@@ -20,6 +20,16 @@ from ecinema.models.Customer import Customer
 
 bp = Blueprint('SeatSelectionController', __name__, url_prefix='/')
 
+
+def reserve_tickets(showtime):
+    # need to reserve tickets here
+    # add the ids of these tickets to session['ticket_ids']
+    # new tickets are anything at or after len(ticket_ids)
+    # handle tickets being removed (Delete them)
+    # tickets being added (create and add to ticket_ids)
+    pass
+
+
 @bp.route('/select_seat', methods=('GET', 'POST'))
 @customer_login_required
 def select_seat():
@@ -28,13 +38,15 @@ def select_seat():
         return redirect(url_for('IndexController.index'))
 
     # INFO we need: showtime_id and customer
-    print(session['showtime'])
-    print(g.user['username'])
     showtime = Showtime()
     showtime.fetch(session['showtime'])
+
+    if request.method == 'POST':
+        reserve_tickets(showtime)
+
     showroom = Showroom()
     showroom.fetch(showtime.get_showroom_id())
-    print(showroom.get_num_seats())
+
     tickets = showtime.get_all_tickets()
 
     # probably need to pull all tickets
@@ -44,14 +56,12 @@ def select_seat():
     if len(tickets) > 0:
         for ticket in tickets:
             seat_no = int(ticket['seat_number'])
-            print(seat_no)
-            print(len(available))
             available[seat_no] = -1
 
-    avail_dict = {'capacity' : showroom.get_num_seats(),
-                  'row' : 8,
-                  'seats' : available
-    }
+    avail_dict = {'capacity': showroom.get_num_seats(),
+                  'row': 8,
+                  'seats': available
+                  }
 
     # ZACH:
     # from this page, we'll get the seats and their ages
@@ -64,11 +74,4 @@ def select_seat():
     else:
         session['tickets'] = example
 
-    #CHECKOUT
-    # then we'll direct users to the checkout page
-    # where we confirm their information and charge them
-
-    #FINAL CONFIRMATION
-    # then pass them on to the booking confirmation page
-    # and send them an email
     return render_template("seat_selection.html", tickets=avail_dict)

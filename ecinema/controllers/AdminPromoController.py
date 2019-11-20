@@ -14,6 +14,7 @@ from ecinema.models.Promo import Promo
 
 bp = Blueprint('AdminPromosController', __name__, url_prefix='/')
 
+
 @bp.route('/manage_promos', methods=('GET', 'POST'))
 @admin_login_required
 def manage_promos():
@@ -23,16 +24,18 @@ def manage_promos():
         delete_promo_id = request.form.get('delete_promo_id')
         edit_promo_id = request.form.get('edit_promo_id')
 
-        if delete_promo_id != None and promo.fetch(delete_promo_id):
+        if delete_promo_id is not None and promo.fetch(delete_promo_id):
             # logic for cancelling tickets will go here?
             promo.delete(delete_promo_id)
-        elif edit_promo_id != None and promo.fetch(edit_promo_id):
-            return redirect(url_for('AdminPromosController.edit_promo', pid=edit_promo_id))
+        elif edit_promo_id is not None and promo.fetch(edit_promo_id):
+            return redirect(
+                url_for('AdminPromosController.edit_promo', pid=edit_promo_id))
 
     # get a list of all promos
     promos = promo.get_all_promos()
 
     return render_template('manage_promos.html', promos=promos)
+
 
 @bp.route('/edit_promo/<pid>', methods=('GET', 'POST'))
 @admin_login_required
@@ -58,15 +61,14 @@ def edit_promo(pid):
         elif promo != '':
             promo.set_promo(promo)
 
-
         promo.save()
 
         if error is not None:
             flash(error)
 
-
     info = promo.obj_as_dict(promo_id)
     return render_template('edit_promo.html', promo=info)
+
 
 @bp.route('/create_promo', methods=('GET', 'POST'))
 @admin_login_required
@@ -78,12 +80,10 @@ def create_promo():
         # validate all data, everything must be correct
         error = None
 
-
         if not validate_name(code):
             error = "code is invalid"
         elif not validate_duration(promo):
             error = "promo is invalid"
-
 
         if error is None:
             # if error is None, create a promo
@@ -94,6 +94,5 @@ def create_promo():
             return redirect(url_for('AdminPromosController.manage_promos'))
 
         flash(error)
-
 
     return render_template('make_promo.html')

@@ -110,7 +110,7 @@ def load_logged_in_user():
         # check for admin
         if g.user is None:
             admin = Admin()
-            # maybe a bug here? 
+            # maybe a bug here?
             g.user = dict(admin.obj_as_dict(user_id))
             g.user['is_admin'] = True
 
@@ -138,6 +138,8 @@ def login_required(view):
 
 # used for customer only things, like reviews
 # won't let the admin login
+
+
 def customer_login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):

@@ -1,5 +1,6 @@
 from ecinema.data.db import get_db
 
+
 class SearchData():
 
     def __init__(self):
@@ -35,7 +36,6 @@ class SearchData():
         search_arg = self.create_search_arg(args, self.__coming_select)
 
         return self.__db.execute(search_arg).fetchall()
-
 
     def create_search_arg(self, args, select):
         first = True

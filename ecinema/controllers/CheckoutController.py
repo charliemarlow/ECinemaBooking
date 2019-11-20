@@ -8,19 +8,82 @@ from datetime import datetime
 
 from ecinema.tools.clean import create_datetime_from_sql, clean_tickets, format_price
 from ecinema.tools.validation import validate_name, validate_duration, validate_text, validate_year, validate_cvv, validate_cc_number, validate_zip, validate_state, validate_year, validate_expiration_date
+from ecinema.tools.generate import generate_order_id
 
 from ecinema.controllers.LoginController import customer_login_required
 
 from ecinema.models.Movie import Movie
 from ecinema.models.Showtime import Showtime
-from ecinema.models.Showroom import Showroom
-from ecinema.models.Review import Review
 from ecinema.models.Customer import Customer
 from ecinema.models.Price import Price
 from ecinema.models.Promo import Promo
+from ecinema.models.Booking import Booking
 
 bp = Blueprint('CheckoutController', __name__, url_prefix='/')
 
+
+def clear_booking_info():
+    if session.get('tickets'):
+        del session['tickets']
+
+    if session.get('promo'):
+        del session['promo']
+
+    if session.get('checkout'):
+        del session['checkout']
+
+    if session.get('showtime'):
+        del session['showtime']
+
+    if session.get('total'):
+        del session['total']
+
+
+def create_booking_objects():
+    order_id = 0
+    total = session['total']
+    card_id = request.form['card_id']
+    showtime_id = session['showtime']
+    movie_id = get_movie_by_showtime(showtime_id).get_id()
+    customer_id = get_current_customer().get_id()
+
+    promo_id = None
+    if session.get('promo'):
+        promo_id = session['promo']['id']
+
+    booking = Booking()
+    booking.create(order_id=order_id,
+                   total_price=total,
+                   credit_card_id=card_id,
+                   promo_id=promo_id,
+                   movie_id=movie_id,
+                   customer_id=customer_id,
+                   showtime_id=showtime_id)
+
+    unique_id = booking.get_id()
+    order = generate_order_id(unique_id, showtime_id, movie_id)
+    booking.set_order_id(order)
+    booking.save()
+
+    associate_tickets(booking.get_id())
+
+
+def associate_tickets(booking_id):
+    pass
+
+
+def get_current_customer():
+    customer = Customer()
+    customer.fetch(g.user['username'])
+    return customer
+
+
+def get_movie_by_showtime(sid):
+    movie = Movie()
+    showtime = Showtime()
+    showtime.fetch(sid)
+    movie.fetch(showtime.get_movie_id())
+    return movie
 
 
 def delete_ticket(delete_id):
@@ -35,6 +98,7 @@ def delete_ticket(delete_id):
 
     session['tickets'] = tickets
 
+
 def get_ticket_type_lists(tickets):
     tickets = sorted(tickets, key=lambda k: k['type'])
 
@@ -42,24 +106,27 @@ def get_ticket_type_lists(tickets):
     current_type = tickets[0]['type']
     old_type = tickets[0]['type']
 
-    current_tickets = [] # current list being created
-    all_tickets = [] # final 2D array of tickets by types
+    current_tickets = []  # current list being created
+    all_tickets = []  # final 2D array of tickets by types
 
     for t in tickets:
         current_type = t['type']
         if current_type != old_type:
-            current_tickets[0]['checkout_price']  = format_price(current_tickets[0]['num_price'] * len(current_tickets) )
+            current_tickets[0]['checkout_price'] = format_price(
+                current_tickets[0]['num_price'] * len(current_tickets))
             all_tickets.append(list(current_tickets))
             current_tickets.clear()
 
         current_tickets.append(dict(t))
         old_type = t['type']
 
-    current_tickets[0]['checkout_price']  = format_price(current_tickets[0]['num_price'] * len(current_tickets) )
+    current_tickets[0]['checkout_price'] = format_price(
+        current_tickets[0]['num_price'] * len(current_tickets))
     all_tickets.append(list(current_tickets))
     return all_tickets
 
-def calculate_fees_and_total(subtotal, promo, promo_percent):
+
+def calculate_fees_and_total(subtotal):
     price = Price()
     tax_price = price.get_tax_price() * subtotal
     online_fee = price.get_online_fee()
@@ -70,9 +137,9 @@ def calculate_fees_and_total(subtotal, promo, promo_percent):
         {'name': 'Online Booking', 'amount': format_price(online_fee)}
     ]
 
-    if promo_percent is not None:
-        promo_amt = promo_percent * subtotal
-        promo_fee = {'name': 'Promo: {}'.format(promo.get_code()),
+    if session.get('promo'):
+        promo_amt = session['promo']['percent'] * subtotal
+        promo_fee = {'name': 'Promo: {}'.format(session['promo']['name']),
                      'amount': "-" + format_price(promo_amt)}
         fees.append(promo_fee)
         total = total - promo_amt
@@ -84,8 +151,12 @@ def apply_promo(promo):
     promo_code = request.form['coupon']
 
     if promo.fetch_by_code(promo_code):
-        return float(promo.get_promo())
+        promo_dict = {'id': promo.get_id(),
+                      'name': promo.get_code(),
+                      'percent': float(promo.get_promo())}
+        return promo_dict
     return None
+
 
 @bp.route('/checkout', methods=('GET', 'POST'))
 @customer_login_required
@@ -93,36 +164,30 @@ def checkout():
 
     if (not session.get('showtime') or
         not session.get('tickets') or
-        not g.user.get('username')):
+            not g.user.get('username')):
         return redirect(url_for('IndexController.index'))
 
-    '''
-    for t in session['ticket_ids']:
-        print(t)
-    '''
-    promo_percent = None
-    promo = None
     if request.method == 'POST':
-        error = None
         delete_id = request.form.get('delete_ticket')
 
         if request.form.get('coupon'):
             promo = Promo()
-            promo_percent = apply_promo(promo)
+            session['promo'] = apply_promo(promo)
         elif delete_id:
             delete_ticket(delete_id)
         elif request.form.get('add_payment'):
-            # TODO: fix it so that it doesn't do away with promo info
             session['checkout'] = True
             return redirect(url_for('AccountController.make_payment'))
         elif request.form.get('checkout'):
             if request.form.get('card_id'):
-                # TODO: create booking and go to confirmation
-                return redirect(url_for('BookingController.payment_confirmation'))
+                create_booking_objects()
+                clear_booking_info()
+                return redirect(
+                    url_for('BookingController.payment_confirmation'))
             else:
-                flash("Pick a card")
+                flash("Please choose a payment card to proceed with checkout")
         elif request.form.get('cancel'):
-            # TODO: Clean up
+            clear_booking_info()
             return redirect(url_for('IndexController.index'))
 
         # need to verify all user information
@@ -152,9 +217,8 @@ def checkout():
     # each list is a different type
     all_tickets = get_ticket_type_lists(tickets)
 
-    fees, total = calculate_fees_and_total(subtotal,
-                                           promo,
-                                           promo_percent)
+    fees, total = calculate_fees_and_total(subtotal)
+    session['total'] = total
 
     total = format_price(total)
     subtotal = format_price(subtotal)
