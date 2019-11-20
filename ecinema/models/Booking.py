@@ -1,7 +1,7 @@
 
 from ecinema.models.model import Model
 from ecinema.data.BookingData import BookingData
-
+from ecinema.tools.clean import create_datetime_from_sql
 
 class Booking(Model):
 
@@ -15,6 +15,7 @@ class Booking(Model):
         self.__movie_id = None
         self.__customer_id = None
         self.__showtime_id = None
+        self.__order_date = None
         self._Model__is_init = False
         self._Model__id = None
         self.__data_access = BookingData()
@@ -38,6 +39,7 @@ class Booking(Model):
             self.set_movie_id(booking['movie_id'])
             self.set_customer_id(booking['customer_id'])
             self.set_showtime_id(booking['showtime_id'])
+            self.set_order_date(create_datetime_from_sql(booking['order_date']))
             self.set_is_init()
 
             return True
@@ -56,6 +58,7 @@ class Booking(Model):
         self.set_movie_id(booking['movie_id'])
         self.set_customer_id(booking['customer_id'])
         self.set_showtime_id(booking['showtime_id'])
+        self.set_order_date(booking['order_date'])
         self.set_is_init()
 
         member_tup = (
@@ -65,7 +68,8 @@ class Booking(Model):
             self.get_promo_id(),
             self.get_movie_id(),
             self.get_customer_id(),
-            self.get_showtime_id())
+            self.get_showtime_id(),
+            self.get_order_date())
 
         self.set_id(self.__data_access.insert_info(member_tup))
 
@@ -81,13 +85,23 @@ class Booking(Model):
             self.get_movie_id(),
             self.get_customer_id(),
             self.get_showtime_id(),
+            self.get_order_date(),
             self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
 
+    def get_tickets(self):
+        return self.__data_access.get_tickets(self.get_id())
+
     def delete(self, key: str):
         self.__data_access.delete(key)
+
+    def get_order_date(self) -> str:
+        return self.__order_date
+
+    def set_order_date(self, date) -> str:
+        self.__order_date = date
 
     def get_order_id(self) -> str:
         return self.__order_id

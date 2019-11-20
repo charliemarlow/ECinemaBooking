@@ -18,6 +18,7 @@ from ecinema.models.Customer import Customer
 from ecinema.models.Price import Price
 from ecinema.models.Promo import Promo
 from ecinema.models.Booking import Booking
+from ecinema.models.Ticket import Ticket
 
 bp = Blueprint('CheckoutController', __name__, url_prefix='/')
 
@@ -38,6 +39,8 @@ def clear_booking_info():
     if session.get('total'):
         del session['total']
 
+    if session.get('ticket_ids'):
+        del session['ticket_ids']
 
 def create_booking_objects():
     order_id = 0
@@ -46,6 +49,7 @@ def create_booking_objects():
     showtime_id = session['showtime']
     movie_id = get_movie_by_showtime(showtime_id).get_id()
     customer_id = get_current_customer().get_id()
+    order_date = datetime.now()
 
     promo_id = None
     if session.get('promo'):
@@ -58,7 +62,8 @@ def create_booking_objects():
                    promo_id=promo_id,
                    movie_id=movie_id,
                    customer_id=customer_id,
-                   showtime_id=showtime_id)
+                   showtime_id=showtime_id,
+                   order_date=order_date)
 
     unique_id = booking.get_id()
     order = generate_order_id(unique_id, showtime_id, movie_id)
@@ -66,10 +71,31 @@ def create_booking_objects():
     booking.save()
 
     associate_tickets(booking.get_id())
+    send_confirmation_email()
+    return booking.get_id()
 
+def send_confirmation_email():
+    customer = get_current_customer()
+
+    showtime_id = session['showtime']
+    showtime = Showtime()
+    showtime.fetch(showtime_id)
+
+    movie = get_movie_by_showtime(showtime_id)
+
+    time = showtime.get_time().strftime("%B %d, %Y  :  %I:%M %p")
+    customer.send_booking_email(movie.get_title(), time)
 
 def associate_tickets(booking_id):
-    pass
+    if not session.get('ticket_ids'):
+        print("Error in associate tickets")
+        return
+
+    ticket = Ticket()
+    for tid in session['ticket_ids']:
+        ticket.fetch(tid)
+        ticket.set_booking_id(booking_id)
+        ticket.save()
 
 
 def get_current_customer():
@@ -154,8 +180,8 @@ def apply_promo(promo):
         promo_dict = {'id': promo.get_id(),
                       'name': promo.get_code(),
                       'percent': float(promo.get_promo())}
-        return promo_dict
-    return None
+        return promo_dict, None
+    return None, "Promo not found"
 
 
 @bp.route('/checkout', methods=('GET', 'POST'))
@@ -172,7 +198,9 @@ def checkout():
 
         if request.form.get('coupon'):
             promo = Promo()
-            session['promo'] = apply_promo(promo)
+            session['promo'], error = apply_promo(promo)
+            if error is not None:
+                flash(error)
         elif delete_id:
             delete_ticket(delete_id)
         elif request.form.get('add_payment'):
@@ -180,26 +208,15 @@ def checkout():
             return redirect(url_for('AccountController.make_payment'))
         elif request.form.get('checkout'):
             if request.form.get('card_id'):
-                create_booking_objects()
+                bid = create_booking_objects()
                 clear_booking_info()
                 return redirect(
-                    url_for('BookingController.payment_confirmation'))
+                    url_for('BookingController.payment_confirmation', bid=bid))
             else:
                 flash("Please choose a payment card to proceed with checkout")
         elif request.form.get('cancel'):
             clear_booking_info()
             return redirect(url_for('IndexController.index'))
-
-        # need to verify all user information
-        # verify the promo
-        # then check card info
-        # either verify new card info or not
-        # either flash an error message
-        # or create the booking object
-        # then create the ticket(s) object(s)
-        # then save and email the user, go to confirmation
-        #        if error is None:
-        #    return redirect(url_for('BookingController.payment_confirmation'))
 
     customer = Customer()
     customer.fetch(g.user['username'])

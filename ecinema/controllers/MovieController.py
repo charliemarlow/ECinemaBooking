@@ -16,12 +16,17 @@ from ecinema.models.Showtime import Showtime
 from ecinema.models.Review import Review
 from ecinema.models.Customer import Customer
 
+from ecinema.tools.data_integrity import clear_all_booking
+
 bp = Blueprint('MovieController', __name__, url_prefix='/')
 
 
 @bp.route('/movie_details/<mid>', methods=('GET', 'POST'))
 def movie_details(mid):
     print(mid)
+
+    clear_all_booking()
+
     movie = Movie()
     movie_dict = {}
     if movie.fetch(mid):

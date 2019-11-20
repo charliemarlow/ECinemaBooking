@@ -13,6 +13,7 @@ from ecinema.models.CreditCard import CreditCard
 from ecinema.controllers.LoginController import (
     login_required, verify_username_password, get_user
 )
+from ecinema.tools.data_integrity import clear_all_booking
 
 from ecinema.tools.validation import (
     validate_name, validate_email, validate_unique_email,
@@ -172,6 +173,7 @@ def edit_profile():
 def manage_payment():
     # call customer object to return a list of all
     # credit cards
+    clear_all_booking()
     customer = Customer()
     fetched = customer.fetch(session['user_id'])
 
