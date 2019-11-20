@@ -2,7 +2,7 @@ import functools
 
 from flask import (
     Blueprint, render_template, redirect, url_for, request, g, flash,
-    session
+    session, current_app, Flask
 )
 import datetime
 
@@ -18,11 +18,60 @@ from ecinema.models.Showroom import Showroom
 from ecinema.models.Review import Review
 from ecinema.models.Customer import Customer
 from ecinema.models.Price import Price
+from ecinema.models.Ticket import Ticket
 
 bp = Blueprint('BookingController', __name__, url_prefix='/')
 
-def test():
-    print("test...\n\n!!!")
+'''
+def clear_tickets(session):
+    print("requesting context")
+    app = Flask(__name__)
+    app.app_context().push()
+    with app.app_context():
+        with current_app.app_context():
+            print("in clear tickets")
+            if session.get('tickets') and session.get('ticket_ids'):
+                print("sessionion gotem")
+                ticket = Ticket()
+                del session['tickets']
+                ticket = ticket.fetch(session['ticket_ids'][0])
+
+                showtime = Showtime()
+                showtime.fetch(ticket.get_showtime_id())
+
+                new_available = showtime.get_available_seats() + len(session['tickets'])
+                showtime.set_available_seats(new_available)
+                showtime.save()
+
+                for tid in session['ticket_ids']:
+                    ticket.delete(tid)
+
+                del session['ticket_ids']
+
+def reserve_tickets(showtime):
+    with current_app.app_context():
+        print("success")
+
+    new_available = showtime.get_available_seats() - len(session['tickets'])
+    showtime.set_available_seats(new_available)
+    showtime.save()
+
+    showtime_id = showtime.get_id()
+    session['ticket_ids'] = []
+
+    for ticket_tuple in session['tickets']:
+        ticket = Ticket()
+        ticket.create(showtime_id=showtime_id,
+                      booking_id=None,
+                      age=ticket_tuple[1],
+                      seat_number=ticket_tuple[0])
+        session['ticket_ids'].append(ticket.get_id())
+
+    scheduler = BackgroundScheduler()
+    one_hour = datetime.datetime.now() + datetime.timedelta(seconds=1)
+    scheduler.add_job(func=lambda: clear_tickets(session), trigger="date", run_date=one_hour)
+    scheduler.start()
+
 
 @bp.route('/confirm_booking', methods=('GET', 'POST'))
 @customer_login_required
@@ -30,6 +79,9 @@ def confirm_booking():
 
     if not session.get('tickets') or not session.get('showtime'):
         return redirect(url_for('IndexController.index'))
+
+    showtime = Showtime()
+    showtime.fetch(session['showtime'])
 
     if request.method == 'POST':
         delete_id = request.form.get('delete_ticket')
@@ -47,6 +99,10 @@ def confirm_booking():
         elif request.form.get('cancel'):
             del session['tickets']
             return redirect(url_for('BookingController.cancel_booking'))
+        elif request.form.get('proceed'):
+            print("proceeding")
+            # reserve_tickets(showtime)
+            return redirect(url_for('CheckoutController.checkout'))
         # need to add logic for going to the next page
         # it should hold the tickets, and start a checkout timer
         # reserving means reducing the showtimes available seats
@@ -54,12 +110,6 @@ def confirm_booking():
         # if time passes, we reset the available seats
         # and
 
-    '''
-    scheduler = BackgroundScheduler()
-    dt = datetime.datetime.now() + datetime.timedelta(minutes=2)
-    scheduler.add_job(func=test, trigger="date", run_date=dt)
-    scheduler.start()
-    '''
     # may want to refactor by creating a booking object when they tap on book ticket
     # then creating tickets during seat selection
     # so then we'd have an incomplete booking and ticket objects
@@ -72,7 +122,6 @@ def confirm_booking():
 
     # we need to figure out
     # showtime date/time
-    showtime = Showtime()
     showtime.fetch(session['showtime'])
 
     # movie name
@@ -92,7 +141,7 @@ def confirm_booking():
                            showtime=showtime.get_time(),
                            subtotal=subtotal)
 
-
+'''
 
 @bp.route('/cancel_booking', methods=('GET', 'POST'))
 @customer_login_required

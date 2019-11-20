@@ -63,66 +63,138 @@
                 </form>
             </div>
             <div class="billing_details">
-                <form>
-                <div class="row">
-                    <div class="col-lg-8">
-                        <h3>Credit Card Information</h3>
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name">
-                                <span class="placeholder" data-placeholder="First name"></span>
-                            </div>
-                        <h3>Billing Details</h3>
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name">
-                                <span class="placeholder" data-placeholder="First name"></span>
-                            </div>
-                    </div>
+                {% for message in get_flashed_messages() %}
+                <div class="flash" style="color:red; background:#FFDEDE; text-align: center">{{ message }}</div>
+                {% endfor %}
+
+                    <div class="row">
+
+                        <div class="col-lg-8">
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope='col'>Type</th>
+                                                <th scope="col">Seat Number</th>
+                                                <th scope='col'>Delete?</th>
+                                                <th scope="col">Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for t in tickets %}
+                                            {% for ticket in t %}
+                                            <tr>
+                                                <td>
+                                                    {{ ticket['type'].title() }}
+                                                </td>
+
+                                                <td>
+                                                    <h5>{{ ticket['seat'] }}</h5>
+                                                </td>
+                                                <td>
+                                                    <form method="post">
+                                                        <input type="hidden" name="delete_ticket" value="{{ ticket['tid'] }}">
+                                                        <button type="submit" class="genric-btn danger">Delete Ticket</button>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <h5>{{ ticket['price'] }}</h5>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endfor %}
+                                            <tr class="bottom_button">
+                                                <td>
+                                                    <a class="gray_btn" href="/select_seat">Change Seats</a>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+                                                    <h5>Subtotal</h5>
+                                                </td>
+                                                <td>
+                                                    <h5>{{ subtotal }}</h5>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                        </div>
+
                     <div class="col-lg-4">
                         <div class="order_box">
                             <h2>Your Order</h2>
-                            <h3>For <span style="color: #ffba00">{{ movie }}</span> <br> On <span style="color: #ffba00">{{ showtime.strftime("%B %d, %Y  :  %I:%M %p") }}</span></h3>
+                            <img  src="{{movie['picture']}}" height="250px" width="200px">
+                            <h3>For <span style="color: #ffba00">{{ movie['title'] }}</span> <br> On <span style="color: #ffba00">{{ showtime.strftime("%B %d, %Y  :  %I:%M %p") }}</span></h3>
                             <ul class="list">
-                                <li><a href="#">Ticket Type <span>Total</span></a></li>
+                                <li><a >Ticket Type <span>Total</span></a></li>
                                 {% for ticket in tickets %}
-                                <li><a href="#">{{ ticket[0]['type'].title() }}<span class="middle">x{{ ticket|length }}</span> <span class="last">{{ ticket[0]['price'] }}</span></a></li>
+                                <li><a >{{ ticket[0]['type'].title() }}<span class="middle">x{{ ticket|length }}</span> <span class="last">{{ ticket[0]['checkout_price'] }}</span></a></li>
                                 {% endfor %}
                             </ul>
                             <ul class="list list_2">
-                                <li><a href="#">Subtotal <span>{{ subtotal }}</span></a></li>
+                                <li><a >Subtotal <span>{{ subtotal }}</span></a></li>
                                 {% for fee in fees %}
                                 <li><a style="font-size: 12px">{{ fee['name'] }} <span>{{ fee['amount'] }}</span></a></li>
                                 {% endfor %}
-                                <li><a href="#">Total <span>{{ total }}</span></a></li>
+                                <li><a >Total <span>{{ total }}</span></a></li>
                             </ul>
+                            {% if cards|length < 3 %}
+                            <div style="text-align: center; display: flex; justify-content: center; margin-bottom: 5px">
+                                <form method="post" >
+                                        <input hidden name="add_payment" value="1" type="hidden">
+                                        <button type="submit" class="primary-btn">Add New Card</button>
+                                </form>
+                                </div>
+                                        <div class="payment_item">
+                                            <p>Enter your credit card details</p>
+                                </div>
+                            <div style="margin-top: 1em; margin-bottom: 1em; text-align: center">
+                                OR
+                            </div>
+
+                            {% endif %}
+                        <form method="post">
                             <div class="payment_item">
-                                <div class="radion_btn">
-                                    <input type="radio" id="f-option5" name="selector">
-                                    <label for="f-option5">Credit Card on File</label>
-                                    <div class="check"></div>
+                                <div class="form-select" name="card_id" style="margin-bottom: 5px">
+                                    <select name="card_id" style="z-index: 5">
+                                        <option value=""  selected>Select a Saved Credit Card</option>
+                                        {% for card in cards %}
+                                        <option value="{{ card['credit_card_id']}}">{{ card['type'].upper()}} - **** **** **** {{ card['last_four'] }}</option>
+                                            {% endfor %}
+                                    </select>
                                 </div>
                                 <p>Pay with your card on file</p>
                             </div>
-                            <div class="payment_item">
-                                <div class="radion_btn">
-                                    <input type="radio" id="f-option5" name="selector">
-                                    <label for="f-option5">New Credit Card</label>
-                                    <div class="check"></div>
-                                </div>
-                                <p>Enter your credit card details</p>
-                            </div>
-                            <div class="creat_account">
-                                <input type="checkbox" id="f-option4" name="selector">
-                                <label for="f-option4">I’ve read and accept the </label>
-                                <a href="#">terms & conditions*</a>
-                            </div>
+                            <div style="display: flex; justify-content: center">
+                            <input hidden name="checkout" value="1" type="hidden">
                             <button type="submit" class="primary-btn">Purchase</button>
-                            <p class="creat_account payment_item active" style="text-align:center; margin-top: 2%">Or <a href="index.html" style="color:red">cancel</a> </p>
+                            </div>
+                                        </form>
+                                        <form method="post">
+                                            <div style="display: flex; justify-content: center">
+                                                <input type="hidden" name="cancel" value="1">
+                                                <button type="submit" class="genric-btn danger" style="text-align:center; margin-top: 2%">Cancel Booking</button>
+                                            </div>
+                                        </form>
+
                         </div>
                     </div>
                 </div>
-                </form>
             </div>
-        </div>  
+        </div>
     </section>
     <!--================End Checkout Area =================-->
     {% endblock %}

@@ -145,9 +145,12 @@
                                     <div class="checkout_btn_inner d-flex align-items-center">
                                         <form method="post">
                                             <input type="hidden" name="cancel" value="1">
-                                            <button type="submit"  class="gray_btn" href="index.html">Cancel Order</button>
+                                            <button type="submit"  class="gray_btn">Cancel Order</button>
                                         </form>
-                                        <a class="primary-btn" href="/checkout">Proceed to checkout</a>
+                                        <form method="post">
+                                            <input type="hidden" name="proceed" value="1">
+                                            <button type="submit" class="primary-btn" name="proceed" href="">Proceed to checkout</button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

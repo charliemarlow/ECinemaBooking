@@ -1,5 +1,6 @@
 import functools
 
+from ecinema.data.db import get_db
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -135,7 +136,13 @@ def create_movie():
         # validate all data, everything must be correct
         error = None
 
-        if not validate_name(title):
+        db = get_db()
+        if db.execute(
+            'SELECT * FROM movie WHERE title = ? ',
+            (title,)
+        ).fetchone() is not None:
+            error = "Movie already exists"
+        elif not validate_name(title):
             error = "Movie title is too short or too long"
         elif not validate_name(director):
             error = "Director name is too short or too long"

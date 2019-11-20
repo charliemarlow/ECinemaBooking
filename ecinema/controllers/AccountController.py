@@ -277,6 +277,9 @@ def make_payment():
                             cardtype=card_type)
                 customer.send_add_payment_email(card_type)
                 # return the home profile
+                if request.form.get('checkout'):
+                    del session['checkout']
+                    return redirect(url_for('CheckoutController.checkout'))
                 return redirect(url_for('AccountController.manage_payment'))
             else:
                 error = "Invalid customer"

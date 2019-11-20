@@ -146,7 +146,7 @@ def customer_login_required(view):
 
         if g.user is None:
             return redirect(url_for('LoginController.login'))
-        elif not customer.fetch(g.user['username']) or not customer.get_status() == 'active':
+        elif not customer.fetch(g.user['username']) and not customer.get_status() == 'active':
             return redirect(url_for('IndexController.index'))
         print(g.user['username'])
         return view(**kwargs)

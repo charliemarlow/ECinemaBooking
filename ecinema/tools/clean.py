@@ -57,3 +57,6 @@ def clean_tickets(a_tickets):
 
         tickets.append(dict(ticket))
     return tickets, subtotal
+
+def format_price(string) -> str:
+    return "${0:.2f} USD".format(string)
