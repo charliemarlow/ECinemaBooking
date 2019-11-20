@@ -4,12 +4,13 @@ from flask import (
     Blueprint, render_template, redirect, url_for, request, g, flash,
     session
 )
-from datetime import datetime
+import datetime
 
 from ecinema.tools.clean import create_datetime_from_sql, clean_tickets
 from ecinema.tools.validation import validate_name, validate_duration, validate_text
 
 from ecinema.controllers.LoginController import customer_login_required
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from ecinema.models.Movie import Movie
 from ecinema.models.Showtime import Showtime
@@ -20,6 +21,8 @@ from ecinema.models.Price import Price
 
 bp = Blueprint('BookingController', __name__, url_prefix='/')
 
+def test():
+    print("test...\n\n!!!")
 
 @bp.route('/confirm_booking', methods=('GET', 'POST'))
 @customer_login_required
@@ -44,8 +47,19 @@ def confirm_booking():
         elif request.form.get('cancel'):
             del session['tickets']
             return redirect(url_for('BookingController.cancel_booking'))
+        # need to add logic for going to the next page
+        # it should hold the tickets, and start a checkout timer
+        # reserving means reducing the showtimes available seats
+        # and creating tickets for those seats with a null booking id
+        # if time passes, we reset the available seats
+        # and
 
-
+    '''
+    scheduler = BackgroundScheduler()
+    dt = datetime.datetime.now() + datetime.timedelta(minutes=2)
+    scheduler.add_job(func=test, trigger="date", run_date=dt)
+    scheduler.start()
+    '''
     # may want to refactor by creating a booking object when they tap on book ticket
     # then creating tickets during seat selection
     # so then we'd have an incomplete booking and ticket objects

@@ -1,4 +1,5 @@
 import functools
+import json
 
 from flask import (
     Blueprint, render_template, redirect, url_for, request, g, flash,
@@ -39,11 +40,16 @@ def select_seat():
     # probably need to pull all tickets
     # for this showtime, and get a list of taken
     # seats to pass to zach
-    available = range(showroom.get_num_seats())
+    available = list(range(showroom.get_num_seats()))
     if len(tickets) > 0:
         for ticket in tickets:
             seat_no = int(ticket['seat_number'])
             available[seat_no - 1] = -1
+
+    avail_dict = {'capacity' : showroom.get_num_seats(),
+                  'row' : 8,
+                  'seats' : available
+    }
 
     # ZACH:
     # from this page, we'll get the seats and their ages
@@ -63,4 +69,4 @@ def select_seat():
     #FINAL CONFIRMATION
     # then pass them on to the booking confirmation page
     # and send them an email
-    return render_template("seat_selection.html", tickets=available)
+    return render_template("seat_selection.html", tickets=avail_dict)
