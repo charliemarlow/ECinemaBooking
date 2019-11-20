@@ -23,6 +23,7 @@ from ecinema.models.Booking import Booking
 
 bp = Blueprint('BookingController', __name__, url_prefix='/')
 
+
 @bp.route('/cancel_booking', methods=('GET', 'POST'))
 @customer_login_required
 def cancel_booking():
@@ -33,7 +34,6 @@ def cancel_booking():
 @customer_login_required
 def payment_confirmation(bid):
     fees = []
-
 
     booking = Booking()
     if not booking.fetch(bid):

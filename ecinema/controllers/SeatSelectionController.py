@@ -50,6 +50,7 @@ def reserve_tickets(showtime):
                           seat_number=ticket_tuple[0])
             session['ticket_ids'].append(ticket.get_id())
 
+
 def reset_available_seats():
     if not session.get('showtime'):
         print("Error resetting available seats")
@@ -65,7 +66,8 @@ def reset_available_seats():
     new_avail = avail + reset_len
     showtime.set_available_seats(new_avail)
     showtime.save()
-    
+
+
 def clear_ticket_ids():
     ticket = Ticket()
 
@@ -73,6 +75,7 @@ def clear_ticket_ids():
         for tid in session['ticket_ids']:
             ticket.delete(tid)
         del session['ticket_ids']
+
 
 @bp.route('/select_seat', methods=('GET', 'POST'))
 @customer_login_required

@@ -42,6 +42,7 @@ def clear_booking_info():
     if session.get('ticket_ids'):
         del session['ticket_ids']
 
+
 def create_booking_objects():
     order_id = 0
     total = session['total']
@@ -74,6 +75,7 @@ def create_booking_objects():
     send_confirmation_email()
     return booking.get_id()
 
+
 def send_confirmation_email():
     customer = get_current_customer()
 
@@ -85,6 +87,7 @@ def send_confirmation_email():
 
     time = showtime.get_time().strftime("%B %d, %Y  :  %I:%M %p")
     customer.send_booking_email(movie.get_title(), time)
+
 
 def associate_tickets(booking_id):
     if not session.get('ticket_ids'):

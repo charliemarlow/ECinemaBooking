@@ -3,6 +3,7 @@ from ecinema.models.model import Model
 from ecinema.data.BookingData import BookingData
 from ecinema.tools.clean import create_datetime_from_sql
 
+
 class Booking(Model):
 
     def __init__(self):
@@ -39,7 +40,9 @@ class Booking(Model):
             self.set_movie_id(booking['movie_id'])
             self.set_customer_id(booking['customer_id'])
             self.set_showtime_id(booking['showtime_id'])
-            self.set_order_date(create_datetime_from_sql(booking['order_date']))
+            self.set_order_date(
+                create_datetime_from_sql(
+                    booking['order_date']))
             self.set_is_init()
 
             return True

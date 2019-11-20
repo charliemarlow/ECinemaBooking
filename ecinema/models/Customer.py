@@ -297,4 +297,3 @@ E-Cinema Booking
         """
         message = message.format(self.get_first_name(), movie, showtime)
         send_email(self.get_email(), subject, message)
-
