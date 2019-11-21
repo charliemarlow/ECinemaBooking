@@ -114,8 +114,7 @@ def edit_profile():
                     info_changed = True
                 else:
                     error = addr_error
-            else:
-                error = "To create a home address, all address information is required with zip code in #####-#### format and state in ## format"
+
         else:
             print("about to fetch addr")
             print(addr.fetch(addr_id))
