@@ -72,11 +72,11 @@ def create_booking_objects():
     booking.save()
 
     associate_tickets(booking.get_id())
-    send_confirmation_email()
+    send_confirmation_email(order, format_price(total))
     return booking.get_id()
 
 
-def send_confirmation_email():
+def send_confirmation_email(order_id, total):
     customer = get_current_customer()
 
     showtime_id = session['showtime']
@@ -85,8 +85,22 @@ def send_confirmation_email():
 
     movie = get_movie_by_showtime(showtime_id)
 
-    time = showtime.get_time().strftime("%B %d, %Y  :  %I:%M %p")
-    customer.send_booking_email(movie.get_title(), time)
+    time = showtime.get_time().strftime("%B %d, %Y  at %I:%M %p")
+    customer.send_booking_email(movie.get_title(), time,
+                                order_id, total,
+                                generate_tickets_email())
+
+def generate_tickets_email():
+
+    if not session.get('tickets'):
+        return ""
+
+    email = "\nTicket Summary\n"
+    template = "Seat Number: {}, Age: {}\n"
+    for t in session['tickets']:
+        email = email + template.format(t[0], t[1].title())
+
+    return email
 
 
 def associate_tickets(booking_id):

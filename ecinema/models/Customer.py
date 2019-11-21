@@ -280,14 +280,18 @@ E-Cinema Booking
 
         send_email(self.get_email(), subject, message)
 
-    def send_booking_email(self, movie, showtime):
-        subject = "New Booking"
+    def send_booking_email(self, movie, showtime, oid, total, tickets):
+        subject = "Ticket Booking Confirmation"
 
         message = """Hey {},
 
-        Tickets for {} on {} were just purchased on your """\
-            + """account on the E-Cinema Booking website. """\
-            + """If you did not authorize this, please reset """\
+        Tickets for {} for the date {} were just purchased on your """\
+            + """account on the E-Cinema Booking website.\n\n """\
+            + """Order Information\n"""\
+            + """Order ID: {}\n"""\
+            + """Price: {}\n"""\
+            + """{}"""\
+            + """\nIf you did not authorize this, please reset """\
             + """your E-Cinema Booking account password. """\
             + """
 
@@ -295,5 +299,5 @@ Best,
 
 E-Cinema Booking
         """
-        message = message.format(self.get_first_name(), movie, showtime)
+        message = message.format(self.get_first_name(), movie, showtime, oid, total, tickets)
         send_email(self.get_email(), subject, message)
