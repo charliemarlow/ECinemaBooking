@@ -1,6 +1,7 @@
 from ecinema.data.SearchData import SearchData
 from ecinema.tools.clean import create_datetime_from_sql
 
+
 class Search():
 
     def __init__(self):
@@ -21,9 +22,11 @@ class Search():
     def execute(self):
         coming_soon = []
 
-        movies = self.__data_access.search_movies(self.__date, self.__category, self.__term)
+        movies = self.__data_access.search_movies(
+            self.__date, self.__category, self.__term)
         if self.__date == '' or self.__date is None:
-            coming_soon = self.__data_access.search_coming_soon(self.__category, self.__term)
+            coming_soon = self.__data_access.search_coming_soon(
+                self.__category, self.__term)
 
         if len(movies) <= 0 and len(coming_soon) <= 0:
             if self.__term == '' and self.__category is None and self.__date == '':
@@ -75,4 +78,3 @@ class Search():
 
         all_movies.append(single_movie)
         return all_movies
-

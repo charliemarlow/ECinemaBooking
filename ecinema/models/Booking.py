@@ -1,6 +1,8 @@
 
 from ecinema.models.model import Model
 from ecinema.data.BookingData import BookingData
+from ecinema.tools.clean import create_datetime_from_sql
+
 
 class Booking(Model):
 
@@ -14,6 +16,7 @@ class Booking(Model):
         self.__movie_id = None
         self.__customer_id = None
         self.__showtime_id = None
+        self.__order_date = None
         self._Model__is_init = False
         self._Model__id = None
         self.__data_access = BookingData()
@@ -37,6 +40,9 @@ class Booking(Model):
             self.set_movie_id(booking['movie_id'])
             self.set_customer_id(booking['customer_id'])
             self.set_showtime_id(booking['showtime_id'])
+            self.set_order_date(
+                create_datetime_from_sql(
+                    booking['order_date']))
             self.set_is_init()
 
             return True
@@ -48,7 +54,6 @@ class Booking(Model):
         for key, value in kwargs.items():
             booking[key] = value
 
-
         self.set_order_id(booking['order_id'])
         self.set_total_price(booking['total_price'])
         self.set_credit_card_id(booking['credit_card_id'])
@@ -56,9 +61,18 @@ class Booking(Model):
         self.set_movie_id(booking['movie_id'])
         self.set_customer_id(booking['customer_id'])
         self.set_showtime_id(booking['showtime_id'])
+        self.set_order_date(booking['order_date'])
         self.set_is_init()
 
-        member_tup = (self.get_order_id(), self.get_total_price(), self.get_credit_card_id(), self.get_promo_id(), self.get_movie_id(), self.get_customer_id(), self.get_showtime_id())
+        member_tup = (
+            self.get_order_id(),
+            self.get_total_price(),
+            self.get_credit_card_id(),
+            self.get_promo_id(),
+            self.get_movie_id(),
+            self.get_customer_id(),
+            self.get_showtime_id(),
+            self.get_order_date())
 
         self.set_id(self.__data_access.insert_info(member_tup))
 
@@ -66,14 +80,31 @@ class Booking(Model):
         if not self.is_initialized():
             return False
 
-        member_tup = (self.get_order_id(), self.get_total_price(), self.get_credit_card_id(), self.get_promo_id(), self.get_movie_id(), self.get_customer_id(), self.get_showtime_id(), self.get_id())
+        member_tup = (
+            self.get_order_id(),
+            self.get_total_price(),
+            self.get_credit_card_id(),
+            self.get_promo_id(),
+            self.get_movie_id(),
+            self.get_customer_id(),
+            self.get_showtime_id(),
+            self.get_order_date(),
+            self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
 
+    def get_tickets(self):
+        return self.__data_access.get_tickets(self.get_id())
+
     def delete(self, key: str):
         self.__data_access.delete(key)
 
+    def get_order_date(self) -> str:
+        return self.__order_date
+
+    def set_order_date(self, date) -> str:
+        self.__order_date = date
 
     def get_order_id(self) -> str:
         return self.__order_id
@@ -116,4 +147,3 @@ class Booking(Model):
 
     def set_showtime_id(self, showtime_id: str):
         self.__showtime_id = showtime_id
-

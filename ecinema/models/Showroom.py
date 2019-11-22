@@ -5,6 +5,7 @@ from ecinema.models.Movie import Movie
 from datetime import datetime, timedelta
 from ecinema.data.db import get_db
 
+
 class Showroom(Model):
 
     def __init__(self):
@@ -47,7 +48,10 @@ class Showroom(Model):
         self.set_showroom_name(showroom['showroom_name'])
         self.set_is_init()
 
-        member_tup = (self.get_theater_id(), self.get_num_seats(), self.get_showroom_name())
+        member_tup = (
+            self.get_theater_id(),
+            self.get_num_seats(),
+            self.get_showroom_name())
 
         self.set_id(self.__data_access.insert_info(member_tup))
 
@@ -55,7 +59,11 @@ class Showroom(Model):
         if not self.is_initialized():
             return False
 
-        member_tup = (self.get_theater_id(), self.get_num_seats(), self.get_showroom_name(), self.get_id())
+        member_tup = (
+            self.get_theater_id(),
+            self.get_num_seats(),
+            self.get_showroom_name(),
+            self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
@@ -102,7 +110,7 @@ class Showroom(Model):
         for time in showtimes:
             if (time is not None
                 and time['showroom_id'] == myID
-                and time['showtime_id'] != timeID):
+                    and time['showtime_id'] != timeID):
 
                 othermovie = Movie()
                 othermovie.fetch(time['movie_id'])
@@ -140,6 +148,3 @@ class Showroom(Model):
                     return True
 
         return False
-
-
-

@@ -14,6 +14,7 @@ from ecinema.models.Promo import Promo
 
 bp = Blueprint('AdminPromosController', __name__, url_prefix='/')
 
+
 @bp.route('/manage_promos', methods=('GET', 'POST'))
 @admin_login_required
 def manage_promos():
@@ -23,15 +24,18 @@ def manage_promos():
         delete_promo_id = request.form.get('delete_promo_id')
         edit_promo_id = request.form.get('edit_promo_id')
 
-        if delete_promo_id != None and promo.fetch(delete_promo_id):
+        if delete_promo_id is not None and promo.fetch(delete_promo_id):
+            # logic for cancelling tickets will go here?
             promo.delete(delete_promo_id)
-        elif edit_promo_id != None and promo.fetch(edit_promo_id):
-            return redirect(url_for('AdminPromosController.edit_promo', pid=edit_promo_id))
+        elif edit_promo_id is not None and promo.fetch(edit_promo_id):
+            return redirect(
+                url_for('AdminPromosController.edit_promo', pid=edit_promo_id))
 
     # get a list of all promos
     promos = promo.get_all_promos()
 
     return render_template('manage_promos.html', promos=promos)
+
 
 @bp.route('/edit_promo/<pid>', methods=('GET', 'POST'))
 @admin_login_required
@@ -64,9 +68,9 @@ def edit_promo(pid):
             promo.save()
             return redirect(url_for('AdminPromosController.manage_promos'))
 
-
     info = promo.obj_as_dict(promo_id)
     return render_template('edit_promotion.html', promo=info)
+
 
 @bp.route('/create_promo', methods=('GET', 'POST'))
 @admin_login_required
@@ -77,7 +81,6 @@ def create_promo():
         promo = request.form['promo']
         # validate all data, everything must be correct
         error = None
-
 
         if not validate_name(code):
             error = "Promotion Code is invalid"

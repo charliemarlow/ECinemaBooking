@@ -2,6 +2,7 @@
 from ecinema.models.model import Model
 from ecinema.data.PromoData import PromoData
 
+
 class Promo(Model):
 
     def __init__(self):
@@ -33,11 +34,24 @@ class Promo(Model):
 
         return False
 
+    def fetch_by_code(self, key: str):
+        promo = self.__data_access.get_info_by_code(key)
+
+        if promo is not None:
+            self.set_id(promo['promo_id'])
+
+            self.set_code(promo['code'])
+            self.set_promo(promo['promo'])
+            self.set_is_init()
+
+            return True
+
+        return False
+
     def create(self, **kwargs):
         promo = {}
         for key, value in kwargs.items():
             promo[key] = value
-
 
         self.set_code(promo['code'])
         self.set_promo(promo['promo'])
@@ -59,7 +73,6 @@ class Promo(Model):
     def delete(self, key: str):
         self.__data_access.delete(key)
 
-
     def get_code(self) -> str:
         return self.__code
 
@@ -71,4 +84,3 @@ class Promo(Model):
 
     def set_promo(self, promo: str):
         self.__promo = promo
-

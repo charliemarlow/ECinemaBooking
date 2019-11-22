@@ -9,6 +9,7 @@ CREATE TABLE `booking` (
   `movie_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `showtime_id` int(11) NOT NULL,
+  order_date datetime NOT NULL,
   FOREIGN KEY (promo_id) REFERENCES promo (promo_id),
   FOREIGN KEY (movie_id) REFERENCES movie (movie_id),
   FOREIGN KEY (customer_id) REFERENCES customer (customer_id),

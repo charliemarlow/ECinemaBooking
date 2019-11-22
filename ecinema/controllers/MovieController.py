@@ -16,12 +16,17 @@ from ecinema.models.Showtime import Showtime
 from ecinema.models.Review import Review
 from ecinema.models.Customer import Customer
 
+from ecinema.tools.data_integrity import clear_all_booking
+
 bp = Blueprint('MovieController', __name__, url_prefix='/')
 
 
 @bp.route('/movie_details/<mid>', methods=('GET', 'POST'))
 def movie_details(mid):
     print(mid)
+
+    clear_all_booking()
+
     movie = Movie()
     movie_dict = {}
     if movie.fetch(mid):
@@ -39,8 +44,6 @@ def movie_details(mid):
         showtimes_list.append(showtime)
 
     showtimes_list = sorted(showtimes_list, key=lambda k: k['time'])
-
-
 
     # for each review
     review_model = Review()
@@ -67,10 +70,10 @@ def movie_details(mid):
             display_reviews.append(rvw)
     else:
         rev = {
-            'title' : "There's no reviews yet?",
-            'name' : "E-Cinema Booking Team",
-            'rating' : 5,
-            'review' : "There are no reviews for this movie yet. You can click on the review movie button below to be the first!"
+            'title': "There's no reviews yet?",
+            'name': "E-Cinema Booking Team",
+            'rating': 5,
+            'review': "There are no reviews for this movie yet. You can click on the review movie button below to be the first!"
         }
         display_reviews.append(rev)
 
@@ -103,7 +106,6 @@ def create_review(mid):
         elif not validate_text(review):
             error = "Review is invalid"
 
-
         if error is None:
             # write it to the db
             customer = Customer()
@@ -111,13 +113,13 @@ def create_review(mid):
             customer.fetch(g.user['username'])
             review_model = Review()
             review_model.create(customer_id=customer.get_id(),
-                          movie_id=movie['movie_id'],
-                          rating=int(rating),
-                          subject=title,
-                          review=review)
+                                movie_id=movie['movie_id'],
+                                rating=int(rating),
+                                subject=title,
+                                review=review)
 
-            return redirect(url_for('MovieController.movie_details', mid=movie['movie_id']))
-
+            return redirect(
+                url_for('MovieController.movie_details', mid=movie['movie_id']))
 
         flash(error)
 

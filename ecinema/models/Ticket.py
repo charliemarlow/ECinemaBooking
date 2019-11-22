@@ -2,6 +2,7 @@
 from ecinema.models.model import Model
 from ecinema.data.TicketData import TicketData
 
+
 class Ticket(Model):
 
     def __init__(self):
@@ -42,14 +43,17 @@ class Ticket(Model):
         for key, value in kwargs.items():
             ticket[key] = value
 
-
         self.set_showtime_id(ticket['showtime_id'])
         self.set_booking_id(ticket['booking_id'])
         self.set_age(ticket['age'])
         self.set_seat_number(ticket['seat_number'])
         self.set_is_init()
 
-        member_tup = (self.get_showtime_id(), self.get_booking_id(), self.get_age(), self.get_seat_number())
+        member_tup = (
+            self.get_showtime_id(),
+            self.get_booking_id(),
+            self.get_age(),
+            self.get_seat_number())
 
         self.set_id(self.__data_access.insert_info(member_tup))
 
@@ -57,14 +61,18 @@ class Ticket(Model):
         if not self.is_initialized():
             return False
 
-        member_tup = (self.get_showtime_id(), self.get_booking_id(), self.get_age(), self.get_seat_number(), self.get_id())
+        member_tup = (
+            self.get_showtime_id(),
+            self.get_booking_id(),
+            self.get_age(),
+            self.get_seat_number(),
+            self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
 
     def delete(self, key: str):
         self.__data_access.delete(key)
-
 
     def get_showtime_id(self) -> str:
         return self.__showtime_id
@@ -89,4 +97,3 @@ class Ticket(Model):
 
     def set_seat_number(self, seat_number: str):
         self.__seat_number = seat_number
-

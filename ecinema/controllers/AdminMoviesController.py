@@ -1,5 +1,6 @@
 import functools
 
+from ecinema.data.db import get_db
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -14,6 +15,7 @@ from ecinema.models.Movie import Movie
 
 bp = Blueprint('AdminMoviesController', __name__, url_prefix='/')
 
+
 @bp.route('/manage_movies', methods=('GET', 'POST'))
 @admin_login_required
 def manage_movies():
@@ -23,19 +25,22 @@ def manage_movies():
         delete_movie_id = request.form.get('delete_movie_id')
         edit_movie_id = request.form.get('edit_movie_id')
 
-        if delete_movie_id != None and movie.fetch(delete_movie_id):
+        if delete_movie_id is not None and movie.fetch(delete_movie_id):
             # logic for cancelling tickets will go here?
             if not movie.has_showtimes():
                 movie.delete(delete_movie_id)
             else:
-                flash("Movie cannot be deleted when there are showtimes associated with it")
-        elif edit_movie_id != None and movie.fetch(edit_movie_id):
-            return redirect(url_for('AdminMoviesController.edit_movie', mid=edit_movie_id))
+                flash(
+                    "Movie cannot be deleted when there are showtimes associated with it")
+        elif edit_movie_id is not None and movie.fetch(edit_movie_id):
+            return redirect(
+                url_for('AdminMoviesController.edit_movie', mid=edit_movie_id))
 
     # get a list of all movies
     movies = movie.get_all_movies()
 
     return render_template('manage_movies.html', movies=movies)
+
 
 @bp.route('/edit_movie/<mid>', methods=('GET', 'POST'))
 @admin_login_required
@@ -113,9 +118,9 @@ def edit_movie(mid):
         if error is not None:
             flash(error)
 
-
     info = movie.obj_as_dict(movie_id)
     return render_template('edit_movie.html', movie=info)
+
 
 @bp.route('/create_movie', methods=('GET', 'POST'))
 @admin_login_required
@@ -135,7 +140,13 @@ def create_movie():
         # validate all data, everything must be correct
         error = None
 
-        if not validate_name(title):
+        db = get_db()
+        if db.execute(
+            'SELECT * FROM movie WHERE title = ? ',
+            (title,)
+        ).fetchone() is not None:
+            error = "Movie already exists"
+        elif not validate_name(title):
             error = "Movie title is too short or too long"
         elif not validate_name(director):
             error = "Director name is too short or too long"
@@ -170,6 +181,5 @@ def create_movie():
             return redirect(url_for('AdminMoviesController.manage_movies'))
 
         flash(error)
-
 
     return render_template('make_movie.html')
