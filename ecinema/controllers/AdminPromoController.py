@@ -1,4 +1,4 @@
-
+from datetime import datetime
 import functools
 
 from flask import (
@@ -7,7 +7,7 @@ from flask import (
 
 from ecinema.controllers.LoginController import admin_login_required
 from ecinema.tools.validation import (
-    validate_name, validate_duration
+    validate_name, validate_duration, validate_expiration_date
 )
 
 from ecinema.models.Promo import Promo
@@ -24,7 +24,6 @@ def manage_promos():
         edit_promo_id = request.form.get('edit_promo_id')
 
         if delete_promo_id != None and promo.fetch(delete_promo_id):
-            # logic for cancelling tickets will go here?
             promo.delete(delete_promo_id)
         elif edit_promo_id != None and promo.fetch(edit_promo_id):
             return redirect(url_for('AdminPromosController.edit_promo', pid=edit_promo_id))
@@ -44,7 +43,7 @@ def edit_promo(pid):
     if request.method == 'POST':
 
         code = request.form.get('code')
-        promo = request.form.get('promo')
+        promo_date = request.form.get('promo')
 
         error = None
 
@@ -53,20 +52,21 @@ def edit_promo(pid):
         elif code != '':
             promo.set_code(code)
 
-        if promo != '' and not validate_duration(promo):
-            error = "promo is invalid"
-        elif promo != '':
-            promo.set_promo(promo)
+        # if promo != '' and not validate_duration(promo):
+        #     error = "promo is invalid"
+        # elif promo != '':
+        promo.set_promo(promo_date)
 
-
-        promo.save()
 
         if error is not None:
             flash(error)
+        else:
+            promo.save()
+            return redirect(url_for('AdminPromosController.manage_promos'))
 
 
     info = promo.obj_as_dict(promo_id)
-    return render_template('edit_promo.html', promo=info)
+    return render_template('edit_promotion.html', promo=info)
 
 @bp.route('/create_promo', methods=('GET', 'POST'))
 @admin_login_required
@@ -80,15 +80,15 @@ def create_promo():
 
 
         if not validate_name(code):
-            error = "code is invalid"
-        elif not validate_duration(promo):
-            error = "promo is invalid"
-
+            error = "Promotion Code is invalid"
+        # elif not validate_duration(promo):
+        #     error = "Promotion Duration is invalid"
+        
 
         if error is None:
             # if error is None, create a promo
             new_promo = Promo()
-            new_promo.create(promo=promo)
+            new_promo.create(promo=promo,code=code)
 
             # then return to add promo
             return redirect(url_for('AdminPromosController.manage_promos'))
@@ -96,4 +96,4 @@ def create_promo():
         flash(error)
 
 
-    return render_template('make_promo.html')
+    return render_template('make_promotion.html')
