@@ -18,7 +18,6 @@ schema_list = ["schema/address.sql",
                "schema/promo.sql",
                "schema/price.sql"]
 
-
 def init_db():
     db = get_db()
 
@@ -26,6 +25,7 @@ def init_db():
         print(sqlFile)
         with current_app.open_resource(sqlFile) as f:
             db.executescript(f.read().decode('utf8'))
+
 
     db.execute(
         'INSERT INTO admin (username, password) VALUES (?, ?)',

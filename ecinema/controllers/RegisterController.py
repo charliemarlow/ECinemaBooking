@@ -73,15 +73,11 @@ def register():
                             subscribe_to_promo=subscribe,
                             phone=phonenumber)
             customer.set_status('inactive')
-            customer.set_username(
-                generate_username(
-                    firstname,
-                    customer.get_id()))
+            customer.set_username(generate_username(firstname, customer.get_id()))
             customer.save()
 
             token = generate_confirmation_token(email)
-            customer.send_confirmation_email(
-                email, firstname, customer.get_username(), token)
+            customer.send_confirmation_email(email, firstname, customer.get_username(), token)
             session['customer_id'] = customer.get_id()
             session['customer_username'] = customer.get_username()
             return redirect(url_for('RegisterController.optional_register'))
@@ -89,7 +85,6 @@ def register():
         flash(error)
 
     return render_template('registration.html')
-
 
 @bp.route('/optional_register', methods=('GET', 'POST'))
 def optional_register():
@@ -118,15 +113,15 @@ def optional_register():
         billing_city = request.form.get('bcity')
         billing_state = request.form.get('bstate')
         billing_zip = request.form.get('bzip')
-        filled_billing = (billing_street != '' and billing_state != ''
-                          and billing_city != '' and billing_zip != '')
+        filled_billing = (billing_street != '' and billing_state !=''
+                          and billing_city != '' and billing_zip !='')
         print(filled_billing)
 
         error = None
         if filled_home:
             # validate home address
             error = validate_address(home_street, home_city,
-                                     home_state, home_zip)
+                                      home_state, home_zip)
 
         error = None
         if filled_card:
@@ -181,8 +176,7 @@ def optional_register():
                 if home_addr is not None:
                     card_addr_id = home_addr.get_id()
             else:
-                # else, create a new address and set credit cards aid to
-                # billAddr
+                # else, create a new address and set credit cards aid to billAddr
                 bill_addr = Address()
                 bill_addr.create(street=billing_street, city=billing_city,
                                  state=billing_state, zip_code=billing_zip)
@@ -211,7 +205,6 @@ def optional_register():
 
     return render_template('optional_register.html')
 
-
 @bp.route('/confirm_account/<token>')
 def confirm_account(token):
     print("account is being confirmed")
@@ -237,7 +230,6 @@ def confirm_account(token):
 
     # some failure page
     return redirect(url_for('RegisterController.account_verification_fail'))
-
 
 @bp.route('/account_verification_success')
 def account_verification_success():

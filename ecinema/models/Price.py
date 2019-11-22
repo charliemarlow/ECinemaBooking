@@ -2,7 +2,6 @@
 from ecinema.models.model import Model
 from ecinema.data.PriceData import PriceData
 
-
 class Price(Model):
 
     def __init__(self):
@@ -37,6 +36,7 @@ class Price(Model):
         for key, value in kwargs.items():
             price[key] = value
 
+
         self.set_price(price['price'])
         self.set_is_init()
 
@@ -56,16 +56,10 @@ class Price(Model):
     def delete(self, key: str):
         self.__data_access.delete(key)
 
+
     def get_price(self) -> str:
         return self.__price
 
     def set_price(self, price: str):
         self.__price = price
 
-    def get_tax_price(self):
-        tax = self.__data_access.get_tax()
-        return float(tax['price'])
-
-    def get_online_fee(self):
-        fee = self.__data_access.get_fee()
-        return float(fee['price'])

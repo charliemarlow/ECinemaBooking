@@ -111,7 +111,13 @@
                   <input type="text" name="zip" placeholder="{{ address['zip_code'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ address['zip_code'] }}'"
                          class="single-input">
               </div>
-                  <button style="margin-top: 1em" type="submit" value="submit" class="primary-btn">Save Information</button>
+              <h3 class="text-heading" style="margin-top: .5em">Edit Payment</h3>
+              <div class="button-group-area mt-40">
+                  <a href="manage_payment" class="genric-btn primary e-large" style="font-size: 2em">Edit Payment</a>
+              </div>
+              <div class="login_form_inner">
+                  <button type="submit" value="submit" class="primary-btn">Save Information</button>
+              </div>
 
           </form>
           {% for message in get_flashed_messages() %}

@@ -1,7 +1,6 @@
 from ecinema.models.model import Model
 from ecinema.data.MovieData import MovieData
 
-
 class Movie(Model):
 
     def __init__(self):

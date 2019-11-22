@@ -18,7 +18,6 @@ from ecinema.tools.clean import create_datetime_from_sql
 
 bp = Blueprint('AdminShowtimeController', __name__, url_prefix='/')
 
-
 @bp.route('/manage_showtime', methods=('GET', 'POST'))
 @admin_login_required
 def manage_showtime():
@@ -28,13 +27,11 @@ def manage_showtime():
         delete_showtime_id = request.form.get('delete_showtime_id')
         edit_showtime_id = request.form.get('edit_showtime_id')
 
-        if delete_showtime_id is not None and showtime.fetch(
-                delete_showtime_id):
+        if delete_showtime_id != None and showtime.fetch(delete_showtime_id):
             # logic for cancelling tickets will go here?
             showtime.delete(delete_showtime_id)
-        elif edit_showtime_id is not None and showtime.fetch(edit_showtime_id):
-            return redirect(
-                url_for('AdminShowtimeController.edit_showtime', sid=edit_showtime_id))
+        elif edit_showtime_id != None and showtime.fetch(edit_showtime_id):
+            return redirect(url_for('AdminShowtimeController.edit_showtime', sid=edit_showtime_id))
 
     # get a list of all showtimes
     showtimes = showtime.get_all_showtimes()
@@ -59,7 +56,6 @@ def manage_showtime():
     new_times = sorted(new_times, key=lambda k: k['time'])
 
     return render_template('manage_showtime.html', showtimes=new_times)
-
 
 @bp.route('/edit_showtime/<sid>', methods=('GET', 'POST'))
 @admin_login_required
@@ -109,6 +105,7 @@ def edit_showtime(sid):
         elif showroom_id is not None:
             showtime.set_showroom_id(showroom_id)
 
+
         showtime.save()
 
         if error is not None:
@@ -128,7 +125,6 @@ def edit_showtime(sid):
                            movies=movies,
                            showrooms=showrooms)
 
-
 def create_datetime(date, time):
     try:
         year = int(date[0:4])
@@ -147,11 +143,9 @@ def validate_showtime_date(date):
     # check that showtime is later than today
     return date > datetime.now()
 
-
 def validate_movie(movie_id):
     movie = Movie()
     return movie.fetch(movie_id)
-
 
 def validate_showroom_availability(showroom_id, showtime_id, time, duration):
     showroom = Showroom()
@@ -191,7 +185,7 @@ def create_showtime():
             error = "Time is in the past"
         elif not validate_movie:
             error = "The selected movie is invalid"
-        elif not validate_showroom_availability(showroom_id, 0, dtime, int(movie.get_duration())):
+        elif not validate_showroom_availability(showroom_id, 0, dtime, int( movie.get_duration() ) ):
             error = "The showroom is unavailable at that time"
 
         if error is None:
@@ -212,5 +206,5 @@ def create_showtime():
 
         flash(error)
 
-    return render_template('make_showtime.html',
-                           movies=movies, showrooms=showrooms)
+
+    return render_template('make_showtime.html', movies=movies, showrooms=showrooms)

@@ -83,7 +83,7 @@
                       <select name="showtime" required>
                           <option value="">Showtimes</option>
                           {% for showtime in showtimes %}
-                          <option value="{{showtime['showtime_id']}}">{{ showtime['time'].strftime("%B %d, %Y  :  %I:%M %p") }}</option>
+                          <option value="{{showtime['showtime_id']}}">{{ showtime['time'].strftime("%B %d, %y  :  %I:%M %p") }}</option>
                           {% endfor %}
                   </select>
                 </div>

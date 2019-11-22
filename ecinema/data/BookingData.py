@@ -2,7 +2,6 @@
 from ecinema.data.access import DataAccess
 from ecinema.data.db import get_db
 
-
 class BookingData(DataAccess):
 
     def __init__(self):
@@ -30,8 +29,8 @@ class BookingData(DataAccess):
         cursor = self.__db.cursor()
         cursor.execute(
             'INSERT INTO booking '
-            '(order_id, total_price, credit_card_id, promo_id, movie_id, customer_id, showtime_id, order_date) '
-            'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            '(order_id, total_price, credit_card_id, promo_id, movie_id, customer_id, showtime_id) '
+            'VALUES (?, ?, ?, ?, ?, ?, ?)',
             data
         )
 
@@ -41,15 +40,9 @@ class BookingData(DataAccess):
 
     def update_info(self, data) -> str:
         self.__db.execute(
-            'UPDATE booking SET order_id = ?, total_price = ?, credit_card_id = ?, promo_id = ?, movie_id = ?, customer_id = ?, showtime_id = ?, order_date = ?'
+            'UPDATE booking SET order_id = ?, total_price = ?, credit_card_id = ?, promo_id = ?, movie_id = ?, customer_id = ?, showtime_id = ?'
             'WHERE booking_id = ?',
             data
         )
 
         self.__db.commit()
-
-    def get_tickets(self, bid) -> str:
-        return self.__db.execute(
-            'SELECT * FROM ticket WHERE booking_id = ?',
-            (bid,)
-        ).fetchall()

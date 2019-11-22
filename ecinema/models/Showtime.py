@@ -4,7 +4,6 @@ from ecinema.data.ShowtimeData import ShowtimeData
 from ecinema.tools.clean import create_datetime_from_sql
 from datetime import datetime
 
-
 class Showtime(Model):
 
     def __init__(self):

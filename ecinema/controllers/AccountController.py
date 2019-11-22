@@ -13,7 +13,6 @@ from ecinema.models.CreditCard import CreditCard
 from ecinema.controllers.LoginController import (
     login_required, verify_username_password, get_user
 )
-from ecinema.tools.data_integrity import clear_all_booking
 
 from ecinema.tools.validation import (
     validate_name, validate_email, validate_unique_email,
@@ -97,7 +96,7 @@ def edit_profile():
         print(addr_id)
         if addr_id is None:
             if (street != '' and city != '' and
-                    state != '' and zip_code != ''):
+                state != '' and zip_code != ''):
                 addr_error = None
                 if not validate_zip(zip_code):
                     addr_error = 'Zip code must be a valid zip code and '\
@@ -114,7 +113,8 @@ def edit_profile():
                     info_changed = True
                 else:
                     error = addr_error
-
+            else:
+                error = "To create a home address, all address information is required with zip code in #####-#### format and state in ## format"
         else:
             print("about to fetch addr")
             print(addr.fetch(addr_id))
@@ -172,7 +172,6 @@ def edit_profile():
 def manage_payment():
     # call customer object to return a list of all
     # credit cards
-    clear_all_booking()
     customer = Customer()
     fetched = customer.fetch(session['user_id'])
 
@@ -185,8 +184,7 @@ def manage_payment():
             customer.send_delete_card_email()
         elif edit_id != '':
             print(edit_id)
-            return redirect(
-                url_for('AccountController.edit_payment', cid=edit_id))
+            return redirect(url_for('AccountController.edit_payment', cid=edit_id))
 
     if fetched:
         print(customer.get_id())
@@ -200,6 +198,7 @@ def manage_payment():
 
     else:
         print("FAIL")
+
 
     print("re render")
     return render_template('manage_payment.html', cards=cards)
@@ -239,8 +238,7 @@ def make_payment():
         error = None
 
         customer = Customer()
-        if customer.fetch(session['user_id']) and len(
-                customer.get_all_cards()) >= 3:
+        if customer.fetch(session['user_id']) and len(customer.get_all_cards()) >= 3:
             error = "Customer has hit limit of 3 cards, cannot add anymore"
         # check that all fields are filled out and valid
         # for BOTH credit card and address
@@ -254,7 +252,7 @@ def make_payment():
             error = "Invalid card type"
 
         if (error is None and street != '' and city != '' and
-                state != '' and zip_code != ''):
+            state != '' and zip_code != ''):
             if not validate_zip(zip_code):
                 error = 'Zip code must be a valid zip code and '\
                     + 'be entered in ##### or #####-#### format'
@@ -279,9 +277,6 @@ def make_payment():
                             cardtype=card_type)
                 customer.send_add_payment_email(card_type)
                 # return the home profile
-                if request.form.get('checkout'):
-                    del session['checkout']
-                    return redirect(url_for('CheckoutController.checkout'))
                 return redirect(url_for('AccountController.manage_payment'))
             else:
                 error = "Invalid customer"
@@ -291,8 +286,7 @@ def make_payment():
 
     return render_template('make_payment.html', address=address)
 
-
-@bp.route('/edit_payment', methods=('GET', 'POST'))
+@bp.route('/edit_payment', methods=('GET','POST'))
 @login_required
 def edit_payment():
     card_id = request.args.get('cid')
@@ -327,7 +321,7 @@ def edit_payment():
 
         print(exp_month)
         if (exp_month != '' and exp_month is not None and
-                exp_month[0:2] != card.get_expiration_date()[5:7]):
+            exp_month[0:2] != card.get_expiration_date()[5:7]):
             month = exp_month
             month_change = True
         else:
@@ -336,7 +330,7 @@ def edit_payment():
 
         print(exp_year)
         if (exp_year != '' and exp_year is not None
-                and exp_year != card.get_expiration_date()[0:4]):
+            and exp_year != card.get_expiration_date()[0:4]):
             year = exp_year
             year_change = True
             print("year change")
@@ -409,13 +403,12 @@ def edit_payment():
         if error is not None:
             flash(error)
 
+
     # use cid to pull up the card and billing address
     # auto fill these in
     credit_card = card.obj_as_dict(card.get_id())
     address = addr.obj_as_dict(card.get_address())
-    return render_template('edit_payment.html', address=address,
-                           card=credit_card, cid=request.args.get('cid'))
-
+    return render_template('edit_payment.html', address=address, card=credit_card, cid=request.args.get('cid'))
 
 @bp.route('/verify_password', methods=('GET', 'POST'))
 @login_required
