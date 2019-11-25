@@ -7,7 +7,7 @@ from flask import (
 
 from ecinema.controllers.LoginController import admin_login_required
 from ecinema.tools.validation import (
-    validate_name, validate_duration, validate_expiration_date
+    validate_name, validate_expiration_date, validate_promo_code
 )
 
 from ecinema.models.Promo import Promo
@@ -53,6 +53,8 @@ def edit_promo(pid):
 
         if code != '' and not validate_name(code):
             error = "Promotion Code is invalid"
+        elif code !='' and not validate_promo_code(code):
+            error = "Promotion Code already exists"
         elif code != '':
             promo.set_code(code)
 
@@ -89,6 +91,8 @@ def create_promo():
 
         if not validate_name(code):
             error = "Promotion Code is invalid"
+        elif not validate_promo_code(code):
+            error = "Promotion Code already exists"
         elif not validate_expiration_date(date):
             error = "Promotion Valid Until Date is invalid"
         

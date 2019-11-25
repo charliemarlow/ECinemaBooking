@@ -32,3 +32,10 @@ def is_active_user(email: str) -> bool:
     if status is not None:
         return True if status['status'] == 'active' else False
     return False
+
+def is_unique_promo(code: str):
+    db = get_db()
+    return(db.execute(
+        'SELECT promo_id FROM promo WHERE code = ?',
+        (code,)
+    ).fetchone() is None)

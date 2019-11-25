@@ -2,7 +2,7 @@ import re
 from werkzeug.security import check_password_hash
 from ecinema.data.ValidationData import (
     is_new_email, is_unique_username,
-    is_active_user
+    is_active_user, is_unique_promo
 )
 from datetime import datetime
 from zipcodes import is_real
@@ -146,3 +146,6 @@ def validate_new_seats(showroom_obj, num_seats):
         diff = seats - num_seats
         showtime.validate_seats(showroom_obj.get_id(), diff)
         return True
+
+def validate_promo_code(code: str):
+    return is_unique_promo(code)
