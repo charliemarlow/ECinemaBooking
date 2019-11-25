@@ -44,18 +44,23 @@ def edit_promo(pid):
 
         code = request.form.get('code')
         promo_date = request.form.get('promo')
+        promo_description = request.form.get('description')
+
+        promo_date_dict = promo_date.split("-")
+        date = datetime(int(promo_date_dict[0]), int(promo_date_dict[1]), int(promo_date_dict[2]))
 
         error = None
 
         if code != '' and not validate_name(code):
-            error = "code is invalid"
+            error = "Promotion Code is invalid"
         elif code != '':
             promo.set_code(code)
 
-        # if promo != '' and not validate_duration(promo):
-        #     error = "promo is invalid"
-        # elif promo != '':
-        promo.set_promo(promo_date)
+        if promo != '' and not validate_expiration_date(date):
+            error = "Promotion Valid Until Date is invalid"
+        elif promo != '':
+            promo.set_promo(promo_date)
+        promo.set_description(promo_description)
 
 
         if error is not None:
@@ -75,20 +80,23 @@ def create_promo():
 
         code = request.form['code']
         promo = request.form['promo']
+        description = request.form.get('description')
         # validate all data, everything must be correct
         error = None
+        promo_date = promo.split("-")
+        date = datetime(int(promo_date[0]), int(promo_date[1]), int(promo_date[2]))
 
 
         if not validate_name(code):
             error = "Promotion Code is invalid"
-        # elif not validate_duration(promo):
-        #     error = "Promotion Duration is invalid"
+        elif not validate_expiration_date(date):
+            error = "Promotion Valid Until Date is invalid"
         
 
         if error is None:
             # if error is None, create a promo
             new_promo = Promo()
-            new_promo.create(promo=promo,code=code)
+            new_promo.create(promo=promo,code=code,description=description)
 
             # then return to add promo
             return redirect(url_for('AdminPromosController.manage_promos'))

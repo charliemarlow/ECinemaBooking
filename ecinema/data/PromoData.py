@@ -29,8 +29,8 @@ class PromoData(DataAccess):
         cursor = self.__db.cursor()
         cursor.execute(
             'INSERT INTO promo '
-            '(code, promo) '
-            'VALUES (?, ?)',
+            '(code, promo, promo_description) '
+            'VALUES (?, ?, ?)',
             data
         )
 
@@ -40,7 +40,7 @@ class PromoData(DataAccess):
 
     def update_info(self, data) -> str:
         self.__db.execute(
-            'UPDATE promo SET code = ?, promo = ?'
+            'UPDATE promo SET code = ?, promo = ?, promo_description = ?'
             'WHERE promo_id = ?',
             data
         )

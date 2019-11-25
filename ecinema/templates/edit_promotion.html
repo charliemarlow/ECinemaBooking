@@ -123,6 +123,10 @@
 						<input type="text" name="code" placeholder="{{ promo['code'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ promo['code'] }}'"
 						class="single-input" value="">
 					</div>
+					<div class="mt-10">
+						<input type="text" name="description" placeholder="{{ promo['promo_description'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ promo['promo_description'] }}'"
+						class="single-input" value="{{ promo['promo_description'] }}">
+					</div>
 					<p style="display: inline"> <b style="color:black">Valid Until</b></p>
 					<div class="mt-10">
 						<input type="date" style="max-width: 250px;" value="{{ promo['promo'] }}" name="promo" placeholder="{{ promo['promo'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ promo['promo'] }}'"

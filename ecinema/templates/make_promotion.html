@@ -120,12 +120,16 @@
 				<form method="POST">
 					<div class="mt-10">
 						<input type="text" style="max-width: 250px;" name="code" placeholder="Promo Code" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Promo Code'"
-							required class="single-input">
+						required class="single-input">
+					</div>
+					<div class="mt-10">
+						<input type="text" name="description" placeholder="Promo Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Promo Description'"
+						class="single-input">
 					</div>
 					<p style="display: inline"> <b style="color:black">Valid Until</b></p>
 					<div class="mt-10" style="max-width: 250px;">
 						<input type="date" value="" name="promo" placeholder="Valid Until" onfocus="this.placeholder = 'Date'" onblur="this.placeholder = 'Valid Until'"
-							required class="single-input-secondary">
+						required class="single-input-secondary">
 					</div>
 					<button type="submit" value="submit" class="primary-btn">Create Promotion</button>
 					<a href="/manage_promos">Or go back</a>

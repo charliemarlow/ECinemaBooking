@@ -107,7 +107,7 @@
           <h1>Manage Promotions</h1>
           <nav class="d-flex align-items-center">
             <a href="/index">Home<span class="lnr lnr-arrow-right"></span></a>
-            <a href="manage_promos.html">Manage Promos</a>
+            <a href="/manage_promos">Manage Promos</a>
           </nav>
         </div>
       </div>
@@ -136,7 +136,7 @@
             <tr>
               <th scope="col">Promo Name</th>
               <th scope="col">Valid Until</th>
-              <th scope="col">Applies To</th>
+              <th scope="col">Description</th>
               <th scope="col">Edit</th>
               <th scope="col">Delete</th>
             </tr>
@@ -152,7 +152,7 @@
                 <p>{{ promo['promo'] }}</p>
               </td>
                 <td>
-                  <h5>All</h5>
+                  <h5>{{ promo['promo_description'] }}</h5>
                 </td>
                   <td>
                     <form method="post">

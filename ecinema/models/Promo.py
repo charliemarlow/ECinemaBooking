@@ -9,6 +9,7 @@ class Promo(Model):
 
         self.__code = None
         self.__promo = None
+        self.__promo_description = ''
         self._Model__is_init = False
         self._Model__id = None
         self.__data_access = PromoData()
@@ -27,6 +28,7 @@ class Promo(Model):
 
             self.set_code(promo['code'])
             self.set_promo(promo['promo'])
+            self.set_description(promo['promo_description'])
             self.set_is_init()
 
             return True
@@ -41,9 +43,10 @@ class Promo(Model):
 
         self.set_code(promo['code'])
         self.set_promo(promo['promo'])
+        self.set_description(promo['description'])
         self.set_is_init()
 
-        member_tup = (self.get_code(), self.get_promo())
+        member_tup = (self.get_code(), self.get_promo(), self.get_description())
 
         self.set_id(self.__data_access.insert_info(member_tup))
 
@@ -51,7 +54,7 @@ class Promo(Model):
         if not self.is_initialized():
             return False
 
-        member_tup = (self.get_code(), self.get_promo(), self.get_id())
+        member_tup = (self.get_code(), self.get_promo(), self.get_description(), self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
@@ -71,4 +74,10 @@ class Promo(Model):
 
     def set_promo(self, promo: str):
         self.__promo = promo
+
+    def set_description(self, description: str):
+        self.__promo_description = description
+    
+    def get_description(self) -> str:
+        return self.__promo_description
 
