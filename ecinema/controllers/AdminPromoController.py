@@ -7,7 +7,7 @@ from flask import (
 
 from ecinema.controllers.LoginController import admin_login_required
 from ecinema.tools.validation import (
-    validate_name, validate_expiration_date, validate_promo_code
+    validate_name, validate_expiration_date, validate_promo_code, validate_unlinked_promo
 )
 
 from ecinema.models.Promo import Promo
@@ -24,7 +24,11 @@ def manage_promos():
         edit_promo_id = request.form.get('edit_promo_id')
 
         if delete_promo_id != None and promo.fetch(delete_promo_id):
-            promo.delete(delete_promo_id)
+            if validate_unlinked_promo(delete_promo_id):
+                promo.delete(delete_promo_id)
+            else:
+                error = "Promo is linked to a booking. Cannot delete right now"
+                flash(error)
         elif edit_promo_id != None and promo.fetch(edit_promo_id):
             return redirect(url_for('AdminPromosController.edit_promo', pid=edit_promo_id))
 

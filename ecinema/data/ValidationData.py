@@ -39,3 +39,10 @@ def is_unique_promo(code: str):
         'SELECT promo_id FROM promo WHERE code = ?',
         (code,)
     ).fetchone() is None)
+
+def booking_has_promo(promo_id: int):
+    db = get_db()
+    return(db.execute(
+        'SELECT * FROM booking WHERE promo_id = ?',
+        (promo_id,)
+    ).fetchone is None)
