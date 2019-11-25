@@ -57,7 +57,8 @@
 			<h3 class="text-heading">Availability</h3>
             <a href="#" class="genric-btn success circle e-large">Available</a>
             <a href="#" class="genric-btn danger circle e-large">Taken</a>
-		</div>
+            
+        </div>
 	<!-- End Sample Area -->
 	<!-- Start Button -->
 	<section class="button-area">
@@ -71,6 +72,10 @@
             {% endfor %}
 
                 
+                
+            </div>
+            <div id= "selectedSeats"><br>
+                <h3>Selected Seats</h3>
                 
             </div>
             <div>
@@ -87,10 +92,15 @@
              * potential errors.
              */
             $(function(){
-
+                
                 var array = [""];
                 var db = {};
-                
+                window.seatsArr = [];
+                window.selectedUserSeats = {};
+                window.valOfFilledSeat = -1;
+                window.capacity = 0;
+                window.rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"];
+                window.rowLength = 0;
                 var newRow = "<div class='button-group-area mt-40'>\n";
                 readJson(db);
                  /**
@@ -99,32 +109,61 @@
                  */
                 function readJson(db){
 
-                    var rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"];
                     var seatInfo = JSON.parse('{{tickets | tojson | safe}}');
-                    var capacity = seatInfo.capacity;
-                    var rowSize = seatInfo.row;
-                    var seatsArr = seatInfo.seats;
-                    var rowNum = (capacity % rowSize == 0) ? (capacity / rowSize) : ((capacity / rowSize) + 1);
-                    console.log(rowNum);
-                    console.log(rowNum);
-                    for(var i = 0; i < rowNum; i++){
-                        var startSection = "<div class='button-group-area mt-40'> <a href='#' class='genric-btn default circle'>" + rows[i] + " Section</a>";
+                    window.capacity = seatInfo.capacity;
+                    var tempCap = window.capacity;
+                    window.rowLength = seatInfo.row;
+                    var rowSize = window.rowLength;
+                    window.seatsArr = seatInfo.seats;
+                    var rowNum = (tempCap % rowSize == 0) ? (tempCap / rowSize) : ((tempCap / rowSize) + 1);
+                    
+                    for(var i = 0; i < rowNum && (tempCap > 0); i++){
+                        var startSection = "<div class='button-group-area mt-40'> <button class='genric-btn default circle'>" + window.rows[i] + " Section</button>";
                         //$("#seatSlots").append(startSection);
                         
-                        for(var j = 0; j < rowSize && capacity ; j++){
-                            startSection += "<a href='#' class='genric-btn danger circle'>" + rows[i]  + "" + (j+1) +"</a>";
+                        for(var j = 0; j < rowSize && (tempCap > 0); j++){
+                            if(window.seatsArr[(i * rowSize) + j] == window.valOfFilledSeat){
+                                startSection += "<a href='' class='genric-btn danger circle'>" + window.rows[i]  + "" + (j+1) +"</a>";
+                                tempCap--;
+                               }
+                            else {
+                                startSection += "<button onclick='selectSeat("+ ((i * rowSize) + j) +")' class='genric-btn info circle'>" + window.rows[i]  + "" + (j+1) +"</button>";
+                                tempCap--;
+                            }
                         }
-                        startSection += "<a href='#' class='genric-btn default circle'>" + rows[i] + " Section</a>"; 
+                        startSection += "<button class='genric-btn default circle'>" + window.rows[i] + " Section</button>"; 
                         $("#seatSlots").append(startSection);
                         
                     }
 
 
 
-                }//buildJSDB
+                }//readJson
 
-
+                
             });
+            
+            function selectSeat(seatNumber) {
+                var stringName = "" + window.rows[Math.floor(seatNumber / window.rowLength)] + "" + ((seatNumber % window.rowLength) +1);
+                var addPiece = "<div id='seat"+ seatNumber +"'> <p>Seat " + stringName + " </p><select name='"+seatNumber+"' required><option value='student'>Student</option><option value='child'>Child</option><option value='adult'>Adult</option><option value='senior'>Senior</option></select><t><button class='genric-btn danger circle' type='button' onclick='removeSeat("+ seatNumber +")'>Remove Seat!</button></div>";
+                if(seatNumber == window.valOfFilledSeat){
+                    // Nothing needs to be done. Seat Already Taken. Catch here just in case.
+                }
+                else if (selectedUserSeats[seatNumber] == null){
+                    
+                     $("#selectedSeats").append(addPiece);
+                    selectedUserSeats[seatNumber] = "Selected";
+                }
+               
+            }//selectSeat
+            
+            function removeSeat(seatNumber) {
+                console.log("Remove: " + seatNumber);
+                if(selectedUserSeats[seatNumber] != null){
+                    delete selectedUserSeats[seatNumber];
+                    $(("#seat"+ seatNumber + "")).remove();
+                }
+            }
         </script>
 	</section>
 	<!-- End Button -->
