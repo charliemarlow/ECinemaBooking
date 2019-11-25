@@ -7,6 +7,7 @@ CREATE TABLE `movie` (
   `director` varchar(100) NOT NULL,
   `producer` varchar(100) NOT NULL,
   `synopsis` varchar(1024) NOT NULL,
+  'cast' varchar(1024) NOT NULL,
   `picture` varchar(100) NOT NULL,
   `video` varchar(100) NOT NULL,
   `duration_as_minutes` int(11) NOT NULL,

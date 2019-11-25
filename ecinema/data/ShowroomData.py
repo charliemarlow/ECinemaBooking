@@ -1,6 +1,7 @@
 from ecinema.data.access import DataAccess
 from ecinema.data.db import get_db
 
+
 class ShowroomData(DataAccess):
 
     def __init__(self):
@@ -72,4 +73,5 @@ class ShowroomData(DataAccess):
         self.__db.commit()
 
     def check_valid_decrease(self, num, sid):
-        return self.__db.execute('SELECT * FROM showtime WHERE showroom_id = ? AND (available_seats + ? ) < 0', (sid, num)).fetchone() is None
+        return self.__db.execute(
+            'SELECT * FROM showtime WHERE showroom_id = ? AND (available_seats + ? ) < 0', (sid, num)).fetchone() is None

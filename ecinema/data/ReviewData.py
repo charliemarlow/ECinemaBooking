@@ -2,6 +2,7 @@
 from ecinema.data.access import DataAccess
 from ecinema.data.db import get_db
 
+
 class ReviewData(DataAccess):
 
     def __init__(self):
@@ -20,7 +21,7 @@ class ReviewData(DataAccess):
         ).fetchall()
 
     def get_name(self, cid):
-        name =  self.__db.execute(
+        name = self.__db.execute(
             'SELECT first_name, last_name FROM customer WHERE customer_id = ?',
             (cid,)
         ).fetchone()

@@ -30,6 +30,7 @@ def validate_unique_email(email: str) -> bool:
 def validate_name(name: str) -> bool:
     return len(name) >= 1 and len(name) < 100
 
+
 def validate_duration(duration: str) -> bool:
     try:
         dur = int(duration)
@@ -37,21 +38,26 @@ def validate_duration(duration: str) -> bool:
     except ValueError:
         return False
 
+
 def validate_text(text: str) -> bool:
     return text != '' and text is not None and len(text) <= 1024
+
 
 def validate_password(password: str, confirmation: str) -> bool:
     return (password == confirmation and len(password) >= 8 and
             bool(re.search(r'\d', password)) and
             any(char.isupper() for char in password))
 
+
 def validate_rating(rating: str) -> bool:
-    return rating in ['G','PG','PG-13','R','NC-17','NR']
+    return rating in ['G', 'PG', 'PG-13', 'R', 'NC-17', 'NR']
+
 
 def validate_category(category: str) -> bool:
     return category in ['action', 'comedy', 'drama', 'sci-fi',
                         'mystery', 'crime', 'fantasy', 'thriller',
                         'romance']
+
 
 def validate_username(username: str) -> bool:
     return is_unique_username(username)
@@ -75,6 +81,7 @@ def validate_expiration_date(expiration_date: datetime) -> bool:
     valid_month = expiration_date.year == today.year and expiration_date.month > today.month
     return valid_year or valid_month
 
+
 def validate_phone(phone: str):
     num = ""
     for c in phone:
@@ -83,23 +90,27 @@ def validate_phone(phone: str):
 
     return len(num) == 10 or len(num) == 11
 
+
 def validate_zip(zip_code: str):
     try:
         return is_real(zip_code)
     except ValueError:
         return False
 
+
 def validate_year(year: str):
     return len(year) == 4
+
 
 def validate_state(state: str):
     state = state.upper()
     return len(state) == 2 and state in state_dict
 
+
 def validate_address(street: str, city: str, state: str, zip_code: str) -> str:
     error = None
     if (street != '' and city != '' and
-        state != '' and zip_code != ''):
+            state != '' and zip_code != ''):
         if not validate_zip(zip_code):
             error = 'Zip code must be a valid zip code and '\
                 + 'be entered in ##### or #####-#### format'
@@ -110,23 +121,25 @@ def validate_address(street: str, city: str, state: str, zip_code: str) -> str:
 
     return error
 
+
 def validate_card(card_type: str, card_number: str, expiration: datetime, cvv: str):
     error = None
     if (card_type != '' and card_number != '' and
-        expiration is not None and cvv != ''):
-         if not validate_cc_number(card_number):
-             error = "Invalid credit card number"
-         elif not validate_cvv(cvv):
-             error = "Invalid CVV"
-         elif not validate_expiration_date(expiration):
-             error = "Invalid expiration date"
-         elif card_type not in ['amex', 'master',
+            expiration is not None and cvv != ''):
+        if not validate_cc_number(card_number):
+            error = "Invalid credit card number"
+        elif not validate_cvv(cvv):
+            error = "Invalid CVV"
+        elif not validate_expiration_date(expiration):
+            error = "Invalid expiration date"
+        elif card_type not in ['amex', 'master',
                                'visa', 'discover']:
-             error = "Invalid card type"
+            error = "Invalid card type"
     else:
         error = "To create a new credit card, all fields for the credit card are required"
 
     return error
+
 
 def validate_seats(seats: str):
     dur = validate_duration(seats)
@@ -134,6 +147,7 @@ def validate_seats(seats: str):
         return int(seats) > 0
 
     return False
+
 
 def validate_new_seats(showroom_obj, num_seats):
     num_seats = int(num_seats)
