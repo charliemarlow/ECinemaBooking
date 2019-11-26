@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block header %}
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
@@ -29,7 +31,8 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
-
+{% endblock %}
+{% block content %}
 <body>
 
 	<!-- Start Header Area -->
@@ -100,8 +103,8 @@
 				<div class="col-first">
 					<h1>Create Promotion</h1>
 					<nav class="d-flex align-items-center">
-						<a href="account.html">Manage Promotions<span class="lnr lnr-arrow-right"></span></a>
-						<a href="editprofile.html">Create Promotion</a>
+						<a href="/manage_promos">Manage Promotions<span class="lnr lnr-arrow-right"></span></a>
+						<a href="/create_promo">Create Promotion</a>
 					</nav>
 				</div>
 			</div>
@@ -113,36 +116,33 @@
     <section class="sample-text-area">
 		<div class="container">
 			<h3 class="text-heading">Create Promotion</h3>
-			<div class="">
-						<form action="#">
-							<div class="mt-10">
-								<input type="text" name="promo_name" placeholder="Promo Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Promo Name'"
-								 required class="single-input">
-							</div>
-							<div class="mt-10">
-								<input type="email" name="promotion_details" placeholder="Promotion Details" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Promotion Details'"
-								 required class="single-input">
-							</div>
-							<div class="mt-10">
-								<input type="text" name="applies_to" placeholder="Applies To" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Applies To'"
-								 required class="single-input">
-							</div>
-                            <p style="display: inline"> <b style="color:black">Valid Until </b></p>
-							<div class="mt-10">
-								<input type="date" value="2022-07" name="valid_until" placeholder="Valid Until" onfocus="this.placeholder = 'Date'" onblur="this.placeholder = 'Valid Until'"
-								 required class="single-input-secondary">
-							</div>
-                            <button type="submit" value="submit" class="primary-btn">Create Promotion</button>
-                            
-						</form>
-			
-                    </div>
-            
-		      </div>
-        					
+			<div>
+				<form method="POST">
+					<div class="mt-10">
+						<input type="text" style="max-width: 250px;" name="code" placeholder="Promo Code" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Promo Code'"
+						required class="single-input">
+					</div>
+					<div class="mt-10">
+						<input type="text" name="description" placeholder="Promo Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Promo Description'"
+						class="single-input">
+					</div>
+					<p style="display: inline"> <b style="color:black">Valid Until</b></p>
+					<div class="mt-10" style="max-width: 250px;">
+						<input type="date" value="" name="promo" placeholder="Valid Until" onfocus="this.placeholder = 'Date'" onblur="this.placeholder = 'Valid Until'"
+						required class="single-input-secondary">
+					</div>
+					<button type="submit" value="submit" class="primary-btn">Create Promotion</button>
+					<a href="/manage_promos">Or go back</a>
+				</form>	
+				{% for message in get_flashed_messages() %}
+                <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
+                {% endfor %}		
+			</div>            
+		</div>        					
 	</section>
     
-
+	{% endblock %}
+	{% block last %}
 	<!--================End Login Box Area =================-->
 
 <!-- start footer Area -->
@@ -215,3 +215,4 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 </body>
 
 </html>
+{% endblock %}

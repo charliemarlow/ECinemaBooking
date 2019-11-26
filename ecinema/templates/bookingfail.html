@@ -17,46 +17,48 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>Page not Found - E-Cinema Booking</title>
+	<title>Booking Cancelled - E-Cinema Booking</title>
+
 	<!--
 		CSS
 		============================================= -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/nouislider.min.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/ion.rangeSlider.css') }}" />
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/ion.rangeSlider.skinFlat.css') }}" />
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 {% endblock %}
 <body>
 {% block content %}
-	<!-- start banner Area -->
-	<section class="banner-area">
+	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
 		<div class="container">
-			<div class="row fullscreen align-items-center justify-content-start">
-				<div class="col-lg-12">
-					<div>
-						<!-- single-slide -->
-						<div class="row single-slide align-items-center d-flex">
-							<div class="col-lg-5 col-md-6">
-								<div class="banner-content">
-									<h1>Page Not Found</h1>
-									<p>We're sorry, we couldn't find that page.<br><a href="/index"> Return to home.</a></p>
-								</div>
-							</div>
-						</div>
-					</div>
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Booking Cancelled</h1>
+					<nav class="d-flex align-items-center">
+						<a href="index.html">Booking<span class="lnr lnr-arrow-right"></span></a>
+						<a href="index.html">Cancellation</a>
+					</nav>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- End banner Area -->
+	<!-- End Banner Area -->
+
+	<!--================Order Details Area =================-->
+	<section class="order_details section_gap">
+		<div class="container">
+			  <h3 class="title_confirmation" style="color:red">Your booking has been cancelled. To start a new one, go to any movie and create a booking.</h3>            <div class="login_form_inner" style="margin-top: -15%">
+                <button type="submit" value="submit" class="primary-btn" onclick="window.location.href='/'">Home</button>
+           </div>
+		</div>
+	</section>
+	<!--================End Order Details Area =================-->
   {% endblock %}
   {% block last %}
 
@@ -68,7 +70,6 @@
 	<script src="{{ url_for('static', filename='js/jquery.nice-select.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/jquery.sticky.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/nouislider.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/countdown.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/jquery.magnific-popup.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
 	<!--gmaps Js-->

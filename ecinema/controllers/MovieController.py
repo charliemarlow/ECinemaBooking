@@ -1,7 +1,8 @@
 import functools
 
 from flask import (
-    Blueprint, render_template, redirect, url_for, request, g, flash
+    Blueprint, render_template, redirect, url_for, request, g, flash,
+    session
 )
 from datetime import datetime
 
@@ -48,6 +49,13 @@ def movie_details(mid):
         review_id = request.form.get('review_id')
         if review_id != '':
             review_model.delete(review_id)
+
+        showtime_id = request.form.get('showtime')
+        if showtime_id != '':
+            session['showtime'] = showtime_id
+            print("showtime")
+            print(showtime_id)
+            return redirect(url_for('SeatSelectionController.select_seat'))
 
     reviews = review_model.get_all_reviews_by_movie(mid)
     display_reviews = []

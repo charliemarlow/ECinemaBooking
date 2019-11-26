@@ -66,6 +66,8 @@ class Showtime(Model):
     def delete(self, key: str):
         self.__data_access.delete(key)
 
+    def get_all_tickets(self):
+        return self.__data_access.get_tickets(self.get_id())
 
     def get_time(self) -> datetime:
         return self.__time

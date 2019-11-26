@@ -51,90 +51,86 @@
 	</section>
 	<!-- End banner Area -->
 <section class="button-area">
-		<div class="container border-top-generic whole-wrap pb-100">
+	<div class="container border-top-generic whole-wrap pb-100">
 	<div class="section-top-border" style="">
-				<h3 class="mb-10" style="margin-bottom: 2em">Manage Movies</h3>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="single-defination">
-                            <div class="button-group-area mt-40">
-                                <a href="create_movie" class="genric-btn primary e-large" style="font-size: 2em">Add Movie</a>
-                             </div>
-						</div>
+		<h3 class="mb-10" style="margin-bottom: 2em">Manage Movies</h3>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="single-defination">
+					<div class="button-group-area mt-40">
+						<a href="create_movie" class="genric-btn primary e-large" style="font-size: 2em">Add Movie</a>
 					</div>
 				</div>
 			</div>
-            <div class="order_details_table">
-				<h2>Manage Movies</h2>
-				<div class="table-responsive">
-					<table class="table">
-						<thead>
-							<tr>
-								  <th scope="col">Movie Title</th>
-								  <th scope="col">Director</th>
-                  <th scope="col">Producer</th>
-                  <th scope="col">Synopsis</th>
-                  <th scope="col">Duration</th>
-								  <th scope="col">Rating</th>
-                  <th scope="col">Category</th>
-                <th scope="col">Edit</th>
-								<th scope="col">Delete</th>
-							</tr>
-						</thead>
-						<tbody>
-                <!-- Start Single Promotion -->
-                {% for movie in movies %}
-							<tr>
-								<td>
-									<h4>{{ movie['title'] }}</h4>
-								</td>
-                                <td>
-                                    <p>{{ movie['director'] }}</p>
-                                </td>
-                                <td>
-                                    <p>{{ movie['producer'] }}</p>
-                                </td>
-                                <td>
-                                    <p>{{ movie['synopsis'] }}</p>
-                                </td>
+		</div>
+	</div>
+	<div class="order_details_table">
+		<h2>Manage Movies</h2>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Movie Title</th>
+						<th scope="col">Director</th>
+						<th scope="col">Producer</th>
+						<th scope="col">Synopsis</th>
+						<th scope="col">Duration</th>
+						<th scope="col">Rating</th>
+						<th scope="col">Category</th>
+						<th scope="col">Edit</th>
+						<th scope="col">Delete</th>
+					</tr>
+				</thead>
+				<tbody>
+			<!-- Start Single Promotion -->
+			{% for movie in movies %}
+					<tr>
+						<td>
+							<h4>{{ movie['title'] }}</h4>
+						</td>
+						<td>
+							<p>{{ movie['director'] }}</p>
+						</td>
+						<td>
+							<p>{{ movie['producer'] }}</p>
+						</td>
+						<td>
+							<p>{{ movie['synopsis'] }}</p>
+						</td>
+						<td>
+							<p>{{ movie['duration_as_minutes'] }}</p>
+						</td>
+						<td>
+							<h5>{{ movie['rating'] }}</h5>
+						</td>
+						<td>
+							<h5>{{ movie['category'].upper() }}</h5>
+						</td>
+						<td>
+							<form method="post">
+								<input type="hidden" name="edit_movie_id" value="{{ movie['movie_id'] }}">
+								<button type="submit" class="genric-btn">Edit Movie</button>
+							</form>
+						</td>
+						<td>
+							<form method="post">
+								<input type="hidden" name="delete_movie_id" value="{{ movie['movie_id'] }}">
+								<button type="submit" class="genric-btn danger">Delete Movie</button>
+							</form>
+						</td>
+					</tr>
+			{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+		{% for message in get_flashed_messages() %}
+		<div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
+		{% endfor %}
 
-                                <td>
-                                    <p>{{ movie['duration_as_minutes'] }}</p>
-                                </td>
-								<td>
-									<h5>{{ movie['rating'] }}</h5>
-								</td>
-								<td>
-									<h5>{{ movie['category'].upper() }}</h5>
-								</td>
-                <td>
-
-                    <form method="post">
-                        <input type="hidden" name="edit_movie_id" value="{{ movie['movie_id'] }}">
-                        <button type="submit" class="genric-btn">Edit Movie</button>
-                    </form>
-                                </td>
-								                <td>
-                                    <form method="post">
-                                        <input type="hidden" name="delete_movie_id" value="{{ movie['movie_id'] }}">
-                                        <button type="submit" class="genric-btn danger">Delete Movie</button>
-                                    </form>
-								                </td>
-              </tr>
-              {% endfor %}
-						</tbody>
-					</table>
-				</div>
-
-			      </div>
-            {% for message in get_flashed_messages() %}
-            <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
-            {% endfor %}
-
-            <div class="button-group-area mt-40">
-                <a href="/admin" class="genric-btn primary e-large" style="font-size: 2em">Back to Admin</a>
-            </div>
-
+		<div class="button-group-area mt-40">
+			<a href="/admin" class="genric-btn primary e-large" style="font-size: 2em">Back to Admin</a>
+		</div>
     </div>
 </section>
 {% endblock %}
