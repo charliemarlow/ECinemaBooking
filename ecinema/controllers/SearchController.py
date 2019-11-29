@@ -10,7 +10,7 @@ from ecinema.tools.clean import create_datetime_from_sql
 
 from ecinema.data.db import get_db
 from datetime import datetime
-import pdb
+
 
 bp = Blueprint('SearchController', __name__, url_prefix='/')
 

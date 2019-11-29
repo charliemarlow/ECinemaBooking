@@ -1,6 +1,6 @@
 from text import header, required_validation_1, required_validation_2, required_getter_template, optional_validation_1, optional_getter_1, body
 
-attributes = [('code', 'validate_name'), ('promo', 'validate_duration')]
+attributes = [('username', 'validate_username'), ('password', 'validate_password')]
 
 def create_validation_list():
     li = ''
@@ -14,12 +14,12 @@ def create_validation_list():
 
     return li
 
-class_name = "promo"
+class_name = "admin"
 model_class=class_name.title()
 model_plural_cap=model_class + "s"
 validation_list = create_validation_list()
 plural_name = class_name + "s"
-id_name = class_name[0] + "id"
+id_name = class_name[0] + "_id"
 
 
 def create_kwargs():
