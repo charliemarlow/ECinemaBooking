@@ -1,9 +1,9 @@
 from data_text import body
 
-table = "ticket"
+table = "promo"
 capital_name=table.title()
-table_id ="ticket_id"
-attributes = ['showtime_id', 'booking_id', 'age', 'seat_number']
+table_id ="promo_id"
+attributes = ['code', 'promo', 'promo_description', 'exp_date']
 
 def create_attribute_values():
 

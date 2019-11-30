@@ -1,8 +1,8 @@
 from class_text import setup_id_template, set_all_8, set_all_12, tup_template, get_set_template, body
 
 
-attributes = ['showtime_id', 'booking_id', 'age', 'seat_number']
-class_name="ticket"
+attributes = ['code', 'promo', 'promo_description', 'exp_date']
+class_name="promo"
 capital_name=class_name.title()
 
 def create_setup_id():

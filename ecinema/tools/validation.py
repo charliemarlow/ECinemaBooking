@@ -39,6 +39,15 @@ def validate_duration(duration: str) -> bool:
     except ValueError:
         return False
 
+def validate_percentage(percent: str) -> bool:
+    try:
+        dur = float(percent)
+        if float(dur) < 1.0 and float(dur) > 0.0:
+            return True
+        return False
+    except ValueError:
+        return False
+
 
 def validate_text(text: str) -> bool:
     return text != '' and text is not None and len(text) <= 1024
@@ -76,8 +85,12 @@ def validate_cc_number(cc_number: str) -> bool:
     return len(cc_number) > 12 and len(cc_number) < 20
 
 
-def validate_expiration_date(expiration_date: datetime) -> bool:
+def validate_expiration_date(expiration_date: datetime, promo=False) -> bool:
+
     today = datetime.now()
+    if promo:
+        return expiration_date > today
+
     valid_year = expiration_date.year > today.year
     valid_month = expiration_date.year == today.year and expiration_date.month > today.month
     return valid_year or valid_month

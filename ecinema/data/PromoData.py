@@ -2,7 +2,6 @@
 from ecinema.data.access import DataAccess
 from ecinema.data.db import get_db
 
-
 class PromoData(DataAccess):
 
     def __init__(self):
@@ -14,10 +13,10 @@ class PromoData(DataAccess):
             (key,)
         ).fetchone()
 
-    def get_info_by_code(self, key: str):
+    def get_info_by_code(self, code: str):
         return self.__db.execute(
             'SELECT * FROM promo WHERE code = ?',
-            (key,)
+            (code,)
         ).fetchone()
 
     def get_all_promos(self):
@@ -36,8 +35,8 @@ class PromoData(DataAccess):
         cursor = self.__db.cursor()
         cursor.execute(
             'INSERT INTO promo '
-            '(code, promo) '
-            'VALUES (?, ?)',
+            '(code, promo, promo_description, exp_date) '
+            'VALUES (?, ?, ?, ?)',
             data
         )
 
@@ -47,7 +46,7 @@ class PromoData(DataAccess):
 
     def update_info(self, data) -> str:
         self.__db.execute(
-            'UPDATE promo SET code = ?, promo = ?'
+            'UPDATE promo SET code = ?, promo = ?, promo_description = ?, exp_date = ?'
             'WHERE promo_id = ?',
             data
         )

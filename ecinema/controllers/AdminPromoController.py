@@ -7,10 +7,12 @@ from flask import (
 
 from ecinema.controllers.LoginController import admin_login_required
 from ecinema.tools.validation import (
-    validate_name, validate_expiration_date, validate_promo_code, validate_unlinked_promo
+    validate_name, validate_expiration_date, validate_promo_code, validate_unlinked_promo, validate_percentage
 )
+from ecinema.tools.clean import create_datetime_from_sql
 
 from ecinema.models.Promo import Promo
+from ecinema.controllers.AdminShowtimeController import create_datetime
 
 bp = Blueprint('AdminPromosController', __name__, url_prefix='/')
 
@@ -34,7 +36,6 @@ def manage_promos():
 
     # get a list of all promos
     promos = promo.get_all_promos()
-
     return render_template('manage_promos.html', promos=promos)
 
 @bp.route('/edit_promo/<pid>', methods=('GET', 'POST'))
@@ -47,11 +48,9 @@ def edit_promo(pid):
     if request.method == 'POST':
 
         code = request.form.get('code')
-        promo_date = request.form.get('promo')
-        promo_description = request.form.get('description')
-
-        promo_date_dict = promo_date.split("-")
-        date = datetime(int(promo_date_dict[0]), int(promo_date_dict[1]), int(promo_date_dict[2]))
+        percent = request.form.get('percent')
+        expiration = request.form.get('expiration')
+        description = request.form.get('description')
 
         error = None
 
@@ -62,19 +61,34 @@ def edit_promo(pid):
         elif code != '':
             promo.set_code(code)
 
-        if promo != '' and not validate_expiration_date(date):
-            error = "Promotion Valid Until Date is invalid"
-        elif promo != '':
-            promo.set_promo(promo_date)
-        promo.set_description(promo_description)
+        if description != '':
+            promo.set_promo_description(description)
 
-
-        if error is not None:
-            flash(error)
+        if validate_percentage(percent):
+            promo.set_promo(percent)
         else:
-            promo.save()
-            return redirect(url_for('AdminPromosController.manage_promos'))
+            error = "Invalid percentage"
 
+        if expiration:
+            promo_date_dict = expiration.split("-")
+            date = datetime(int(promo_date_dict[0]), int(promo_date_dict[1]), int(promo_date_dict[2]))
+
+            print("DAT!!")
+            print(date)
+            if date != '' and not validate_expiration_date(date):
+                error = "Promotion Valid Until Date is invalid"
+            elif date != '':
+                promo.set_exp_date(expiration)
+        else:
+            error = "Invalid expiration date"
+
+
+        promo.save()
+
+        if error is None:
+            return redirect(url_for('AdminPromosController.manage_promos'))
+        else:
+            flash(error)
 
     info = promo.obj_as_dict(promo_id)
     return render_template('edit_promotion.html', promo=info)
@@ -85,26 +99,30 @@ def create_promo():
     if request.method == 'POST':
 
         code = request.form['code']
-        promo = request.form['promo']
+        percent = request.form['percent']
+        expiration = request.form['expiration']
         description = request.form.get('description')
+
         # validate all data, everything must be correct
         error = None
-        promo_date = promo.split("-")
-        date = datetime(int(promo_date[0]), int(promo_date[1]), int(promo_date[2]))
 
-
+        expiration_date = create_datetime(expiration, "01:00")
+        if not expiration_date:
+            error = "Invalid expiration date"
         if not validate_name(code):
             error = "Promotion Code is invalid"
         elif not validate_promo_code(code):
             error = "Promotion Code already exists"
-        elif not validate_expiration_date(date):
+        elif not validate_expiration_date(expiration_date, promo=True):
             error = "Promotion Valid Until Date is invalid"
-        
+        elif not validate_percentage(percent):
+            error = "Promotion percentage is invalid"
+
 
         if error is None:
             # if error is None, create a promo
             new_promo = Promo()
-            new_promo.create(promo=promo,code=code,description=description)
+            new_promo.create(promo=percent,code=code,promo_description=description, exp_date=expiration)
 
             # then return to add promo
             return redirect(url_for('AdminPromosController.manage_promos'))
