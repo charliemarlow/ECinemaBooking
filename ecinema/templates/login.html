@@ -41,8 +41,8 @@
 				<div class="col-first">
 					<h1>Login</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="category.html">Login</a>
+						<a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="/search">Login</a>
 					</nav>
 				</div>
 			</div>
@@ -60,7 +60,7 @@
 						<div class="hover">
 							<h4>New to our website?</h4>
 
-							<a class="primary-btn" href="register">Create an Account</a>
+							<a class="primary-btn" href="/register">Create an Account</a>
 						</div>
 					</div>
 				</div>
@@ -85,7 +85,7 @@
                   {% for message in get_flashed_messages() %}
                   <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
                   {% endfor %}
-								  <a href="forgot">Forgot Password?</a>
+								  <a href="/forgot">Forgot Password?</a>
 							</div>
 						</form>
 					</div>

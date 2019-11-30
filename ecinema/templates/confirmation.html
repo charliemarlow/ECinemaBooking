@@ -41,8 +41,8 @@
         <div class="col-first">
           <h1>Confirmation</h1>
           <nav class="d-flex align-items-center">
-            <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-            <a href="category.html">Confirmation</a>
+            <a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
+            <a href="/search">Confirmation</a>
           </nav>
         </div>
       </div>
@@ -63,10 +63,10 @@
           <div class="details_item">
             <h4>Order Info</h4>
             <ul class="list">
-              <li><a href="#"><span>Order number</span> : {{ booking['order_id'] }}</a></li>
+              <li><a href=""><span>Order number</span> : {{ booking['order_id'] }}</a></li>
               <li><a href="#"><span>Date</span> : {{ booking['order_date'].strftime("%B %d, %Y") }}</a></li>
               <li><a href="#"><span>Total</span> : {{ booking['total_price'] }}</a></li>
-              <li><a href="#"><span>Payment method</span> : Credit Card</a></li>
+              <li><a href=""><span>Payment method</span> : Credit Card</a></li>
             </ul>
           </div>
         </div>

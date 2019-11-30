@@ -41,8 +41,8 @@
         <div class="col-first">
           <h1>Create Showtime</h1>
           <nav class="d-flex align-items-center">
-            <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-            <a href="make_showtime.html">Create Showtime</a>
+            <a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
+            <a href="/create_showtime">Create Showtime</a>
           </nav>
         </div>
       </div>
@@ -83,7 +83,7 @@
                         </select>
                     </div>
                     <button type="submit" value="submit" class="primary-btn">Create Showtime</button>
-                    <a href="manage_showtime"> Or go back</a>
+                    <a href="/manage_showtime"> Or go back</a>
                     {% for message in get_flashed_messages() %}
                     <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
                     {% endfor %}
