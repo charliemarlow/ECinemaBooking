@@ -1,6 +1,6 @@
 from ecinema.data.SearchData import SearchData
 from ecinema.tools.clean import create_datetime_from_sql
-
+from ecinema.tools.validation import validate_showtime
 
 class Search():
 
@@ -69,6 +69,10 @@ class Search():
         for mov in movies:
             mov = dict(mov)
             mov['time'] = create_datetime_from_sql(mov['time'])
+            if not validate_showtime(mov['available_seats'],
+                                 mov['time']):
+                mov['time'] = None
+
             if curr_id != mov['movie_id']:
                 all_movies.append(list(single_movie))
                 curr_id = mov['movie_id']

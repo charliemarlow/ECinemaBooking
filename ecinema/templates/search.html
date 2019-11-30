@@ -105,8 +105,10 @@
                   <h6>Rating: {{ movie[0]['rating'] }}</h6>
                 </div>
                 <div>
-                    {% if movie[0]['status'] == 'inactive' or movie[0]['time'] == None%}
+                    {% if movie[0]['status'] == 'inactive' %}
                     <h8><a>Coming Soon</a></h8>
+                    {% elif movie[0]['time'] == None %}
+                    <h8><a>No showtimes currently available</a></h8>
                     {% else %}
                         {% for showtime in movie %}
                             {% if date_input == '' %}
