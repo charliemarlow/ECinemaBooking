@@ -6,7 +6,7 @@ from flask import (
 )
 from werkzeug.security import generate_password_hash
 
-from ecinema.models.Customer import Customer
+from ecinema.models.UserFactory import create_user
 from ecinema.models.Address import Address
 from ecinema.models.CreditCard import CreditCard
 
@@ -34,7 +34,7 @@ def account():
 @bp.route('/editprofile', methods=('GET', 'POST'))
 @login_required
 def edit_profile():
-    customer = Customer()
+    customer = create_user('customer')
     addr = Address()
 
     user_id = session.get('user_id')
@@ -173,7 +173,7 @@ def manage_payment():
     # call customer object to return a list of all
     # credit cards
     clear_all_booking()
-    customer = Customer()
+    customer = create_user('customer')
     fetched = customer.fetch(session['user_id'])
 
     if request.method == 'POST':
@@ -238,7 +238,7 @@ def make_payment():
 
         error = None
 
-        customer = Customer()
+        customer = create_user('customer')
         if customer.fetch(session['user_id']) and len(
                 customer.get_all_cards()) >= 3:
             error = "Customer has hit limit of 3 cards, cannot add anymore"
@@ -402,7 +402,7 @@ def edit_payment():
             # save both and send an email
             card.save()
             addr.save()
-            customer = Customer()
+            customer = create_user('customer')
             customer.fetch(session['user_id'])
             customer.send_edit_payment_email(card.get_type())
 

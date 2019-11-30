@@ -10,7 +10,7 @@ from ecinema.tools.validation import (
     validate_username, validate_password
 )
 
-from ecinema.models.Admin import Admin
+from ecinema.models.UserFactory import create_user
 
 bp = Blueprint('AdminAdminsController', __name__, url_prefix='/')
 
@@ -29,7 +29,7 @@ NEED TO ADD TO __INIT__ WHEN READY
 @bp.route('/manage_admins', methods=('GET', 'POST'))
 @admin_login_required
 def manage_admins():
-    admin = Admin()
+    admin = create_user('admin')
 
     if request.method == 'POST':
         delete_admin_id = request.form.get('delete_admin_id')
@@ -50,7 +50,7 @@ def manage_admins():
 @admin_login_required
 def edit_admin(a_id):
     admin_id = a_id
-    admin = Admin()
+    admin = create_user('admin')
     print(admin.fetch(admin_id))
 
     if request.method == 'POST':
@@ -99,7 +99,7 @@ def create_admin():
 
         if error is None:
             # if error is None, create a admin
-            new_admin = Admin()
+            new_admin = create_user('admin')
             new_admin.create(username=username,
                              password=password)
 

@@ -14,7 +14,7 @@ from ecinema.models.Movie import Movie
 from ecinema.models.Showtime import Showtime
 from ecinema.models.Showroom import Showroom
 from ecinema.models.Review import Review
-from ecinema.models.Customer import Customer
+from ecinema.models.UserFactory import create_user
 from ecinema.models.Price import Price
 from ecinema.models.Ticket import Ticket
 from ecinema.models.Booking import Booking
@@ -53,7 +53,7 @@ def refund_booking(bid):
     showtime_obj.save()
 
     # send an email!
-    customer = Customer()
+    customer = create_user('customer')
     customer.fetch(g.user['username'])
     customer.send_refund_email(movie_title, time, format_price(total))
 
@@ -123,7 +123,7 @@ def process_bookings(bookings):
 @customer_login_required
 def previous_orders():
     # need to get all booking objects for the customer
-    customer = Customer()
+    customer = create_user('customer')
     if not customer.fetch(g.user['username']):
         return redirect(url_for('IndexController.index'))
 

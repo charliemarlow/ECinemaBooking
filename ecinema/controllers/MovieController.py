@@ -10,11 +10,11 @@ from ecinema.tools.clean import create_datetime_from_sql
 from ecinema.tools.validation import validate_name, validate_duration, validate_text, validate_showtime
 
 from ecinema.controllers.LoginController import customer_login_required
+from ecinema.models.UserFactory import create_user
 
 from ecinema.models.Movie import Movie
 from ecinema.models.Showtime import Showtime
 from ecinema.models.Review import Review
-from ecinema.models.Customer import Customer
 
 from ecinema.tools.data_integrity import clear_all_booking
 
@@ -109,7 +109,7 @@ def create_review(mid):
 
         if error is None:
             # write it to the db
-            customer = Customer()
+            customer = create_user('customer')
             # customer login required ensures this will work
             customer.fetch(g.user['username'])
             review_model = Review()

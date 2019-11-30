@@ -16,7 +16,6 @@ from ecinema.models.Movie import Movie
 from ecinema.models.Showtime import Showtime
 from ecinema.models.Showroom import Showroom
 from ecinema.models.Review import Review
-from ecinema.models.Customer import Customer
 from ecinema.models.Price import Price
 from ecinema.models.Ticket import Ticket
 from ecinema.models.Booking import Booking

@@ -5,8 +5,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash
 
-from ecinema.models.Customer import Customer
-from ecinema.models.Admin import Admin
+from ecinema.models.UserFactory import create_user
 
 from ecinema.tools.validation import (
     validate_name, validate_password
@@ -58,8 +57,8 @@ def login():
 
 def get_user(username: str):
     user = None
-    customer = Customer()
-    admin = Admin()
+    customer = create_user('customer')
+    admin = create_user('admin')
     customer_exists = customer.fetch(username)
     customer_exists = (customer_exists or
                        customer.fetch_by_email(username))
@@ -100,7 +99,7 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        customer = Customer()
+        customer = create_user('customer')
 
         g.user = customer.obj_as_dict(user_id)
         if g.user is not None:
@@ -109,7 +108,7 @@ def load_logged_in_user():
 
         # check for admin
         if g.user is None:
-            admin = Admin()
+            admin = create_user('admin')
             # maybe a bug here?
             g.user = dict(admin.obj_as_dict(user_id))
             g.user['is_admin'] = True
@@ -124,8 +123,8 @@ def logout():
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        customer = Customer()
-        admin = Admin()
+        customer = create_user('customer')
+        admin = create_user('admin')
         if g.user is None:
             return redirect(url_for('LoginController.login'))
         elif (customer.fetch(g.user['username']) and
@@ -144,7 +143,7 @@ def customer_login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         print("Customer Login Required")
-        customer = Customer()
+        customer = create_user('customer')
 
         if g.user is None:
             return redirect(url_for('LoginController.login'))
@@ -159,7 +158,7 @@ def customer_login_required(view):
 def admin_login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        admin = Admin()
+        admin = create_user('admin')
         if g.user is None:
             return redirect(url_for('LoginController.login'))
         elif not admin.fetch(g.user['username']):
