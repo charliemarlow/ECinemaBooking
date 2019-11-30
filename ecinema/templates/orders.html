@@ -55,83 +55,58 @@
 		<div class="container border-top-generic whole-wrap pb-100">
 	<div class="section-top-border" style="">
 				<h3 class="mb-10" style="margin-bottom: 2em">Previous Orders</h3>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="single-defination">
-                            <div class="button-group-area mt-40">
-                                <a href="contact.html" class="genric-btn primary e-large" style="font-size: 2em">Contact Support</a>
-                             </div>
-						</div>
-					</div>
-				</div>
 			</div>
-            <div class="order_details_table">
-				<h2>Order History</h2>
+      <div class="order_details_table">
+				  <h2>Order History</h2>
+          {% for message in get_flashed_messages() %}
+          <div class="flash" style="text-align: center;color:black; background:#4edd44;">{{ message }}</div>
+          {% endfor %}
+
 				<div class="table-responsive">
 					<table class="table">
 						<thead>
 							<tr>
 								<th scope="col">Movie Name</th>
 								<th scope="col">Order No.</th>
-								<th scope="col">Date</th>
-								<th scope="col">Quantity</th>
-                                <th scope="col">Ticket Type</th>
+								<th scope="col">Showtime</th>
+                <th scope="col">Ticket Type</th>
 								<th scope="col">Total Price</th>
-                                <th scope="col">Refund</th>
+                <th scope="col">Refund</th>
+                <th scope="col">View Details</th>
 							</tr>
 						</thead>
 						<tbody>
-                            <!-- Start Single Promotion -->
+              {% for refund in refunds %}
 							<tr>
 								<td>
-									<p>Once Upon a Time in Hollywood</p>
+									<p>{{ refund['movie_title'] }}</p>
 								</td>
                                 <td>
-                                    <p>#1565885</p>
+                                    <p>{{ refund['order_no'] }}</p>
                                 </td>
                                 <td>
-                                    <p>10/12/2019</p>
+                                    <p>{{ refund['date'].strftime('%I:%M %p') }} <br> {{ refund['date'].strftime('%B %d, %Y') }}</p>
+                                </td>
+                                <td>
+                                    <p>{{ refund['tickets']}}</p>
                                 </td>
 								<td>
-									<h5>x2</h5>
+									<p>{{ refund['total'] }}</p>
 								</td>
-                                <td>
-                                    <p>Adult (1)<br>Child (1)</p>
-                                </td>
-								<td>
-									<p>$19.56</p>
-								</td>
-                                <td>
-                                    <a href="refund.html" class="genric-btn danger">Refund</a>
-                                </td>
-                            </tr>
-                            <!-- End Single Promotion -->
-                            
-                            <!-- Start Single Promotion -->
-							<tr>
-									<td>
-									<p>Spiderman</p>
-								</td>
-                                <td>
-                                    <p>#1565545</p>
-                                </td>
-                                <td>
-                                    <p>9/12/2019</p>
-                                </td>
-								<td>
-									<h5>x1</h5>
-								</td>
-                                <td>
-                                    <p>Adult (1)</p>
-                                </td>
-								<td>
-									<p>$8.72</p>
-								</td>
-                                <td>
-                                    Refund no longer available
-                                </td>
-                            </tr>
-                            <!-- End Single Promotion -->
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="refund" value="{{ refund['bid'] }}">
+                        <button type="submit" class="genric-btn danger">Refund</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="view_details" value="{{ refund['bid'] }}">
+                        <button type="submit" class="genric-btn success">View Confirmation</button>
+                    </form>
+                </td>
+              </tr>
+{% endfor %}
 						</tbody>
 					</table>
 				</div>
