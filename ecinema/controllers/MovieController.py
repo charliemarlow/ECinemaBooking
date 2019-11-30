@@ -7,7 +7,7 @@ from flask import (
 from datetime import datetime
 
 from ecinema.tools.clean import create_datetime_from_sql
-from ecinema.tools.validation import validate_name, validate_duration, validate_text
+from ecinema.tools.validation import validate_name, validate_duration, validate_text, validate_showtime
 
 from ecinema.controllers.LoginController import customer_login_required
 
@@ -41,7 +41,8 @@ def movie_details(mid):
     for showtime in showtimes:
         showtime = dict(showtime)
         showtime['time'] = create_datetime_from_sql(showtime['time'])
-        showtimes_list.append(showtime)
+        if validate_showtime(showtime['available_seats'], showtime['time']):
+            showtimes_list.append(showtime)
 
     showtimes_list = sorted(showtimes_list, key=lambda k: k['time'])
 

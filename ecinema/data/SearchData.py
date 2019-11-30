@@ -5,7 +5,7 @@ class SearchData():
 
     def __init__(self):
         self.__db = get_db()
-        self.__select = 'SELECT movie.movie_id, title, category, picture, video, rating, status, time FROM movie NATURAL JOIN showtime WHERE '
+        self.__select = 'SELECT movie.movie_id, title, category, picture, video, rating, status, time, available_seats FROM movie NATURAL JOIN showtime WHERE '
         self.__coming_select = 'SELECT movie_id, title, category, picture, video, rating, status FROM movie WHERE status = "inactive" AND '
 
     def search_movies(self, date, category, term):

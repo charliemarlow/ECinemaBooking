@@ -65,7 +65,7 @@
               {% endif %}
           <div class="form-select" name="category">
               <select name="category">
-                  <option value="" disabled selected hidden>Any</option>
+                  <option selected>Any</option>
                   <option value="action">Action</option>
                   <option value="comedy">Comedy</option>
                   <option value="drama">Drama</option>
@@ -92,8 +92,9 @@
     </div>
 
     <div style="display:flex; flex-wrap: wrap">
-        {% if movies != None %}
+        {% if movies != None and movies | length > 0 %}
         {% for movie in movies %}
+        {% if movie | length > 0 %}
             <!-- single product -->
           <div class="col-lg-3 col-md-6">
             <div class="single-product">
@@ -104,8 +105,10 @@
                   <h6>Rating: {{ movie[0]['rating'] }}</h6>
                 </div>
                 <div>
-                    {% if movie[0]['status'] == 'inactive' or movie[0]['time'] == None%}
+                    {% if movie[0]['status'] == 'inactive' %}
                     <h8><a>Coming Soon</a></h8>
+                    {% elif movie[0]['time'] == None %}
+                    <h8><a>No showtimes currently available</a></h8>
                     {% else %}
                         {% for showtime in movie %}
                             {% if date_input == '' %}
@@ -130,6 +133,7 @@
               </div>
             </div>
           </div>
+          {% endif %}
           {% endfor %}
           {% endif %}
     </div>
