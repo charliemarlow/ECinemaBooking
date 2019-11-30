@@ -21,11 +21,72 @@ from ecinema.models.Booking import Booking
 
 bp = Blueprint('RefundController', __name__, url_prefix='/')
 
-def refund(bid):
+def refund_booking(bid):
     # clean up
     # delete all tickets, reset showtime incrementer
     # delete the booking object
+    # send an email!
     return
+
+def process_tickets(tickets):
+    tickets = sorted(tickets, key=lambda k: k['age'])
+    current_type = tickets[0]['age']
+    old_type = current_type
+
+    current_tickets = []
+    all_tickets = []
+
+    for t in tickets:
+        current_type = t['age']
+        if current_type != old_type:
+            all_tickets.append(list(current_tickets))
+            current_tickets.clear()
+        current_tickets.append(dict(t))
+        old_type = t['age']
+
+    all_tickets.append(list(current_tickets))
+    return all_tickets
+
+
+def process_bookings(bookings):
+    refund_info = {}
+    refunds = []
+
+    for booking in bookings:
+        refund_info['order_no'] = booking['order_id']
+        refund_info['total'] = format_price(booking['total_price'])
+        refund_info['bid'] = booking['booking_id']
+
+        # get tickets
+        booking_obj = Booking()
+        booking_obj.fetch(booking['booking_id'])
+        tickets = booking_obj.get_tickets()
+        refund_info['tickets'] = process_tickets(tickets)
+
+        movie = Movie()
+        movie.fetch(booking['movie_id'])
+        refund_info['movie_title'] = movie.get_title()
+
+        showtime = Showtime()
+        showtime.fetch(booking['showtime_id'])
+        refund_info['date'] = showtime.get_time()
+
+        now = datetime.datetime.now()
+        hour = datetime.timedelta(hours=1)
+        if now + hour > showtime.get_time():
+            refund_info['is_refundable'] = False
+        else:
+            refund_info['is_refundable'] = True
+
+
+        refunds.append(dict(refund_info))
+
+    # sort here
+    refunds = sorted(refunds,
+                     key=lambda k: k['date'],
+                     reverse=True)
+    return refunds
+
 
 @bp.route('/previous_orders', methods=('GET', 'POST'))
 @customer_login_required
@@ -40,23 +101,14 @@ def previous_orders():
         details = request.form.get('view_details')
 
         if refund:
-            print("Refund = " + refund)
+            refund_booking(refund)
+            flash('Your refund request was successful. Your payment provider will be fully refunded in 3-5 days.')
         if details:
             print("details = " + details)
 
 
-
-    # then fill this out
-    refund_info = {
-        'movie_title' : 'test',
-        'order_no' : '#AF13J',
-        'date' : datetime.datetime.now(),
-        'tickets' : '2 x Adults, 1 x Child',
-        'total' : '$19.36 USD',
-        'bid' : 0, # or None if no longer available
-    }
-    refunds = []
-    refunds.append(refund_info)
-    flash('Your refund request was successful. Your payment provider will be fully refunded in 3-5 days.')
+    bookings = customer.get_previous_bookings()
+    refunds = process_bookings(bookings)
+    
     return render_template('orders.html', refunds=refunds)
 

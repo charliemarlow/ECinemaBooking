@@ -88,15 +88,21 @@
                                     <p>{{ refund['date'].strftime('%I:%M %p') }} <br> {{ refund['date'].strftime('%B %d, %Y') }}</p>
                                 </td>
                                 <td>
-                                    <p>{{ refund['tickets']}}</p>
+                                    {% for ticket in refund['tickets'] %}
+                                    <p>({{ ticket | length }}) {{ ticket[0]['age'].title() }}</p>
+                                    {% endfor %}
                                 </td>
 								<td>
 									<p>{{ refund['total'] }}</p>
 								</td>
                 <td>
                     <form method="post">
+                        {% if refund['is_refundable'] %}
                         <input type="hidden" name="refund" value="{{ refund['bid'] }}">
                         <button type="submit" class="genric-btn danger">Refund</button>
+                        {% else %}
+                        <p> Refund unavailable </p>
+                        {% endif %}
                     </form>
                 </td>
                 <td>

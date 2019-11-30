@@ -21,6 +21,12 @@ class CustomerData(DataAccess):
             'SELECT * FROM customer WHERE subscribe_to_promo = 1'
         ).fetchall()
 
+    def get_bookings(self, key):
+        return self.__db.execute(
+            'SELECT * FROM booking WHERE customer_id = ?',
+            (key,)
+        ).fetchall()
+
     def insert_info(self, data) -> str:
         cursor = self.__db.cursor()
         cursor.execute(

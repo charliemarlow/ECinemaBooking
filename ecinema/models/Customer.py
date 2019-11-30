@@ -160,6 +160,12 @@ class Customer(Model, User):
     def get_phone(self):
         return self.__phone
 
+    def get_previous_bookings(self):
+        if not self.is_initialized():
+            return None
+
+        return self.__data_access.get_bookings(self.get_id())
+
     def send_profile_change_email(self):
         email = self.get_email()
         subject = "Profile Change Notification"
