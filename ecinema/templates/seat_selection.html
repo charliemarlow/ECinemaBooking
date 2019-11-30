@@ -63,26 +63,26 @@
   <section class="button-area">
         <div id = "displaySelectedSeats" class="container border-top-generic">
             <div id= "seatSlots" class="container border-top-generic">
-                  <h3 class="text-heading">Select Seats</h3>
-                    <img src="static/img/temp_screen.png" alt="">
-            {% for ticket in tickets %}
-            <!-- remove this comment to see the seats list -->
-            <!-- <h2>{{ ticket }} </h2>-->
-            {% endfor %}
+                <h3 class="text-heading">Select Seats</h3>
+                <img src="static/img/temp_screen.png" alt="">
+                {% for ticket in tickets %}
+                <!-- remove this comment to see the seats list -->
+                <!-- <h2>{{ ticket }} </h2>-->
+                {% endfor %}
 
 
 
             </div>
+            <form method="post">
             <div id= "selectedSeats"><br>
                 <h3>Selected Seats</h3>
 
             </div>
             <div>
                 <br><br>
-                <form method="post">
                     <button class="genric-btn primary e-large arrow">Next <span class="lnr lnr-arrow-right"></span></button>
-                </form>
             </div>
+        </form>
         </div>
         <script>
 

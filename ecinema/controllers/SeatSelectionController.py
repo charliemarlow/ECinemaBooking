@@ -88,12 +88,30 @@ def select_seat():
     showtime = Showtime()
     showtime.fetch(session['showtime'])
 
+    showroom = Showroom()
+    showroom.fetch(showtime.get_showroom_id())
+
+
     if request.method == 'POST':
+        print("Session.get")
+        ticket_no = 0
+        example = []
+        capacity = showroom.get_num_seats()
+
+        for i in range(0, capacity):
+            if request.form.get(str(i)):
+                example.append((i, request.form[str(i)]))
+
+        print(example)
+
+        if session.get('tickets') is not None:
+            session['tickets'] = session['tickets'] + example
+        else:
+            session['tickets'] = example
+
         reserve_tickets(showtime)
         return redirect(url_for('CheckoutController.checkout'))
 
-    showroom = Showroom()
-    showroom.fetch(showtime.get_showroom_id())
 
     tickets = showtime.get_all_tickets()
 
@@ -115,11 +133,7 @@ def select_seat():
     # from this page, we'll get the seats and their ages
     # we need to get an array of tuples like
     # [(seatNo, age),]
-    example = [(12, "adult"), (11, "student")]
+    print(session.get('1'))
     print(session.get('tickets'))
-    if session.get('tickets') is not None:
-        session['tickets'] = session['tickets'] + example
-    else:
-        session['tickets'] = example
 
     return render_template("seat_selection.html", tickets=avail_dict)
