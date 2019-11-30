@@ -14,7 +14,7 @@ from ecinema.controllers.LoginController import customer_login_required
 
 from ecinema.models.Movie import Movie
 from ecinema.models.Showtime import Showtime
-from ecinema.models.Customer import Customer
+from ecinema.models.UserFactory import create_user
 from ecinema.models.Price import Price
 from ecinema.models.Promo import Promo
 from ecinema.models.Booking import Booking
@@ -116,7 +116,7 @@ def associate_tickets(booking_id):
 
 
 def get_current_customer():
-    customer = Customer()
+    customer = create_user('customer')
     customer.fetch(g.user['username'])
     return customer
 
@@ -239,7 +239,7 @@ def checkout():
             clear_booking_info()
             return redirect(url_for('IndexController.index'))
 
-    customer = Customer()
+    customer = create_user('customer')
     customer.fetch(g.user['username'])
     cards = customer.get_all_cards()
 

@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from ecinema.models.Customer import Customer
+from ecinema.models.UserFactory import create_user
 from ecinema.tools.validation import validate_password
 from ecinema.controllers.LoginController import login_required
 
@@ -28,7 +28,7 @@ def reset_password():
         user_id = session.get('user_id')
         error = None
 
-        customer = Customer()
+        customer = create_user('customer')
         customer.fetch(user_id)
         print(user_id)
 

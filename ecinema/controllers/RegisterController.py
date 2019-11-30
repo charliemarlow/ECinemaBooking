@@ -5,7 +5,6 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from ecinema.models.Customer import Customer
 from ecinema.models.Address import Address
 from ecinema.models.CreditCard import CreditCard
 
@@ -66,7 +65,7 @@ def register():
 
         # create a new user
         if error is None:
-            customer = Customer()
+            customer = create_user('customer')
             customer.create(first_name=firstname, last_name=lastname,
                             password=generate_password_hash(password),
                             username=username, email=email,
@@ -165,7 +164,7 @@ def optional_register():
             home_addr.create(street=home_street, city=home_city,
                              state=home_state, zip_code=home_zip)
             # fetch the customer, set their address
-            customer = Customer()
+            customer = create_user('customer')
             if customer.fetch(session['customer_username']):
                 customer.set_address_id(home_addr.get_id())
                 customer.save()
@@ -223,7 +222,7 @@ def confirm_account(token):
         return redirect(
             url_for('RegisterController.account_verification_fail'))
 
-    customer = Customer()
+    customer = create_user('customer')
 
     if customer.fetch_by_email(email):
         setup_session(customer.get_username(), False)

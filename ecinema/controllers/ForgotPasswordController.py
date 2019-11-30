@@ -16,7 +16,7 @@ from ecinema.tools.sendEmail import send_email
 
 
 from ecinema.controllers.LoginController import setup_session
-from ecinema.models.Customer import Customer
+from ecinema.models.UserFactory import create_user
 
 bp = Blueprint('ForgotPasswordController', __name__, url_prefix='/')
 
@@ -31,7 +31,7 @@ def forgot():
         # 3. user status is active
         # 4. not none
         error = None
-        customer = Customer()
+        customer = create_user('customer')
 
         if email is None:
             error = 'Email is required'
@@ -97,7 +97,7 @@ def confirm_email(token):
               'danger')
         # make a page explaining this to the user
         return redirect(url_for('ForgotPasswordController.forgot_error'))
-    customer = Customer()
+    customer = create_user('customer')
     if customer.fetch_by_email(email):
         # log user in, redirect to reset password
         setup_session(customer.get_username(), False)

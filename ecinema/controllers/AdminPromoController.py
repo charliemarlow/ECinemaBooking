@@ -12,7 +12,7 @@ from ecinema.tools.validation import (
 from ecinema.tools.clean import create_datetime_from_sql
 
 from ecinema.models.Promo import Promo
-from ecinema.models.Customer import Customer
+from ecinema.models.UserFactory import create_user
 from ecinema.controllers.AdminShowtimeController import create_datetime
 
 bp = Blueprint('AdminPromosController', __name__, url_prefix='/')
@@ -100,7 +100,7 @@ def send_promo_email(promo):
     description = promo.get_promo_description()
     expiration = promo.get_exp_date()
 
-    customer = Customer()
+    customer = create_user('customer')
     customer.send_new_promo(code, percent, description, expiration)
 
 @bp.route('/create_promo', methods=('GET', 'POST'))
