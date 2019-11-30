@@ -118,7 +118,7 @@ def select_seat():
     # probably need to pull all tickets
     # for this showtime, and get a list of taken
     # seats to pass to zach
-    available = list(range(13))
+    available = list(range(showroom.get_num_seats()))
     if len(tickets) > 0:
         for ticket in tickets:
             seat_no = int(ticket['seat_number'])

@@ -6,16 +6,7 @@ from flask import (
 bp = Blueprint('TestController', __name__, url_prefix='/')
 
 
-@bp.route('/manage_payment', methods=('GET', 'POST'))
+@bp.route('/orders', methods=('GET', 'POST'))
 def manage_payment():
-    return render_template('manage_payment.html')
+    return render_template('orders.html')
 
-
-@bp.route('/make_payment', methods=('GET', 'POST'))
-def make_payment():
-    return render_template('make_payment.html')
-
-
-@bp.route('/verify_password', methods=('GET', 'POST'))
-def verify_password():
-    return render_template('verify_password.html')

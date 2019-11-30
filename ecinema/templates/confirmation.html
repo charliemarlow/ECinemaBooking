@@ -52,8 +52,12 @@
 
   <!--================Order Details Area =================-->
   <section class="order_details section_gap">
-    <div class="container">
-      <h3 class="title_confirmation">Thank you. Your order has been received.<br>You should receive a confirmation email shortly.</h3>
+      <div class="container">
+          {% if confirm %}
+          <h3 class="title_confirmation">View your order details belows. <br> Or, <a href="/previous_orders">return to your previous orders</a> </h3>
+          {% else %}
+          <h3 class="title_confirmation">Thank you. Your order has been received.<br>You should receive a confirmation email shortly.</h3>
+          {% endif %}
       <div class="row order_d_inner">
         <div class="col-lg-4">
           <div class="details_item">
