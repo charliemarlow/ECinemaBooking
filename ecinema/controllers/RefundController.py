@@ -104,11 +104,12 @@ def previous_orders():
             refund_booking(refund)
             flash('Your refund request was successful. Your payment provider will be fully refunded in 3-5 days.')
         if details:
-            print("details = " + details)
+            confirm_bid = str(details) + "c"
+            return redirect(url_for('BookingController.payment_confirmation', bid=confirm_bid))
 
 
     bookings = customer.get_previous_bookings()
     refunds = process_bookings(bookings)
-    
+
     return render_template('orders.html', refunds=refunds)
 

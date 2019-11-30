@@ -33,6 +33,12 @@ def cancel_booking():
 @bp.route('/payment_confirmation/<bid>', methods=('GET', 'POST'))
 @customer_login_required
 def payment_confirmation(bid):
+
+    confirm = False
+    if bid[-1] == 'c':
+        bid = bid[0:-1]
+        confirm = True
+
     fees = []
 
     booking = Booking()
@@ -54,4 +60,5 @@ def payment_confirmation(bid):
                            fees=fees,
                            movie=movie,
                            showtime=showtime.get_time(),
-                           booking=booking)
+                           booking=booking,
+                           confirm=confirm)
