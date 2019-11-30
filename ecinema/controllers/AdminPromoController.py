@@ -65,17 +65,15 @@ def edit_promo(pid):
         if description != '':
             promo.set_promo_description(description)
 
-        if validate_percentage(percent):
+        if percent != '' and validate_percentage(percent):
             promo.set_promo(percent)
-        else:
+        elif percent != '':
             error = "Invalid percentage"
 
         if expiration:
             promo_date_dict = expiration.split("-")
             date = datetime(int(promo_date_dict[0]), int(promo_date_dict[1]), int(promo_date_dict[2]))
 
-            print("DAT!!")
-            print(date)
             if date != '' and not validate_expiration_date(date):
                 error = "Promotion Valid Until Date is invalid"
             elif date != '':

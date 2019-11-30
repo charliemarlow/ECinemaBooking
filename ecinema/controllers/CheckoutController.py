@@ -191,13 +191,17 @@ def calculate_fees_and_total(subtotal):
 
 
 def apply_promo(promo):
-    promo_code = request.form['coupon']
+    promo_code = request.form['coupon'].upper()
 
     if promo.fetch_by_code(promo_code):
-        promo_dict = {'id': promo.get_id(),
-                      'name': promo.get_code(),
-                      'percent': float(promo.get_promo())}
-        return promo_dict, None
+        promo_date = promo.get_exp_date().split("-")
+        date = datetime(int(promo_date[0]), int(promo_date[1]), int(promo_date[2]))
+
+        if validate_expiration_date(date, promo=True):
+            promo_dict = {'id': promo.get_id(),
+                          'name': promo.get_code(),
+                          'percent': float(promo.get_promo())}
+            return promo_dict, None
     return None, "Promo not found"
 
 
