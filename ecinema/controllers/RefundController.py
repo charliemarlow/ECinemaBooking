@@ -24,9 +24,38 @@ bp = Blueprint('RefundController', __name__, url_prefix='/')
 def refund_booking(bid):
     # clean up
     # delete all tickets, reset showtime incrementer
-    # delete the booking object
+    booking = Booking()
+    if not booking.fetch(bid):
+        return redirect(url_for('IndexController.index'))
+    total = booking.get_total_price()
+
+    movie = Movie()
+    movie.fetch(booking.get_movie_id())
+    movie_title = movie.get_title()
+
+    tickets = booking.get_tickets()
+    ticket_count = len(tickets)
+
+    # delete individual ticket objects
+    ticket_obj = Ticket()
+    for ticket in tickets:
+        ticket_obj.delete(ticket['ticket_id'])
+
+    # delete the actual booking object
+    showtime = booking.get_showtime_id()
+    booking.delete(bid)
+
+    # reset showtime seats
+    showtime_obj = Showtime()
+    showtime_obj.fetch(showtime)
+    showtime_obj.increment_available_seats(ticket_count)
+    time = showtime_obj.get_time().strftime('%I:%M %p  :  %B %d, %Y')
+    showtime_obj.save()
+
     # send an email!
-    return
+    customer = Customer()
+    customer.fetch(g.user['username'])
+    customer.send_refund_email(movie_title, time, format_price(total))
 
 def process_tickets(tickets):
     tickets = sorted(tickets, key=lambda k: k['age'])
@@ -68,8 +97,10 @@ def process_bookings(bookings):
         refund_info['movie_title'] = movie.get_title()
 
         showtime = Showtime()
-        showtime.fetch(booking['showtime_id'])
+        print(showtime.fetch(booking['showtime_id']))
+        print(booking['showtime_id'])
         refund_info['date'] = showtime.get_time()
+        print(showtime.get_time())
 
         now = datetime.datetime.now()
         hour = datetime.timedelta(hours=1)
@@ -102,7 +133,7 @@ def previous_orders():
 
         if refund:
             refund_booking(refund)
-            flash('Your refund request was successful. Your payment provider will be fully refunded in 3-5 days.')
+            flash('Your refund request was successful. Your payment card will be fully refunded in 3-5 days.')
         if details:
             confirm_bid = str(details) + "c"
             return redirect(url_for('BookingController.payment_confirmation', bid=confirm_bid))

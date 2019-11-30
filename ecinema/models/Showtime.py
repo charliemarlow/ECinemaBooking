@@ -82,6 +82,9 @@ class Showtime(Model):
     def set_available_seats(self, available_seats: str):
         self.__available_seats = available_seats
 
+    def increment_available_seats(self, available_seats: int):
+        self.__available_seats = int(self.__available_seats) + int(available_seats)
+
     def get_movie_id(self) -> str:
         return self.__movie_id
 

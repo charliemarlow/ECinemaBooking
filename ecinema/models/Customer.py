@@ -308,6 +308,27 @@ E-Cinema Booking
         message = message.format(self.get_first_name(), movie, showtime, oid, total, tickets)
         send_email(self.get_email(), subject, message)
 
+    def send_refund_email(self, movie, showtime, total):
+        subject = "Ticket Booking Confirmation"
+
+        message = """Hey {},
+
+        Tickets for {} on {} were just refund on your """\
+            + """account on the E-Cinema Booking website.\n\n """\
+            + """Refund Amount\n"""\
+            + """{}\n"""\
+            + """\nIf you did not authorize this, please reset """\
+            + """your E-Cinema Booking account password. """\
+            + """
+
+Best,
+
+E-Cinema Booking
+        """
+        message = message.format(self.get_first_name(), movie, showtime, total)
+        send_email(self.get_email(), subject, message)
+
+
     def send_new_promo(self, code, percent, description, expiration):
 
         subject = "New Promotion Available"
