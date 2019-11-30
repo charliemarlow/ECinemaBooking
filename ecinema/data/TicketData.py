@@ -2,6 +2,7 @@
 from ecinema.data.access import DataAccess
 from ecinema.data.db import get_db
 
+
 class TicketData(DataAccess):
 
     def __init__(self):

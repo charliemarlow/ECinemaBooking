@@ -24,6 +24,8 @@ def search():
     dinput = ''
     catinput = ''
     search_args = []
+    movies = []
+
 
     if request.method == 'POST':
         search_input = request.form.get('search_input')

@@ -2,6 +2,7 @@
 from ecinema.models.model import Model
 from ecinema.data.PromoData import PromoData
 
+
 class Promo(Model):
 
     def __init__(self):
@@ -9,7 +10,6 @@ class Promo(Model):
 
         self.__code = None
         self.__promo = None
-        self.__promo_description = ''
         self._Model__is_init = False
         self._Model__id = None
         self.__data_access = PromoData()
@@ -28,7 +28,20 @@ class Promo(Model):
 
             self.set_code(promo['code'])
             self.set_promo(promo['promo'])
-            self.set_description(promo['promo_description'])
+            self.set_is_init()
+
+            return True
+
+        return False
+
+    def fetch_by_code(self, key: str):
+        promo = self.__data_access.get_info_by_code(key)
+
+        if promo is not None:
+            self.set_id(promo['promo_id'])
+
+            self.set_code(promo['code'])
+            self.set_promo(promo['promo'])
             self.set_is_init()
 
             return True
@@ -40,13 +53,11 @@ class Promo(Model):
         for key, value in kwargs.items():
             promo[key] = value
 
-
         self.set_code(promo['code'])
         self.set_promo(promo['promo'])
-        self.set_description(promo['description'])
         self.set_is_init()
 
-        member_tup = (self.get_code(), self.get_promo(), self.get_description())
+        member_tup = (self.get_code(), self.get_promo())
 
         self.set_id(self.__data_access.insert_info(member_tup))
 
@@ -54,14 +65,13 @@ class Promo(Model):
         if not self.is_initialized():
             return False
 
-        member_tup = (self.get_code(), self.get_promo(), self.get_description(), self.get_id())
+        member_tup = (self.get_code(), self.get_promo(), self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
 
     def delete(self, key: str):
         self.__data_access.delete(key)
-
 
     def get_code(self) -> str:
         return self.__code
@@ -74,10 +84,3 @@ class Promo(Model):
 
     def set_promo(self, promo: str):
         self.__promo = promo
-
-    def set_description(self, description: str):
-        self.__promo_description = description
-    
-    def get_description(self) -> str:
-        return self.__promo_description
-

@@ -2,6 +2,7 @@
 from ecinema.models.model import Model
 from ecinema.data.ReviewData import ReviewData
 
+
 class Review(Model):
 
     def __init__(self):
@@ -50,14 +51,12 @@ class Review(Model):
         for key, value in kwargs.items():
             review[key] = value
 
-
         self.set_customer_id(review['customer_id'])
         self.set_movie_id(review['movie_id'])
         self.set_rating(review['rating'])
         self.set_subject(review['subject'])
         self.set_review(review['review'])
         self.set_is_init()
-
 
         member_tup = (self.get_customer_id(),
                       self.get_movie_id(),
@@ -71,14 +70,19 @@ class Review(Model):
         if not self.is_initialized():
             return False
 
-        member_tup = (self.get_customer_id(), self.get_movie_id(), self.get_rating(), self.get_subject(), self.get_review(), self.get_id())
+        member_tup = (
+            self.get_customer_id(),
+            self.get_movie_id(),
+            self.get_rating(),
+            self.get_subject(),
+            self.get_review(),
+            self.get_id())
 
         self.__data_access.update_info(member_tup)
         return True
 
     def delete(self, key: str):
         self.__data_access.delete(key)
-
 
     def get_customer_id(self) -> str:
         return self.__customer_id
@@ -109,4 +113,3 @@ class Review(Model):
 
     def set_review(self, review: str):
         self.__review = review
-

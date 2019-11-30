@@ -2,6 +2,7 @@
 from ecinema.data.access import DataAccess
 from ecinema.data.db import get_db
 
+
 class PriceData(DataAccess):
 
     def __init__(self):
@@ -46,3 +47,13 @@ class PriceData(DataAccess):
         )
 
         self.__db.commit()
+
+    def get_tax(self):
+        return self.__db.execute(
+            'SELECT * FROM price WHERE price_id = "tax"'
+        ).fetchone()
+
+    def get_fee(self):
+        return self.__db.execute(
+            'SELECT * FROM price WHERE price_id = "fees"'
+        ).fetchone()

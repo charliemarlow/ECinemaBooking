@@ -119,7 +119,12 @@
               </div>
 
 
+              {% if session.get('checkout') %}
+              <input type="hidden" name="checkout" value="1"></input>
+              <button type="submit" value="submit" class="primary-btn">Add Card and Back to Checkout</button>
+              {% else %}
               <button type="submit" value="submit" class="primary-btn">Submit New Payment</button>
+              {% endif %}
               {% for message in get_flashed_messages() %}
               <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
               {% endfor %}

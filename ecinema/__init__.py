@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from ecinema.controllers import (
     RegisterController, LoginController, IndexController,
     AccountController, ResetPasswordController,
