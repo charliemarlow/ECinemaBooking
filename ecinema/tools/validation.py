@@ -5,7 +5,7 @@ from ecinema.data.ValidationData import (
     is_active_user, is_unique_promo,
     booking_has_promo
 )
-from datetime import datetime
+from datetime import datetime, timedelta
 from zipcodes import is_real
 from ecinema.data.states import state_dict
 
@@ -180,3 +180,6 @@ def validate_promo_code(code: str):
 
 def validate_unlinked_promo(promo_id: int):
     return not booking_has_promo(promo_id)
+
+def validate_showtime(seats: int, time: datetime):
+    return int(seats) > 0 and time > datetime.now()
