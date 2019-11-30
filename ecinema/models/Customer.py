@@ -301,3 +301,29 @@ E-Cinema Booking
         """
         message = message.format(self.get_first_name(), movie, showtime, oid, total, tickets)
         send_email(self.get_email(), subject, message)
+
+    def send_new_promo(self, code, percent, description, expiration):
+
+        subject = "New Promotion Available"
+
+        message = """Hey!
+
+        A new promotion on E-Cinema Booking is now available """\
+            + """\n\n"""\
+            + """        Promo Code:     {}\n"""\
+            + """        Percentage Off: {}\n"""\
+            + """        Description:    {}\n"""\
+            + """        Use Before:     {}"""\
+            + """
+
+Best,
+
+E-Cinema Booking
+        """
+
+        message = message.format(code, percent, description, expiration)
+
+        customers = self.__data_access.get_promotion_users()
+
+        for customer in customers:
+            send_email(customer['email'], subject, message)

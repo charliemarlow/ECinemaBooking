@@ -16,6 +16,11 @@ class CustomerData(DataAccess):
             (key,)
         ).fetchall()
 
+    def get_promotion_users(self):
+        return self.__db.execute(
+            'SELECT * FROM customer WHERE subscribe_to_promo = 1'
+        ).fetchall()
+
     def insert_info(self, data) -> str:
         cursor = self.__db.cursor()
         cursor.execute(

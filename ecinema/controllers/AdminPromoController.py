@@ -12,6 +12,7 @@ from ecinema.tools.validation import (
 from ecinema.tools.clean import create_datetime_from_sql
 
 from ecinema.models.Promo import Promo
+from ecinema.models.Customer import Customer
 from ecinema.controllers.AdminShowtimeController import create_datetime
 
 bp = Blueprint('AdminPromosController', __name__, url_prefix='/')
@@ -93,6 +94,17 @@ def edit_promo(pid):
     info = promo.obj_as_dict(promo_id)
     return render_template('edit_promotion.html', promo=info)
 
+def send_promo_email(promo):
+    code = promo.get_code()
+    percent = float(promo.get_promo()) * 100
+    percent = str(int(percent)) + "%"
+    print(percent)
+    description = promo.get_promo_description()
+    expiration = promo.get_exp_date()
+
+    customer = Customer()
+    customer.send_new_promo(code, percent, description, expiration)
+
 @bp.route('/create_promo', methods=('GET', 'POST'))
 @admin_login_required
 def create_promo():
@@ -101,7 +113,7 @@ def create_promo():
         code = request.form['code']
         percent = request.form['percent']
         expiration = request.form['expiration']
-        description = request.form.get('description')
+        description = request.form['description']
 
         # validate all data, everything must be correct
         error = None
@@ -117,13 +129,17 @@ def create_promo():
             error = "Promotion Valid Until Date is invalid"
         elif not validate_percentage(percent):
             error = "Promotion percentage is invalid"
+        elif not description:
+            error = "Invalid description"
 
 
         if error is None:
             # if error is None, create a promo
             new_promo = Promo()
+            code = code.upper()
             new_promo.create(promo=percent,code=code,promo_description=description, exp_date=expiration)
 
+            send_promo_email(new_promo)
             # then return to add promo
             return redirect(url_for('AdminPromosController.manage_promos'))
 
