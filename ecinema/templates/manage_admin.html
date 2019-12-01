@@ -93,10 +93,14 @@
 							</form>
 						</td>
 						<td>
+                {% if admin['admin_id'] == 1 or admin['username'] == g.user['username'] %}
+                <p> Delete Unavailable </p>
+                {% else %}
 							<form method="post">
 								<input type="hidden" name="delete_admin_id" value="{{ admin['admin_id'] }}">
 								<button type="submit" class="genric-btn danger">Delete Admin</button>
 							</form>
+              {% endif %}
 						</td>
 					</tr>
 			{% endfor %}
