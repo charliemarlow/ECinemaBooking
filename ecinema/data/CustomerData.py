@@ -64,7 +64,7 @@ class CustomerData(DataAccess):
 
     def get_user_info(self, user_id: str):
         return self.__db.execute(
-            'SELECT * FROM customer WHERE user_id = ?', (user_id,)
+            'SELECT * FROM customer WHERE customer_id = ?', (user_id,)
         ).fetchone()
 
     def get_info_by_id(self, cust_id: str):
