@@ -55,9 +55,9 @@
   <!-- Start Sample Area -->
     <div class="container">
       <h3 class="text-heading">Availability</h3>
-            <a href="" class="genric-btn success circle e-large">Available</a>
-            <a href="" class="genric-btn danger circle e-large">Taken</a>
-            <a href="" class="genric-btn primary circle e-large">Currently Selected</a>
+            <button class="genric-btn success circle e-large">Available</button>
+            <button class="genric-btn danger circle e-large">Taken</button>
+            <button class="genric-btn primary circle e-large">Currently Selected</button>
     </div>
     <!-- End Sample Area -->
     <!-- Start Button -->
@@ -137,6 +137,14 @@
                                 tempCap--;
                             }
                         }
+                        //Add Filler Space buttons
+                        console.log((rowSize - (window.capacity % rowSize)));
+                        if((i+1) == rowNum){
+                            for(var y = 0; y < (rowSize - (window.capacity % rowSize)); y++){
+                                console.log("<button style='background:transparent; border:none; color:transparent;' class='genric-btn info circle'>00</button>");
+                            }
+                        }
+                        
                         startSection += "<button class='genric-btn default circle'>" + window.rows[i] + " Section</button>";
                         $("#seatSlots").append(startSection);
 
