@@ -55,7 +55,7 @@ def reset_available_seats():
     if not session.get('showtime'):
         print("Error resetting available seats")
 
-    if not session.get('ticket_ids'):
+    if not session.get('ticket_ids') or not session.get('showtime'):
         return
 
     showtime = Showtime()
@@ -115,9 +115,13 @@ def select_seat():
             if request.form.get(str(i)):
                 example.append((i, request.form[str(i)]))
 
-        print(example)
+        num_avail = showtime.get_available_seats()
+        if session.get('tickets'):
+            num_avail = num_avail + len(session['tickets'])
+        showtime.set_available_seats(num_avail)
 
         clear_ticket_ids()
+
         if still_available(example, showtime.get_id()):
             session['tickets'] = example
             reserve_tickets(showtime)
