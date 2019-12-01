@@ -37,6 +37,21 @@ def init_db():
         ("E-Cinema",)
     )
 
+    prices = [('fees', 3),
+              ('tax', .07),
+              ('student', 8),
+              ('adult', 15),
+              ('child', 6),
+              ('senior', 6)
+    ]
+
+
+    for p in prices:
+        db.execute(
+            'INSERT INTO price (price_id, price) VALUES (?, ?)',
+            p
+        )
+
 
     db.commit()
 
