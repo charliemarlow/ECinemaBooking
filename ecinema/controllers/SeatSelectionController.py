@@ -142,7 +142,7 @@ def select_seat():
 
         for t in pre_tickets:
             seat_no = int(t[0])
-            available[seat_no] = -2
+            available[seat_no] = -1
 
     avail_dict = {'capacity': showroom.get_num_seats(),
                   'row': 8,
