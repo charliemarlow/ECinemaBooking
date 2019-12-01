@@ -18,6 +18,11 @@ from ecinema.tools.clean import create_datetime_from_sql
 
 bp = Blueprint('AdminShowtimeController', __name__, url_prefix='/')
 
+def safe_delete(showtime):
+    if not showtime.has_tickets() and not showtime.has_bookings():
+        showtime.delete(showtime.get_id())
+        return True
+    return False
 
 @bp.route('/manage_showtime', methods=('GET', 'POST'))
 @admin_login_required
@@ -31,7 +36,8 @@ def manage_showtime():
         if delete_showtime_id is not None and showtime.fetch(
                 delete_showtime_id):
             # logic for cancelling tickets will go here?
-            showtime.delete(delete_showtime_id)
+            if not safe_delete(showtime):
+                flash("Cannot delete showtime, it has associated bookings")
         elif edit_showtime_id is not None and showtime.fetch(edit_showtime_id):
             return redirect(
                 url_for('AdminShowtimeController.edit_showtime', sid=edit_showtime_id))

@@ -65,7 +65,11 @@
 		</div>
 	</div>
 	<div class="order_details_table">
-		<h2>Manage Movies</h2>
+		  <h2>Manage Movies</h2>
+      {% for message in get_flashed_messages() %}
+		  <div class="flash" style="text-align: center; color:red; background:#FFDEDE;">{{ message }}</div>
+		  {% endfor %}
+
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
@@ -124,9 +128,6 @@
 			</table>
 		</div>
 	</div>
-		{% for message in get_flashed_messages() %}
-		<div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
-		{% endfor %}
 
 		<div class="button-group-area mt-40">
 			<a href="/admin" class="genric-btn primary e-large" style="font-size: 2em">Back to Admin</a>

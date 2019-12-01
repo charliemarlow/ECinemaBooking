@@ -24,9 +24,20 @@ class MovieData(DataAccess):
             (key,)
         ).fetchall()
 
+    def get_all_bookings(self, key):
+        return self.__db.execute(
+            'SELECT * FROM booking WHERE movie_id = ?',
+            (key,)
+        ).fetchall()
+
+
     def delete(self, key: str):
         self.__db.execute(
             'DELETE FROM movie WHERE movie_id = ?',
+            key
+        )
+        self.__db.execute(
+            'DELETE * FROM review WHERE movie_id = ?',
             key
         )
         self.__db.commit()

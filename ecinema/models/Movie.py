@@ -162,6 +162,9 @@ class Movie(Model):
     def has_showtimes(self):
         return len(self.__data_access.get_all_showtimes(self.get_id())) >= 1
 
+    def has_booking(self):
+        return len(self.__data_access.get_all_bookings(self.get_id())) >= 1
+
     def get_all_showtimes(self):
         return self.__data_access.get_all_showtimes(self.get_id())
 

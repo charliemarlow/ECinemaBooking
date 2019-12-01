@@ -65,7 +65,11 @@
 				</div>
 			</div>
             <div class="order_details_table">
-				<h2>Manage Showtimes</h2>
+				        <h2>Manage Showtimes</h2>
+                {% for message in get_flashed_messages() %}
+		            <div class="flash" style="text-align: center; color:red; background:#FFDEDE;">{{ message }}</div>
+		            {% endfor %}
+
 				<div class="table-responsive">
 					<table class="table">
 						<thead>

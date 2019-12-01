@@ -53,3 +53,9 @@ class ShowtimeData(DataAccess):
             'SELECT * FROM ticket WHERE showtime_id = ?',
             (sid,)
         ).fetchall()
+
+    def get_bookings(self, sid):
+        return self.__db.execute(
+            'SELECT * FROM booking WHERE showtime_id = ?',
+            (sid,)
+        ).fetchall()

@@ -16,7 +16,7 @@ from ecinema.models.Movie import Movie
 bp = Blueprint('AdminMoviesController', __name__, url_prefix='/')
 
 def safe_delete(movie):
-    if error is None:
+    if not movie.has_showtimes and not movie.has_bookings():
         movie.delete(movie.get_id())
         return True
     return False
@@ -33,11 +33,9 @@ def manage_movies():
 
         if delete_movie_id is not None and movie.fetch(delete_movie_id):
             # logic for cancelling tickets will go here?
-            if not movie.has_showtimes():
-                movie.delete(delete_movie_id)
-            else:
+            if not safe_delete(movie):
                 flash(
-                    "Movie cannot be deleted when there are showtimes associated with it")
+                    "Movie cannot be deleted when there are showtimes for it")
         elif edit_movie_id is not None and movie.fetch(edit_movie_id):
             return redirect(
                 url_for('AdminMoviesController.edit_movie', mid=edit_movie_id))

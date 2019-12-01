@@ -70,6 +70,15 @@ class Showtime(Model):
     def get_all_tickets(self):
         return self.__data_access.get_tickets(self.get_id())
 
+    def get_all_bookings(self):
+        return self.__data_access.get_bookings(self.get_id())
+
+    def has_tickets(self):
+        return len(self.get_all_tickets()) > 0
+
+    def has_bookings(self):
+        return len(self.get_all_bookings()) > 0
+
     def get_time(self) -> datetime:
         return self.__time
 

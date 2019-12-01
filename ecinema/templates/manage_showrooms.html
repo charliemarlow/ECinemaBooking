@@ -53,7 +53,8 @@
 <section class="button-area">
     <div class="container border-top-generic whole-wrap pb-100">
   <div class="section-top-border" style="">
-        <h3 class="mb-10" style="margin-bottom: 2em">Manage Showrooms</h3>
+      <h3 class="mb-10" style="margin-bottom: 2em">Manage Showrooms</h3>
+
         <div class="row">
           <div class="col-md-4">
             <div class="single-defination">
@@ -65,7 +66,11 @@
         </div>
       </div>
             <div class="order_details_table">
-        <h2>Manage Showrooms</h2>
+                <h2>Manage Showrooms</h2>
+                {% for message in get_flashed_messages() %}
+		            <div class="flash" style="text-align: center; color:red; background:#FFDEDE;">{{ message }}</div>
+		            {% endfor %}
+
         <div class="table-responsive">
           <table class="table">
             <thead>
@@ -106,9 +111,7 @@
           </table>
         </div>
             </div>
-            {% for message in get_flashed_messages() %}
-            <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
-            {% endfor %}
+
 
             <div class="button-group-area mt-40">
                 <a href="/admin" class="genric-btn primary e-large" style="font-size: 2em">Back to Admin</a>
