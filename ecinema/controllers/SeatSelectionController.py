@@ -13,6 +13,7 @@ from ecinema.tools.validation import validate_name, validate_duration, validate_
 from ecinema.controllers.LoginController import customer_login_required
 
 from ecinema.models.Movie import Movie
+from ecinema.models.UserFactory import create_user
 from ecinema.models.Showtime import Showtime
 from ecinema.models.Showroom import Showroom
 from ecinema.models.Review import Review
@@ -101,6 +102,8 @@ def select_seat():
     showroom = Showroom()
     showroom.fetch(showtime.get_showroom_id())
 
+    customer = create_user('customer')
+    customer.fetch(g.user['username'])
 
     if request.method == 'POST':
         print("Session.get")
@@ -114,12 +117,9 @@ def select_seat():
 
         print(example)
 
+        clear_ticket_ids()
         if still_available(example, showtime.get_id()):
-            if session.get('tickets') is not None:
-                session['tickets'] = session['tickets'] + example
-            else:
-                session['tickets'] = example
-
+            session['tickets'] = example
             reserve_tickets(showtime)
             return redirect(url_for('CheckoutController.checkout'))
         else:
@@ -130,7 +130,8 @@ def select_seat():
     pre_tickets = None
     if session.get('tickets'):
         pre_tickets = session['tickets']
-
+        for p in pre_tickets:
+            print(p)
     # probably need to pull all tickets
     # for this showtime, and get a list of taken
     # seats to pass to zach
@@ -149,8 +150,6 @@ def select_seat():
     # from this page, we'll get the seats and their ages
     # we need to get an array of tuples like
     # [(seatNo, age),]
-    print(session.get('1'))
-    print(session.get('tickets'))
 
     return render_template("seat_selection.html", tickets=avail_dict,
                            pre_tickets=pre_tickets)
