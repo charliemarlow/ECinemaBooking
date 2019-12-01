@@ -10,7 +10,6 @@ from ecinema.tools.clean import create_datetime_from_sql, clean_tickets
 from ecinema.tools.validation import validate_name, validate_duration, validate_text
 from ecinema.tools.clean import create_datetime_from_sql, format_price
 from ecinema.controllers.LoginController import customer_login_required
-from apscheduler.schedulers.background import BackgroundScheduler
 
 from ecinema.models.Movie import Movie
 from ecinema.models.Showtime import Showtime

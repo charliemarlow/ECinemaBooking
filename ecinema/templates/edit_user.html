@@ -1,199 +1,257 @@
+{% extends 'base.html' %}
+{% block header %}
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
-<head>
-	<!-- Mobile Specific Meta -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<!-- Favicon-->
-	<link rel="shortcut icon" href="img/fav.png">
-	<!-- Author Meta -->
-	<meta name="author" content="CodePixar">
-	<!-- Meta Description -->
-	<meta name="description" content="">
-	<!-- Meta Keyword -->
-	<meta name="keywords" content="">
-	<!-- meta character set -->
-	<meta charset="UTF-8">
-	<!-- Site Title -->
-	<title>Edit Users</title>
+    <head>
+	      <!-- Mobile Specific Meta -->
+	      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	      <!-- Favicon-->
+	      <link rel="shortcut icon" href="img/fav.png">
+	      <!-- Author Meta -->
+	      <meta name="author" content="CodePixar">
+	      <!-- Meta Description -->
+	      <meta name="description" content="">
+	      <!-- Meta Keyword -->
+	      <meta name="keywords" content="">
+	      <!-- meta character set -->
+	      <meta charset="UTF-8">
+	      <!-- Site Title -->
+	      <title>Edit Users</title>
 
-	<!--
-		CSS
-		============================================= -->
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/nouislider.min.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-</head>
+	      <!--
+		         CSS
+		         ============================================= -->
+	      <link rel="stylesheet" href="{{ url_for('static', filename='css/linearicons.css') }}">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='css/nouislider.min.css') }}">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+	      <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    {% endblock %}
 
-<body>
-
-	<!-- Start Header Area -->
-	<header class="header_area sticky-header">
-		<div class="main_menu">
-			<nav class="navbar navbar-expand-lg navbar-light main_box">
-				<div class="container">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="index.html"><img src="{{ url_for('static', filename='img/logo.png') }}" alt=""></a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Buy Tickets</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="category.html">Movies by Category</a></li>
-									<!--<li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>-->
-									<li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
-									<li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-									<!--<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>-->
-								</ul>
-							</li>
-                            <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-							<!--<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-								 aria-expanded="false">Pages</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-									<li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
-									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
-								</ul>
-							</li>-->
-							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-						</ul>
-						<ul class="nav navbar-nav navbar-right">
-							<li class="nav-item"><a href="cart.html" class="cart"><span class="ti-bag"></span></a></li>
-							<li class="nav-item">
-								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-		</div>
-		<div class="search_input" id="search_input_box">
-			<div class="container">
-				<form class="d-flex justify-content-between">
-					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
-					<button type="submit" class="btn"></button>
-					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-				</form>
-			</div>
-		</div>
-	</header>
-	<!-- End Header Area -->
-	<!-- Start Banner Area -->
-	<section class="banner-area organic-breadcrumb">
-		<div class="container">
-			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
-				<div class="col-first">
-					<h1>Edit User</h1>
-					<nav class="d-flex align-items-center">
-						<a href="manage_users.html">Manage Users<span class="lnr lnr-arrow-right"></span></a>
-						<a href="edit_user.html">Edit User</a>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Banner Area -->
-
-	<!--================Login Box Area =================-->
-    <section class="sample-text-area">
-		<div class="container">
-			<h3 class="text-heading">Edit User</h3>
-			<div class="">
-						<form action="#">
-							<div class="mt-10">
-								<input type="text" name="first_name" placeholder="First Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'"
-								 required class="single-input" value="Daniel">
-							</div>
-							<div class="mt-10">
-								<input type="text" name="last_name" placeholder="Last Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'"
-								 required class="single-input" value="Bifter">
-							</div>
-							<div class="mt-10">
-								<input type="text" name="user_name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'"
-								 required class="single-input" value="Bifter12Coin">
-							</div>
-							<div class="mt-10">
-								<input type="email" name="promotion_details" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'"
-								 required class="single-input" value="bifter234@gmail.com">
-							</div>
-							<div class="mt-10">
-								<input type="text" name="state" placeholder="State" onfocus="this.placeholder = ''" onblur="this.placeholder = 'State'"
-								 required class="single-input" value="Suspended">
-							</div>
-                            
-                            <button type="submit" value="submit" class="primary-btn">Save Changes</button>
-                            
-						</form>
-			
-            </div>
-            
-		      </div>
-        					
-	</section>
-    
-
-	<!--================End Login Box Area =================-->
-
-<!-- start footer Area -->
-	<footer class="footer-area section_gap">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3  col-md-6 col-sm-6">
-					<div class="single-footer-widget">
-						<h6>About Us</h6>
-						<p>
-							Contact our team at Boyd UGA.
-						</p>
-					</div>
-				</div>
-				<div class="col-lg-4  col-md-6 col-sm-6">
-					<div class="single-footer-widget">
-						<h6>Newsletter</h6>
-						<p>Stay update with our latest</p>
-						<div class="" id="mc_embed_signup">
-
-							<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-							 method="get" class="form-inline">
-
-								<div class="d-flex flex-row">
-
-									<input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
-									 required="" type="email">
+    {% block content %}
 
 
-									<button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
-									<div style="position: absolute; left: -5000px;">
-										<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-									</div>
+	      <!-- Start Header Area -->
+	      <header class="header_area sticky-header">
+		        <div class="main_menu">
+			          <nav class="navbar navbar-expand-lg navbar-light main_box">
+				            <div class="container">
+					              <!-- Brand and toggle get grouped for better mobile display -->
+					              <a class="navbar-brand logo_h" href="index.html"><img src="{{ url_for('static', filename='img/logo.png') }}" alt=""></a>
+					              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					                      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						                <span class="icon-bar"></span>
+						                <span class="icon-bar"></span>
+						                <span class="icon-bar"></span>
+					              </button>
+					              <!-- Collect the nav links, forms, and other content for toggling -->
+					              <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						                <ul class="nav navbar-nav menu_nav ml-auto">
+							                  <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+							                  <li class="nav-item submenu dropdown">
+								                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								                       aria-expanded="false">Buy Tickets</a>
+								                    <ul class="dropdown-menu">
+									                      <li class="nav-item"><a class="nav-link" href="category.html">Movies by Category</a></li>
+									                      <!--<li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>-->
+									                      <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+									                      <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+									                      <!--<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>-->
+								                    </ul>
+							                  </li>
+                                <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+							                  <!--<li class="nav-item submenu dropdown">
+								                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								                     aria-expanded="false">Pages</a>
+								                     <ul class="dropdown-menu">
+									                   <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+									                   <li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
+									                   <li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+								                     </ul>
+							                       </li>-->
+							                  <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+						                </ul>
+						                <ul class="nav navbar-nav navbar-right">
+							                  <li class="nav-item"><a href="cart.html" class="cart"><span class="ti-bag"></span></a></li>
+							                  <li class="nav-item">
+								                    <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+							                  </li>
+						                </ul>
+					              </div>
+				            </div>
+			          </nav>
+		        </div>
+		        <div class="search_input" id="search_input_box">
+			          <div class="container">
+				            <form class="d-flex justify-content-between">
+					              <input type="text" class="form-control" id="search_input" placeholder="Search Here">
+					              <button type="submit" class="btn"></button>
+					              <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+				            </form>
+			          </div>
+		        </div>
+	      </header>
+	      <!-- End Header Area -->
+	      <!-- Start Banner Area -->
+	      <section class="banner-area organic-breadcrumb">
+		        <div class="container">
+			          <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				            <div class="col-first">
+					              <h1>Edit User</h1>
+					              <nav class="d-flex align-items-center">
+						                <a href="manage_users.html">Manage Users<span class="lnr lnr-arrow-right"></span></a>
+						                <a href="edit_user.html">Edit User</a>
+					              </nav>
+				            </div>
+			          </div>
+		        </div>
+	      </section>
+	      <!-- End Banner Area -->
+        <!--                  {% for customer in customers %}
+						 <tr>
+						 <td>
+						 <p>{{ customer['first_name'] }}</p>
+						 </td>
+             <td>
+             <p>{{ customer['last_name'] }}</p>
+             </td>
+             <td>
+             <p>{{ customer['username'] }}</p>
+             </td>
+             <td>
+             <p>{{ customer['email'] }}</p>
+             <td>
+             <p>{{ customer['status'] }}</p>
+             </td>
+						 <td>
+						 </td>
+             <td>
 
-									<!-- <div class="col-lg-4 col-md-4">
-												<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
-											</div>  -->
-								</div>
-								<div class="info"></div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-				<p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+             <form method="post">
+             <input type="hidden" name="edit_customer_id" value="{{ customer['customer_id'] }}">
+             <button type="submit" class="genric-btn">Edit User</button>
+             </form>
+             </td>
+						 <td>
+             <form method="post">
+             <input type="hidden" name="delete_customer_id" value="{{ customer['customer_id'] }}">
+             <button type="submit" class="genric-btn danger">Delete User</button>
+             </form>
+						 </td>
+             </tr>
+             {% endfor %}-->
+	      <!--================Login Box Area =================-->
+        <section class="sample-text-area">
+		        <div class="container">
+			          <h3 class="text-heading">Edit User</h3>
+			          <div class="">
+						        <form action="/edit_user/{{ customer['customer_id'] }}" method="post">
+                        <h3>Movie Info</h3>
+                        <div class="mt-10">
+                            <label>User ID</label>
+								            <input type="text" name="customer_id" placeholder="{{ customer['customer_id'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ customer['customer_id'] }}'"
+								                   required class="single-input" value="{{ customer['customer_id'] }}">
+ 							          </div>
+							          <div class="mt-10">
+                            <label>First Name</label>
+								            <input type="text" name="first_name" placeholder="{{ customer['first_name'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ customer['first_name'] }}'"
+								                 required class="single-input" value="{{ customer['first_name'] }}">
+ 							          </div>
+							          <div class="mt-10">
+                            <label>Last Name</label>
+								            <input type="text" name="last_name" placeholder="{{ customer['last_name'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = {{ customer['last_name'] }}"
+								                   required class="single-input" value="{{ customer['last_name'] }}">
+							          </div>
+							          <div class="mt-10">
+                            <label>Username</label>
+								            <input type="text" name="username" placeholder="{{ customer['username'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = {{ customer['username'] }}"
+								                   required class="single-input" value="{{ customer['username'] }}">
+							          </div>
+							          <div class="mt-10">
+                            <label>Email</label>
+								            <input type="text" name="email" placeholder="{{ customer['email'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'"
+								                   required class="single-input" value="{{ customer['email'] }}">
+							          </div>
+                        <div class="mt-10">
+                            <label>Phone Number</label>
+								            <input type="text" name="phone_number" placeholder="{{ customer['phone_number'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = {{ customer['phone_number'] }}"
+								                   required class="single-input" value="{{ customer['phone_number'] }}">
+							          </div>
+                        <div class="mt-10">
+                            <label>Address ID</label>
+								            <input type="text" name="address_id" placeholder="{{ customer['address_id'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = {{ customer['address_id'] }} {{ customer['phone_number'] }}"
+								                   required class="single-input" value="{{ customer['address_id'] }}">
+							          </div>
+							          <div class="mt-10">
+                            <label>Status</label>
+								            <input type="text" name="state" placeholder="State" onfocus="this.placeholder = ''" onblur="this.placeholder = 'State'"
+								                   required class="single-input" value="{{ customer['status'] }}">
+							          </div>
+                        
+                        <button type="submit" value="submit" class="primary-btn">Save Changes</button>
+                        
+						        </form>
+			              
+                </div>
+                
+		        </div>
+        		
+	      </section>
+        
+
+	      <!--================End Login Box Area =================-->
+        {% endblock %}
+        {% block last %}
+        <!-- start footer Area -->
+	      <footer class="footer-area section_gap">
+		        <div class="container">
+			          <div class="row">
+				            <div class="col-lg-3  col-md-6 col-sm-6">
+					              <div class="single-footer-widget">
+						                <h6>About Us</h6>
+						                <p>
+							                  Contact our team at Boyd UGA.
+						                </p>
+					              </div>
+				            </div>
+				            <div class="col-lg-4  col-md-6 col-sm-6">
+					              <div class="single-footer-widget">
+						                <h6>Newsletter</h6>
+						                <p>Stay update with our latest</p>
+						                <div class="" id="mc_embed_signup">
+
+							                  <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+							                        method="get" class="form-inline">
+
+								                    <div class="d-flex flex-row">
+
+									                      <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
+									                             required="" type="email">
+
+
+									                      <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+									                      <div style="position: absolute; left: -5000px;">
+										                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+									                      </div>
+
+									                      <!-- <div class="col-lg-4 col-md-4">
+												                     <button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
+											                       </div>  -->
+								                    </div>
+								                    <div class="info"></div>
+							                  </form>
+						                </div>
+					              </div>
+				            </div>
+			          </div>
+			          <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+				            <p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 </p>
 			</div>
@@ -219,3 +277,4 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 </body>
 
 </html>
+{% endblock %}

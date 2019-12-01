@@ -43,6 +43,25 @@ class Customer(Model, User):
 
         return False
 
+    def fetch_by_customer_id(self, customer_id: str):
+        user_data = self.__data_access.get_info_by_id(customer_id)
+        if user_data is not None:
+            self.set_id(user_data['customer_id'])
+            self.set_first_name(user_data['first_name'])
+            self.set_last_name(user_data['last_name'])
+            self.set_email(user_data['email'])
+            self.set_phone(user_data['phone_number'])
+            self.set_promo(user_data['subscribe_to_promo'])
+            self.set_username(user_data['username'])
+            self.set_password(user_data['password'])
+            self.set_status(user_data['status'])
+            self.set_address_id(user_data['address_id'])
+            self.set_is_init()
+            return True
+
+        return False
+
+
     def fetch_by_email(self, email: str):
         user_data = self.__data_access.get_info_by_email(email)
         if user_data is not None:
@@ -114,6 +133,18 @@ class Customer(Model, User):
                       self.get_id())
         self.__data_access.update_info(member_tup)
         return True
+
+    def delete(self, key:str):
+        self.__data_access.delete(key)
+
+    def get_all_customers(self):
+        return self.__data_access.get_all_customers()
+
+    def get_customer_id(self) -> str:
+        return self.__customer_id
+
+    def set_customer_id(self, customer_id: str):
+        self.__customer_id = customer_id
 
     def is_admin(self) -> bool:
         return False

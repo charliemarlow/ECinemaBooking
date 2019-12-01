@@ -10,6 +10,11 @@ class CustomerData(DataAccess):
     def get_info(self, key: str):
         return self.get_user_info(key)
 
+    def get_all_customers(self):
+        return self.__db.execute(
+            'SELECT * FROM customer'
+        ).fetchall()
+
     def get_cards(self, key: str):
         return self.__db.execute(
             'SELECT * FROM credit_card WHERE cid = ?',
@@ -48,10 +53,31 @@ class CustomerData(DataAccess):
         )
         self.__db.commit()
 
+    def update_edit_info(self, data) -> str:
+        self.__db.execute(
+            'UPDATE customer SET customer_id = ?, first_name = ?, last_name = ?, '
+            'username = ?, email = ?, phone_number = ?, '
+            'address_id = ?, status = ? WHERE customer_id = ?',
+            data
+        )
+        self.__db.commit()
+
     def get_user_info(self, user_id: str):
         return self.__db.execute(
-            'SELECT * FROM customer WHERE username = ?', (user_id,)
+            'SELECT * FROM customer WHERE customer_id = ?', (user_id,)
         ).fetchone()
+
+    def get_info_by_id(self, cust_id: str):
+        return self.__db.execute(
+            'SELECT * FROM customer WHERE customer_id = ?', (cust_id,)
+        ).fetchone()
+
+    def delete(self, key: str):
+        self.__db.execute(
+            'DELETE FROM customer WHERE customer_id = ?',
+            key
+        )
+        self.__db.commit()
 
     def get_info_by_email(self, email: str):
         return self.__db.execute(
