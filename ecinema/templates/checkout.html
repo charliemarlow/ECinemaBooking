@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/nouislider.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 {% endblock %}
 {% block content %}
@@ -52,7 +54,10 @@
     <!--================Checkout Area =================-->
     <section class="checkout_area section_gap">
         <div class="container">
-
+            <div>
+                <h3>Time before timeout</h3>
+                <h4 id= "timeUntil" style = "color:red;"></h4>
+            </div>
             <div class="cupon_area">
                 <div class="check_title">
                     <h2>Have a coupon? Enter your promo code here</h2>
@@ -197,6 +202,35 @@
         </div>  
     </section>
     <!--================End Checkout Area =================-->
+    <script>
+        
+        $(function(){ 
+            window.timeout = 50;
+            //Convert to milliseconds
+            window.timeout *= 1000;
+            if (localStorage.getItem("timeout") == null || Math.floor((localStorage.getItem("timeout")  - Date.now()) / 1000) < 0 ){
+                window.timeout = Date.now() + window.timeout;
+                localStorage.setItem("timeout", window.timeout);
+            }
+            
+            function timeoutPage(){
+                window.timeout = localStorage.getItem("timeout");
+                if(Math.floor((window.timeout - Date.now()) / 1000) > 0)
+                    $("#timeUntil").text("" + Math.floor((window.timeout - Date.now()) / 1000) + " seconds");
+                else{
+                    window.location.href = "register";
+                    window.location.replace("register");
+                }    
+            }//timeoutPage
+            
+            setInterval(function(){ timeoutPage(); }, 500);
+            
+        });
+        
+
+    </script>
+
+
     {% endblock %}
 
     {% block last %}

@@ -130,6 +130,7 @@
                         for(var z = 0; z < currentTickets.length; z++)
                             window.seatsArr[currentTickets[z][0]] = currentTickets[z][0];
                     }
+                    
                     for(var i = 0; i < rowNum && (tempCap > 0); i++){
                         var startSection = "<div class='button-group-area mt-40'> <button class='genric-btn default circle'>" + window.rows[i] + " Section</button>";
 
@@ -144,10 +145,9 @@
                             }
                         }
                         //Add Filler Space buttons
-                        console.log((rowSize - (window.capacity % rowSize)));
-                        if((i+1) == rowNum){
+                        if((i+1) == Math.floor(rowNum)){
                             for(var y = 0; y < (rowSize - (window.capacity % rowSize)); y++){
-                                console.log("<button style='background:transparent; border:none; color:transparent;' class='genric-btn info circle'>00</button>");
+                                startSection += ("<button style='background:transparent; border:none; color:transparent;' class='genric-btn info circle'>0v0</button>");
                             }
                         }
                         
