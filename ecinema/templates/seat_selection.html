@@ -116,7 +116,7 @@
 
                     var seatInfo = JSON.parse('{{tickets | tojson | safe}}');
                     var currentTickets = JSON.parse('{{ pre_tickets | tojson | safe }}')
-
+                    console.log(currentTickets);
                     window.capacity = seatInfo.capacity;
                     var tempCap = window.capacity;
                     window.rowLength = seatInfo.row;
@@ -134,7 +134,7 @@
                                 tempCap--;
                                }
                             else {
-                                startSection += "<button onclick='selectSeat("+ ((i * rowSize) + j) +")' class='genric-btn info circle'>" + window.rows[i]  + "" + (j+1) +"</button>";
+                                startSection += "<button id = 'seatlocal"+ ((i * rowSize) + j) +"' onclick='selectSeat("+ ((i * rowSize) + j) +")' class='genric-btn info circle'>" + window.rows[i]  + "" + (j+1) +"</button>";
                                 tempCap--;
                             }
                         }
@@ -153,6 +153,8 @@
             function selectSeat(seatNumber) {
                 var stringName = "" + window.rows[Math.floor(seatNumber / window.rowLength)] + "" + ((seatNumber % window.rowLength) +1);
                 var addPiece = "<div id='seat"+ seatNumber +"'> <p>Seat " + stringName + " </p><select name='"+seatNumber+"' required><option value='student'>Student</option><option value='child'>Child</option><option value='adult'>Adult</option><option value='senior'>Senior</option></select><t><button class='genric-btn danger circle' type='button' onclick='removeSeat("+ seatNumber +")'>Remove Seat!</button></div>";
+                $(("#seatlocal"+ seatNumber + "")).removeClass("info").addClass("primary");
+                
                 if(seatNumber == window.valOfFilledSeat){
                     // Nothing needs to be done. Seat Already Taken. Catch here just in case.
                 }
@@ -166,6 +168,7 @@
 
             function removeSeat(seatNumber) {
                 console.log("Remove: " + seatNumber);
+                $(("#seatlocal"+ seatNumber + "")).removeClass("primary").addClass("info");
                 if(selectedUserSeats[seatNumber] != null){
                     delete selectedUserSeats[seatNumber];
                     $(("#seat"+ seatNumber + "")).remove();
