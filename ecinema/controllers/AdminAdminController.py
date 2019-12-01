@@ -57,33 +57,40 @@ def manage_admins():
 def edit_admin(a_id):
     admin_id = a_id
     admin = create_user('admin')
-    print(admin.fetch(admin_id))
+    print(admin.fetch_by_id(admin_id))
 
     if request.method == 'POST':
 
         username = request.form.get('username')
         password = request.form.get('password')
+        confirmation = request.form.get('confirmation')
 
+        print("posted")
         error = None
 
-        if username != '' and not validate_username(username):
-            error = "username is invalid"
-        elif username != '':
+        if username and not admin.validate_username(username):
+            error = "Username is already taken"
+        elif username:
             admin.set_username(username)
 
-        if password != '' and not validate_password(password):
-            error = "password is invalid"
-        elif password != '':
-            admin.set_password(password)
+        if password and confirmation:
+            if not validate_password(password, confirmation):
+                error = 'Password is required and must be at least 8 '\
+                    + 'characters with 1 uppercase, and 1 number'
+            else:
+                admin.set_password(generate_password_hash(password))
+        elif password or confirmation:
+            error = "Both password and confirmation should be filled out"
 
-
-        admin.save()
+        admin.save_by_id()
 
         if error is not None:
             flash(error)
+        else:
+            return redirect(url_for('AdminAdminsController.manage_admins'))
 
 
-    info = admin.obj_as_dict(admin_id)
+    info = admin.obj_by_id(admin_id)
     return render_template('edit_admin.html', admin=info)
 
 @bp.route('/create_admin', methods=('GET', 'POST'))

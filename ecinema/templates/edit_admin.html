@@ -17,7 +17,7 @@
   <!-- meta character set -->
   <meta charset="UTF-8">
   <!-- Site Title -->
-  <title>Create Admin</title>
+  <title>Edit Admin</title>
 
   <!--
     CSS
@@ -39,10 +39,10 @@
     <div class="container">
       <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
         <div class="col-first">
-          <h1>Create Admin</h1>
+          <h1>Edit Admin</h1>
           <nav class="d-flex align-items-center">
             <a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
-            <a href="/create_admin">Create Admin</a>
+            <a href="/edit_admin">Edit Admin</a>
           </nav>
         </div>
       </div>
@@ -53,26 +53,27 @@
   <!--================Login Box Area =================-->
     <section class="sample-text-area">
     <div class="container">
-      <h3 class="text-heading">Create Admin</h3>
+      <h3 class="text-heading">Edit Admin</h3>
       <div class="">
 
-          <form action="create_admin" method="post">
+          <form action="/edit_admin/{{ admin['admin_id'] }}" method="post">
               <h3>Admin Info</h3>
               <div class="mt-10">
-                <input type="text" name="username" placeholder="Admin Username (REQUIRED)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Admin Username (REQUIRED)'"
-                 required class="single-input" value="">
+                <input type="text" name="username" placeholder="{{ admin['username'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ admin['username'] }}'"
+                  class="single-input" value="">
               </div>
               <div class="mt-10">
-                  <input type="password" name="password" placeholder="Password (REQUIRED)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password (REQUIRED)'"
-                         required class="single-input" value="">
+                  <input type="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'"
+                          class="single-input" value="">
               </div>
               <div class="mt-10">
-                  <input type="password" name="confirmation" placeholder="Password Confirmation (REQUIRED)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password Confirmation (REQUIRED)'"
-                         required class="single-input" value="">
+                  <input type="password" name="confirmation" placeholder="Password Confirmation" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password Confirmation'"
+                          class="single-input" value="">
               </div>
 
 
-              <button type="submit" value="submit" class="primary-btn">Create Admin</button>
+              <button type="submit" value="submit" class="primary-btn">Edit Admin</button>
+              <a href="/manage_admin">Or go back</a>
                     {% for message in get_flashed_messages() %}
                     <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
                     {% endfor %}
