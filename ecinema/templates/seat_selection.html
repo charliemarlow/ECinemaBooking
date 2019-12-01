@@ -124,10 +124,8 @@
                     var rowSize = window.rowLength;
                     window.seatsArr = seatInfo.seats;
                     var rowNum = (tempCap % rowSize == 0) ? (tempCap / rowSize) : ((tempCap / rowSize) + 1);
-
                     for(var i = 0; i < rowNum && (tempCap > 0); i++){
                         var startSection = "<div class='button-group-area mt-40'> <button class='genric-btn default circle'>" + window.rows[i] + " Section</button>";
-                        //$("#seatSlots").append(startSection);
 
                         for(var j = 0; j < rowSize && (tempCap > 0); j++){
                             if(window.seatsArr[(i * rowSize) + j] == window.valOfFilledSeat){
