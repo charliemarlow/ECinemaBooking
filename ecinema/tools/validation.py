@@ -49,6 +49,13 @@ def validate_percentage(percent: str) -> bool:
         return False
 
 
+def validate_float(floating: float) -> bool:
+    try:
+        f = float(floating)
+        return True
+    except ValueError:
+        return False
+
 def validate_text(text: str) -> bool:
     return text != '' and text is not None and len(text) <= 1024
 
