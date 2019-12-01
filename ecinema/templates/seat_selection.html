@@ -115,6 +115,8 @@
                 function readJson(db){
 
                     var seatInfo = JSON.parse('{{tickets | tojson | safe}}');
+                    var currentTickets = JSON.parse('{{ pre_tickets | tojson | safe }}')
+
                     window.capacity = seatInfo.capacity;
                     var tempCap = window.capacity;
                     window.rowLength = seatInfo.row;

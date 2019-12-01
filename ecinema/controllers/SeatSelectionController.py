@@ -127,6 +127,10 @@ def select_seat():
 
     tickets = showtime.get_all_tickets()
 
+    pre_tickets = None
+    if session.get('tickets'):
+        pre_tickets = session['tickets']
+
     # probably need to pull all tickets
     # for this showtime, and get a list of taken
     # seats to pass to zach
@@ -148,4 +152,5 @@ def select_seat():
     print(session.get('1'))
     print(session.get('tickets'))
 
-    return render_template("seat_selection.html", tickets=avail_dict)
+    return render_template("seat_selection.html", tickets=avail_dict,
+                           pre_tickets=pre_tickets)
