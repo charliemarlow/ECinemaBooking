@@ -12,6 +12,9 @@ class Admin(Model, User):
     def obj_as_dict(self, key: str):
         return self.__data_access.get_info(key)
 
+    def get_all_admins(self):
+        return self.__data_access.get_all_admins()
+
     def fetch(self, key: str) -> bool:
         admin = self.obj_as_dict(key)
         if admin is not None:
@@ -25,7 +28,7 @@ class Admin(Model, User):
     def create(self, **kwargs):
         admin = {}
         for key, value in kwargs.items():
-            user[key] = value
+            admin[key] = value
 
         self.set_username(admin['username'])
         self.set_password(admin['password'])
@@ -46,3 +49,9 @@ class Admin(Model, User):
 
     def is_admin(self) -> bool:
         return True
+
+    def validate_username(self, username):
+        return self.__data_access.is_unique_name(username)
+
+    def delete(self, aid):
+        return self.__data_access.delete(aid)
