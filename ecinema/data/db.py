@@ -22,9 +22,7 @@ schema_list = ["schema/address.sql",
 def init_db():
     db = get_db()
 
-    with current_app.open_resource("schema/promo.sql") as f:
-        db.executescript(f.read().decode('utf8'))
-    '''
+
     for sqlFile in schema_list:
         print(sqlFile)
         with current_app.open_resource(sqlFile) as f:
@@ -38,7 +36,7 @@ def init_db():
         'INSERT INTO theater (name) VALUES (?)',
         ("E-Cinema",)
     )
-    '''
+
 
     db.commit()
 
