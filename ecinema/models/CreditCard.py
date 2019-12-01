@@ -74,7 +74,7 @@ class CreditCard(Model):
         return True
 
     def delete(self, key: str):
-        self.__data_access.delete(key)
+        self.__data_access.delete(str(key))
 
     def get_id(self) -> str:
         return self.__id

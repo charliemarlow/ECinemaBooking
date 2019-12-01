@@ -21,6 +21,17 @@ from ecinema.models.Booking import Booking
 
 bp = Blueprint('RefundController', __name__, url_prefix='/')
 
+def delete_booking_and_tickets(bid):
+    booking = Booking()
+    booking.fetch(bid)
+
+    tickets = booking.get_tickets()
+    ticket_obj = Ticket()
+    for ticket in tickets:
+        ticket_obj.delete(ticket['ticket_id'])
+
+    booking.delete(bid)
+
 def refund_booking(bid):
     # clean up
     # delete all tickets, reset showtime incrementer

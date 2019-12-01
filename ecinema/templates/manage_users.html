@@ -43,7 +43,7 @@
 					<h1>Manage Users</h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="manage_users.html">Manage Users</a>
+						<a href="/manage_users.html">Manage Users</a>
 					</nav>
 				</div>
 			</div>
@@ -54,15 +54,15 @@
 		<div class="container border-top-generic whole-wrap pb-100">
 	<div class="section-top-border" style="">
 				<h3 class="mb-10" style="margin-bottom: 2em">Manage Users</h3>
-				<div class="row">
+<!-- 				<div class="row">
 					<div class="col-md-4">
 						<div class="single-defination">
                             <div class="button-group-area mt-40">
-                                <a href="create_user" class="genric-btn primary e-large" style="font-size: 2em">Add User</a>
+                                <a href="/create_user" class="genric-btn primary e-large" style="font-size: 2em">Add User</a>
                              </div>
 						</div>
 					</div>
-				</div>
+				</div>-->
 			</div>
             <div class="order_details_table">
 				<h2>Manage Users</h2>
@@ -75,6 +75,8 @@
                   <th scope="col">Username</th>
                   <th scope="col">Email</th>
                   <th scope="col">Status</th>
+                  <th scope="col">Suspend/Unsuspend</th>
+                  <th scope="col">Delete</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -93,15 +95,21 @@
                                 <td>
                                     <p>{{ customer['email'] }}</p>
                                 <td>
-                                    <p>{{ customer['status'] }}</p>
+                                    <h4>{{ customer['status'].upper() }}</h4>
                                 </td>
-								<td>
-								</td>
                 <td>
+
 
                     <form method="post">
                         <input type="hidden" name="edit_customer_id" value="{{ customer['customer_id'] }}">
-                        <button type="submit" class="genric-btn">Edit User</button>
+                        {% if customer['status'] == 'active' %}
+                        <button type="submit" class="genric-btn success">Suspend User</button>
+                        {% elif customer['status'] == 'suspended' %}
+                        <button type="submit" class="genric-btn info">Unsuspend User</button>
+                        {% else %}
+                        <button type="submit" class="genric-btn warning">Manually Activate User</button>
+
+                        {% endif %}
                     </form>
                                 </td>
 								                <td>

@@ -2,6 +2,8 @@ from ecinema.tools.sendEmail import send_email
 from ecinema.models.User import User
 from ecinema.models.model import Model
 from ecinema.data.CustomerData import CustomerData
+from ecinema.models.Showtime import Showtime
+import datetime
 
 
 class Customer(Model, User):
@@ -196,6 +198,20 @@ class Customer(Model, User):
             return None
 
         return self.__data_access.get_bookings(self.get_id())
+
+    def has_active_bookings(self):
+        bookings = self.get_previous_bookings()
+        for booking in bookings:
+            showtime = Showtime()
+            showtime.fetch(booking['showtime_id'])
+            time = showtime.get_time()
+            if time > datetime.datetime.now():
+                return True
+
+        return False
+
+    def delete_reviews(self):
+        self.__data_access.delete_reviews(str(self.get_id()))
 
     def send_profile_change_email(self):
         email = self.get_email()

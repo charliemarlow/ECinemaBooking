@@ -37,7 +37,7 @@ class MovieData(DataAccess):
             key
         )
         self.__db.execute(
-            'DELETE * FROM review WHERE movie_id = ?',
+            'DELETE FROM review WHERE movie_id = ?',
             key
         )
         self.__db.commit()

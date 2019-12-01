@@ -59,6 +59,9 @@ class Address(Model):
         self.__data_access.update_info(member_tup)
         return True
 
+    def delete(self, key: str):
+        self.__data_access.delete(key)
+
     def get_id(self) -> str:
         return self.__id
 

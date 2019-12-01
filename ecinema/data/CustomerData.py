@@ -79,6 +79,14 @@ class CustomerData(DataAccess):
         )
         self.__db.commit()
 
+    def delete_reviews(self, key: str):
+        self.__db.execute(
+            'DELETE FROM review WHERE customer_id = ?',
+            key
+        )
+        self.__db.commit()
+
+
     def get_info_by_email(self, email: str):
         return self.__db.execute(
             'SELECT * FROM customer WHERE email = ?', (email,)

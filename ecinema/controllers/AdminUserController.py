@@ -12,8 +12,40 @@ from ecinema.tools.validation import (
 )
 
 from ecinema.models.Customer import Customer
+from ecinema.models.CreditCard import CreditCard
+from ecinema.models.Address import Address
+from ecinema.controllers.RefundController import delete_booking_and_tickets
 
 bp = Blueprint('AdminUsersController', __name__, url_prefix='/')
+
+
+
+
+def safe_delete(customer_id):
+    customer = Customer()
+    if customer_id and customer.fetch_by_customer_id(customer_id):
+        # check that customer has no active bookings
+        if not customer.has_active_bookings():
+            customer.delete_reviews()
+            bookings = customer.get_previous_bookings()
+            for booking in bookings:
+                delete_booking_and_tickets(booking['booking_id'])
+
+            address = Address()
+            # won't delete if it has a card
+            address.delete(customer.get_address_id())
+
+            cards = customer.get_all_cards()
+            cc = CreditCard()
+            for card in cards:
+                # delete the card, then the address
+                aid = card['aid']
+                cc.delete(card['credit_card_id'])
+                address.delete(aid)
+
+            customer.delete(customer_id)
+            return True
+    return False
 
 @bp.route('/manage_users', methods=('GET', 'POST'))
 @admin_login_required
@@ -24,10 +56,15 @@ def manage_users():
         delete_customer_id = request.form.get('delete_customer_id')
         edit_customer_id = request.form.get('edit_customer_id')
 
-        if delete_customer_id != None and customer.fetch_by_customer_id(delete_customer_id):
-            customer.delete(delete_customer_id)
-        elif edit_customer_id != None and customer.fetch_by_customer_id(edit_customer_id):
-            return redirect(url_for('AdminUsersController.edit_user', cid=edit_customer_id))
+        if delete_customer_id and not safe_delete(delete_customer_id):
+            flash("Cannot delete customer, they have active tickets to an upcoming show")
+        elif edit_customer_id and customer.fetch_by_customer_id(edit_customer_id):
+            status = customer.get_status()
+            if status == 'active':
+                customer.set_status('suspended')
+            else:
+                customer.set_status('active')
+            customer.save()
 
     # get a list of all users
     customers = customer.get_all_customers()

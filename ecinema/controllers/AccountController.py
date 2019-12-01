@@ -95,9 +95,9 @@ def edit_profile():
         addr_id = customer.get_address_id()
         print("addr_id")
         print(addr_id)
-        if addr_id is None:
-            if (street != '' and city != '' and
-                    state != '' and zip_code != ''):
+        if not addr_id or addr_id == 'None':
+            if (street and city and
+                    state and zip_code):
                 addr_error = None
                 if not validate_zip(zip_code):
                     addr_error = 'Zip code must be a valid zip code and '\
