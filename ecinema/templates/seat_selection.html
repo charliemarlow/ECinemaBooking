@@ -124,12 +124,6 @@
                     var rowSize = window.rowLength;
                     window.seatsArr = seatInfo.seats;
                     var rowNum = (tempCap % rowSize == 0) ? (tempCap / rowSize) : ((tempCap / rowSize) + 1);
-                    
-                    //For loop changing currently selected seats to empty
-                    if(currentTickets != null){
-                        for(var z = 0; z < currentTickets.length; z++)
-                            window.seatsArr[currentTickets[z][0]] = currentTickets[z][0];
-                    }
                     for(var i = 0; i < rowNum && (tempCap > 0); i++){
                         var startSection = "<div class='button-group-area mt-40'> <button class='genric-btn default circle'>" + window.rows[i] + " Section</button>";
 
@@ -153,15 +147,9 @@
                         
                         startSection += "<button class='genric-btn default circle'>" + window.rows[i] + " Section</button>";
                         $("#seatSlots").append(startSection);
+
                     }
-                    
-                    //For loop changing currently selected seats to empty
-                    if(currentTickets != null){
-                        for(var z = 0; z < currentTickets.length; z++){
-                            selectSeat(currentTickets[z][0]);
-                            $(("#seatOpt" + currentTickets[z][0] + "")).val(currentTickets[z][1]);
-                        }
-                    }//If
+
 
 
                 }//readJson
@@ -171,7 +159,7 @@
 
             function selectSeat(seatNumber) {
                 var stringName = "" + window.rows[Math.floor(seatNumber / window.rowLength)] + "" + ((seatNumber % window.rowLength) +1);
-                var addPiece = "<div id='seat"+ seatNumber +"'> <p>Seat " + stringName + " </p><select id='seatOpt"+ seatNumber +"' name='"+seatNumber+"' required><option value='student'>Student</option><option value='child'>Child</option><option value='adult'>Adult</option><option value='senior'>Senior</option></select><t><button class='genric-btn danger circle' type='button' onclick='removeSeat("+ seatNumber +")'>Remove Seat!</button></div>";
+                var addPiece = "<div id='seat"+ seatNumber +"'> <p>Seat " + stringName + " </p><select name='"+seatNumber+"' required><option value='student'>Student</option><option value='child'>Child</option><option value='adult'>Adult</option><option value='senior'>Senior</option></select><t><button class='genric-btn danger circle' type='button' onclick='removeSeat("+ seatNumber +")'>Remove Seat!</button></div>";
                 $(("#seatlocal"+ seatNumber + "")).removeClass("info").addClass("primary");
                 
                 if(seatNumber == window.valOfFilledSeat){

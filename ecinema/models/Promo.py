@@ -21,7 +21,6 @@ class Promo(Model):
     def get_all_promos(self):
         return self.__data_access.get_all_promos()
 
-
     def fetch_by_code(self, code: str):
         promo = self.__data_access.get_info_by_code(code)
 

@@ -17,6 +17,22 @@ from ecinema.controllers.AdminShowtimeController import create_datetime
 
 bp = Blueprint('AdminPromosController', __name__, url_prefix='/')
 
+
+def send_mass_promo_email(promos):
+    message = ""
+    for promo in promos:
+        code = promo['code']
+        percent = float(promo['promo']) * 100
+        percent = str(int(percent)) + "%"
+
+        description = promo['promo_description']
+        expiration = promo['exp_date']
+
+        message = message + "Code: {} \nDiscount: {}\n{}\nExpires: {}\n\n".format(code, percent, description, expiration)
+
+    customer = create_user('customer')
+    customer.send_mass_promo(message)
+
 @bp.route('/manage_promos', methods=('GET', 'POST'))
 @admin_login_required
 def manage_promos():
@@ -25,6 +41,7 @@ def manage_promos():
     if request.method == 'POST':
         delete_promo_id = request.form.get('delete_promo_id')
         edit_promo_id = request.form.get('edit_promo_id')
+        email = request.form.get('email')
 
         if delete_promo_id != None and promo.fetch(delete_promo_id):
             if validate_unlinked_promo(delete_promo_id):
@@ -34,6 +51,10 @@ def manage_promos():
                 flash(error)
         elif edit_promo_id != None and promo.fetch(edit_promo_id):
             return redirect(url_for('AdminPromosController.edit_promo', pid=edit_promo_id))
+        elif email:
+            promos = promo.get_all_promos()
+            send_mass_promo_email(promos)
+
 
     # get a list of all promos
     promos = promo.get_all_promos()
