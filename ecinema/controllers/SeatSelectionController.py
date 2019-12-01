@@ -75,6 +75,17 @@ def clear_ticket_ids():
             ticket.delete(tid)
         del session['ticket_ids']
 
+def still_available(tickets, showtime):
+    ticket = Ticket()
+
+    for t in tickets:
+        seat = t[0]
+
+        if not ticket.is_available(seat, showtime):
+            return False
+
+    return True
+
 
 @bp.route('/select_seat', methods=('GET', 'POST'))
 @customer_login_required
@@ -103,14 +114,16 @@ def select_seat():
 
         print(example)
 
-        if session.get('tickets') is not None:
-            session['tickets'] = session['tickets'] + example
+        if still_available(example, showtime.get_id()):
+            if session.get('tickets') is not None:
+                session['tickets'] = session['tickets'] + example
+            else:
+                session['tickets'] = example
+
+            reserve_tickets(showtime)
+            return redirect(url_for('CheckoutController.checkout'))
         else:
-            session['tickets'] = example
-
-        reserve_tickets(showtime)
-        return redirect(url_for('CheckoutController.checkout'))
-
+            flash("Sorry, those seats are no longer available")
 
     tickets = showtime.get_all_tickets()
 

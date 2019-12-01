@@ -58,8 +58,12 @@
             <a href="" class="genric-btn success circle e-large">Available</a>
             <a href="" class="genric-btn danger circle e-large">Taken</a>
     </div>
-  <!-- End Sample Area -->
-  <!-- Start Button -->
+    <!-- End Sample Area -->
+    <!-- Start Button -->
+    {% for message in get_flashed_messages() %}
+		<div class="flash" style="text-align: center; color:red; background:#FFDEDE;">{{ message }}</div>
+		{% endfor %}
+
   <section class="button-area">
         <div id = "displaySelectedSeats" class="container border-top-generic">
             <div id= "seatSlots" class="container border-top-generic">

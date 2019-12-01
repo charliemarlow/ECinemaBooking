@@ -135,11 +135,12 @@ def delete_ticket(delete_id):
     del session['tickets']
 
     if len(tickets) == 1:
-        return redirect(url_for('BookingController.cancel_booking'))
+        return False
     else:
         del tickets[delete_id]
 
     session['tickets'] = tickets
+    return True
 
 
 def get_ticket_type_lists(tickets):
@@ -223,7 +224,8 @@ def checkout():
             if error is not None:
                 flash(error)
         elif delete_id:
-            delete_ticket(delete_id)
+            if not delete_ticket(delete_id):
+                return redirect(url_for('BookingController.cancel_booking'))
         elif request.form.get('add_payment'):
             session['checkout'] = True
             return redirect(url_for('AccountController.make_payment'))
