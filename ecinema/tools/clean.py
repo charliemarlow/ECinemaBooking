@@ -1,7 +1,7 @@
 from datetime import datetime
 from ecinema.tools.validation import validate_year
 from ecinema.models.Price import Price
-
+from string import ascii_uppercase
 
 def clean_phone(phone: str) -> str:
     num = ""
@@ -65,3 +65,11 @@ def clean_tickets(a_tickets):
 
 def format_price(string) -> str:
     return "${0:.2f} USD".format(string)
+
+def format_seat(seat) -> str:
+    letter_index = int(int(seat) / 8)
+    letter = ascii_uppercase[letter_index]
+
+    last_num = (int(seat) % 8) + 1
+
+    return letter + str(last_num)

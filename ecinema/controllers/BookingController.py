@@ -6,7 +6,7 @@ from flask import (
 )
 import datetime
 
-from ecinema.tools.clean import create_datetime_from_sql, clean_tickets
+from ecinema.tools.clean import create_datetime_from_sql, clean_tickets, format_seat
 from ecinema.tools.validation import validate_name, validate_duration, validate_text
 from ecinema.tools.clean import create_datetime_from_sql, format_price
 from ecinema.controllers.LoginController import customer_login_required
@@ -48,7 +48,12 @@ def payment_confirmation(bid):
     showtime = Showtime()
     showtime.fetch(booking.get_showtime_id())
 
-    tickets = booking.get_tickets()
+    tkts = booking.get_tickets()
+    tickets = []
+    for t in tkts:
+        t = dict(t)
+        t['seat_number'] = format_seat(t['seat_number'])
+        tickets.append(t)
 
     booking = dict(booking.obj_as_dict(bid))
     booking['order_date'] = create_datetime_from_sql(booking['order_date'])

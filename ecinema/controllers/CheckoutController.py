@@ -6,7 +6,7 @@ from flask import (
 )
 from datetime import datetime
 
-from ecinema.tools.clean import create_datetime_from_sql, clean_tickets, format_price
+from ecinema.tools.clean import create_datetime_from_sql, clean_tickets, format_price, format_seat
 from ecinema.tools.validation import validate_name, validate_duration, validate_text, validate_year, validate_cvv, validate_cc_number, validate_zip, validate_state, validate_year, validate_expiration_date
 from ecinema.tools.generate import generate_order_id
 
@@ -155,12 +155,14 @@ def get_ticket_type_lists(tickets):
 
     for t in tickets:
         current_type = t['type']
+
         if current_type != old_type:
             current_tickets[0]['checkout_price'] = format_price(
                 current_tickets[0]['num_price'] * len(current_tickets))
             all_tickets.append(list(current_tickets))
             current_tickets.clear()
 
+        t['seat'] = format_seat(t['seat'])
         current_tickets.append(dict(t))
         old_type = t['type']
 
