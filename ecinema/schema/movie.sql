@@ -12,6 +12,5 @@ CREATE TABLE `movie` (
   `video` varchar(100) NOT NULL,
   `duration_as_minutes` int(11) NOT NULL,
   `rating` TEXT CHECK( rating IN ('G','PG','PG-13','R','NC-17','NR') ) NOT NULL DEFAULT 'PG',
-  `status` TEXT CHECK( status IN ('active', 'inactive') ) NOT NULL DEFAULT 'inactive',
-  `cast` varchar(100) NOT NULL
+  `status` TEXT CHECK( status IN ('active', 'inactive') ) NOT NULL DEFAULT 'inactive'
 )
