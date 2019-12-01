@@ -13,6 +13,13 @@ class AdminData(DataAccess):
             (key,)
         ).fetchone()
 
+    def get_info_by_id(self, key: str):
+        return self.__db.execute(
+            'SELECT * FROM admin WHERE admin_id = ?',
+            (key,)
+        ).fetchone()
+
+
     def get_all_admins(self):
         return self.__db.execute(
             'SELECT * FROM admin'

@@ -35,13 +35,16 @@ def manage_admins():
     admin = create_user('admin')
 
     if request.method == 'POST':
+        print("posted")
         delete_admin_id = request.form.get('delete_admin_id')
         edit_admin_id = request.form.get('edit_admin_id')
 
-        if delete_admin_id and admin.fetch(delete_admin_id):
+        print(delete_admin_id)
+        if delete_admin_id and admin.fetch_by_id(delete_admin_id):
             # logic for deleting admins
+            print("deleting")
             admin.delete(delete_admin_id)
-        elif edit_admin_id != None and admin.fetch(edit_admin_id):
+        elif edit_admin_id != None and admin.fetch_by_id(edit_admin_id):
             return redirect(url_for('AdminAdminsController.edit_admin', a_id=edit_admin_id))
 
     # get a list of all admins

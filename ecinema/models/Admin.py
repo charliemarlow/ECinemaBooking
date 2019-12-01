@@ -25,6 +25,18 @@ class Admin(Model, User):
             return True
         return False
 
+    def fetch_by_id(self, key: str) -> bool:
+        admin = self.__data_access.get_info_by_id(key)
+        if admin is not None:
+            self.set_id(admin['admin_id'])
+            self.set_username(admin['username'])
+            self.set_password(admin['password'])
+            self.set_is_init()
+            return True
+        print("returning false")
+        return False
+
+
     def create(self, **kwargs):
         admin = {}
         for key, value in kwargs.items():
