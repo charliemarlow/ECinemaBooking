@@ -1,6 +1,9 @@
 
 import functools
 
+
+from werkzeug.security import generate_password_hash
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -26,7 +29,7 @@ NEED TO ADD TO __INIT__ WHEN READY
 
 '''
 
-@bp.route('/manage_admins', methods=('GET', 'POST'))
+@bp.route('/manage_admin', methods=('GET', 'POST'))
 @admin_login_required
 def manage_admins():
     admin = create_user('admin')
@@ -35,7 +38,7 @@ def manage_admins():
         delete_admin_id = request.form.get('delete_admin_id')
         edit_admin_id = request.form.get('edit_admin_id')
 
-        if delete_admin_id != None and admin.fetch(delete_admin_id):
+        if delete_admin_id and admin.fetch(delete_admin_id):
             # logic for deleting admins
             admin.delete(delete_admin_id)
         elif edit_admin_id != None and admin.fetch(edit_admin_id):
@@ -44,7 +47,7 @@ def manage_admins():
     # get a list of all admins
     admins = admin.get_all_admins()
 
-    return render_template('manage_admins.html', admins=admins)
+    return render_template('manage_admin.html', admins=admins)
 
 @bp.route('/edit_admin/<a_id>', methods=('GET', 'POST'))
 @admin_login_required
@@ -87,21 +90,24 @@ def create_admin():
 
         username = request.form['username']
         password = request.form['password']
+        confirm = request.form['confirmation']
         # validate all data, everything must be correct
         error = None
 
+        admin = create_user('admin')
 
-        if not validate_username(username):
-            error = "username is invalid"
-        elif not validate_password(password):
-            error = "password is invalid"
+        if not admin.validate_username(username):
+            error = "Username is already taken"
+        elif not validate_password(password, confirm):
+            error = 'Password is required and must be at least 8 '\
+                + 'characters with 1 uppercase, and 1 number'
 
 
         if error is None:
             # if error is None, create a admin
             new_admin = create_user('admin')
             new_admin.create(username=username,
-                             password=password)
+                             password=generate_password_hash(password))
 
             # then return to add admin
             return redirect(url_for('AdminAdminsController.manage_admins'))
@@ -109,4 +115,4 @@ def create_admin():
         flash(error)
 
 
-    return render_template('make_admin.html')
+    return render_template('create_admin.html')

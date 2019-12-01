@@ -13,6 +13,11 @@ class AdminData(DataAccess):
             (key,)
         ).fetchone()
 
+    def get_all_admins(self):
+        return self.__db.execute(
+            'SELECT * FROM admin'
+        ).fetchall()
+
     def insert_info(self, data) -> str:
         cursor = self.__db.cursor()
         cursor.execute(
@@ -31,3 +36,30 @@ class AdminData(DataAccess):
             data
         )
         self.__db.commit()
+
+    def delete(self, aid):
+        self.__db.execute(
+            'DELETE FROM admin WHERE admin_id = ?',
+            (aid,)
+        )
+        self.__db.commit()
+
+    def is_unique_name(self, username):
+        unique_admin = self.__db.execute(
+            'SELECT * FROM admin WHERE username = ?',
+            (username,)
+        ).fetchone() is None
+
+        unique_customer = self.__db.execute(
+            'SELECT * FROM customer WHERE username = ?',
+            (username,)
+        ).fetchone() is None
+
+        unique_email = self.__db.execute(
+            'SELECT * FROM customer WHERE email = ?',
+            (username,)
+        ).fetchone() is None
+
+        return (unique_admin and
+                unique_customer and
+                unique_email)
