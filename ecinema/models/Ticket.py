@@ -97,3 +97,6 @@ class Ticket(Model):
 
     def set_seat_number(self, seat_number: str):
         self.__seat_number = seat_number
+
+    def is_available(self, seat, showtime):
+        return self.__data_access.is_available(seat, showtime)

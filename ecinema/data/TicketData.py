@@ -47,3 +47,9 @@ class TicketData(DataAccess):
         )
 
         self.__db.commit()
+
+    def is_available(self, seat, showtime) -> str:
+        return (self.__db.execute(
+            'SELECT * FROM ticket WHERE seat_number = ? AND showtime_id = ?',
+            (seat, showtime)
+        ).fetchone() is None)
