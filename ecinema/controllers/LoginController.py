@@ -109,9 +109,12 @@ def load_logged_in_user():
         # check for admin
         if g.user is None:
             admin = create_user('admin')
-            # maybe a bug here?
-            g.user = dict(admin.obj_as_dict(user_id))
-            g.user['is_admin'] = True
+            if admin.fetch(user_id):
+                g.user = dict(admin.obj_as_dict(user_id))
+                g.user['is_admin'] = True
+            else:
+                session.clear()
+                return redirect(url_for('IndexController.index'))
 
 
 @bp.route('/logout')
