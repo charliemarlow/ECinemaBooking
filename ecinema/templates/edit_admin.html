@@ -17,7 +17,7 @@
   <!-- meta character set -->
   <meta charset="UTF-8">
   <!-- Site Title -->
-  <title>Edit Movie</title>
+  <title>Create Admin</title>
 
   <!--
     CSS
@@ -39,10 +39,10 @@
     <div class="container">
       <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
         <div class="col-first">
-          <h1>Edit Movie</h1>
+          <h1>Create Admin</h1>
           <nav class="d-flex align-items-center">
             <a href="/">Home<span class="lnr lnr-arrow-right"></span></a>
-            <a href="/create_movie">Edit Movie</a>
+            <a href="/create_admin">Create Admin</a>
           </nav>
         </div>
       </div>
@@ -53,85 +53,26 @@
   <!--================Login Box Area =================-->
     <section class="sample-text-area">
     <div class="container">
-      <h3 class="text-heading">Edit Movie</h3>
+      <h3 class="text-heading">Create Admin</h3>
       <div class="">
 
-          <form action="/edit_movie/{{ movie['movie_id'] }}" method="post">
-              <h3>Movie Info</h3>
+          <form action="create_admin" method="post">
+              <h3>Admin Info</h3>
               <div class="mt-10">
-                  <label>Title</label>
-                <input type="text" name="title" placeholder="{{ movie['title'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ movie['title'] }}'"
-                  class="single-input" value="">
+                <input type="text" name="username" placeholder="Admin Username (REQUIRED)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Admin Username (REQUIRED)'"
+                 required class="single-input" value="">
               </div>
               <div class="mt-10">
-                  <label>Director</label>
-                  <input type="text" name="director" placeholder="{{ movie['director'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ movie['director'] }}'"
-                          class="single-input" value="">
+                  <input type="password" name="password" placeholder="Password (REQUIRED)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password (REQUIRED)'"
+                         required class="single-input" value="">
               </div>
               <div class="mt-10">
-                  <label>Producer</label>
-                  <input type="text" name="producer" placeholder="{{ movie['producer'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ movie['producer'] }}'"
-                          class="single-input" value="">
-              </div>
-              <div class="mt-10">
-                  <label>Cast</label>
-                  <input type="text" name="cast" placeholder="{{ movie['cast'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ movie['cast'] }}'"
-                         class="single-input" value="">
+                  <input type="password" name="confirmation" placeholder="Password Confirmation (REQUIRED)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password Confirmation (REQUIRED)'"
+                         required class="single-input" value="">
               </div>
 
-              <div class="mt-10">
-                  <label>Duration</label>
-                  <input type="text" name="duration" placeholder="{{ movie['duration_as_minutes'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ movie['duration_as_minutes'] }}'"
-                          class="single-input" value="">
-              </div>
-              <div class="mt-10">
-                  <label>Synopsis</label>
-                  <textarea name="synopsis" placeholder="{{ movie['synopsis'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ movie['synopsis'] }}'"  class="single-input" value=""></textarea>
-              </div>
-              <h3>Rating/Category</h3>
-              <div class="form-select" name="rating" >
-                  <label>Rating</label>
-                <select name="rating">
-                    <option value="{{ movie['rating'] }}" disabled selected hidden>{{ movie['rating'] }}</option>
-                    <option value="G">G</option>
-                    <option value="PG">PG</option>
-                    <option value="PG-13">PG-13</option>
-                    <option value="R">R</option>
-                    <option value="NC-17">NC-17</option>
-                    <option value="NR">NR</option>
-                </select>
-                    </div>
-                    <div class="form-select" name="category" >
-                        <label>Category</label>
-                        <select name="category">
-                            <option value="{{ movie['category'] }}" disabled selected hidden>{{ movie['category'].title() }}</option>
-                            <option value="action">Action</option>
-                            <option value="comedy">Comedy</option>
-                            <option value="drama">Drama</option>
-                            <option value="sci-fi">Sci-Fi</option>
-                            <option value="mystery">Mystery</option>
-                            <option value="crime">Crime</option>
-                            <option value="fantasy">Fantasy</option>
-                            <option value="thriller">Thriller</option>
-                            <option value="romance">Romance</option>
 
-                        </select>
-                    </div>
-                    <h3>Media Links</h3>
-                    <p>Links to pictures and videos that are hosted on other websites</p>
-                    <div class="mt-10">
-                        <label>Video</label>
-                        <textarea type="text" name="video" placeholder="{{ movie['video'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ movie['video'] }}'"
-                                   class="single-input" value=""></textarea>
-                    </div>
-                    <div class="mt-10">
-                        <label>Picture</label>
-                        <textarea type="text" name="picture" placeholder="{{ movie['picture'] }}" onfocus="this.placeholder = ''" onblur="this.placeholder = '{{ movie['picture'] }}'"
-                                   class="single-input" value=""></textarea>
-                    </div>
-                    <button type="submit" value="submit" class="primary-btn">Edit Movie</button>
-
-                    <a href="/manage_movies">Or go back</a>
+              <button type="submit" value="submit" class="primary-btn">Create Admin</button>
                     {% for message in get_flashed_messages() %}
                     <div class="flash" style="color:red; background:#FFDEDE;">{{ message }}</div>
                     {% endfor %}
