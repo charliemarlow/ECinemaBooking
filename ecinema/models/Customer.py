@@ -401,3 +401,26 @@ E-Cinema Booking
 
         for customer in customers:
             send_email(customer['email'], subject, message)
+
+    def send_mass_promo(self, msg):
+
+        subject = "E-Cinema Promotions"
+
+        message = """Hey!
+
+        Here are the promotions on E-Cinema Booking that are currently available"""\
+            + """\n\n"""\
+            + """{}"""\
+            + """
+
+Best,
+
+E-Cinema Booking
+        """
+
+        message = message.format(msg)
+
+        customers = self.__data_access.get_promotion_users()
+
+        for customer in customers:
+            send_email(customer['email'], subject, message)
