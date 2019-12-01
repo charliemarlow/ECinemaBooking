@@ -6,6 +6,7 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ecinema.models.Address import Address
+from ecinema.models.UserFactory import create_user, create_new_user
 from ecinema.models.CreditCard import CreditCard
 
 from ecinema.tools.token import (

@@ -15,6 +15,12 @@ from ecinema.models.Movie import Movie
 
 bp = Blueprint('AdminMoviesController', __name__, url_prefix='/')
 
+def safe_delete(movie):
+    if error is None:
+        movie.delete(movie.get_id())
+        return True
+    return False
+
 
 @bp.route('/manage_movies', methods=('GET', 'POST'))
 @admin_login_required
