@@ -7,10 +7,15 @@ from ecinema.data.AdminData import AdminData
 class Admin(Model, User):
 
     def __init__(self):
+        self._Model__is_init = False
+        self._Model__id = None
         self.__data_access = AdminData()
 
     def obj_as_dict(self, key: str):
         return self.__data_access.get_info(key)
+
+    def obj_by_id(self, key:str):
+        return self.__data_access.get_info_by_id(key)
 
     def get_all_admins(self):
         return self.__data_access.get_all_admins()
@@ -52,12 +57,23 @@ class Admin(Model, User):
 
     def save(self) -> bool:
         if not self.is_initialized():
+            print("Retting false")
             return False
         member_tup = (self.get_username(),
                       self.get_password(),
                       self.get_username())
         self.__data_access.update_info(member_tup)
         return True
+
+    def save_by_id(self) -> bool:
+        if not self.is_initialized():
+            return False
+        member_tup = (self.get_username(),
+                      self.get_password(),
+                      self.get_id())
+        self.__data_access.update_info_by_id(member_tup)
+        return True
+
 
     def is_admin(self) -> bool:
         return True

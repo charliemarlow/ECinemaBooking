@@ -152,5 +152,5 @@ def select_seat():
     print(session.get('1'))
     print(session.get('tickets'))
 
-    return render_template("seat_selection.html", tickets=available,
+    return render_template("seat_selection.html", tickets=avail_dict,
                            pre_tickets=pre_tickets)

@@ -44,6 +44,16 @@ class AdminData(DataAccess):
         )
         self.__db.commit()
 
+    def update_info_by_id(self, data) -> str:
+        self.__db.execute(
+            'UPDATE admin SET username = ?, password = ? '
+            'WHERE admin_id = ?',
+            data
+        )
+        self.__db.commit()
+
+
+
     def delete(self, aid):
         self.__db.execute(
             'DELETE FROM admin WHERE admin_id = ?',
