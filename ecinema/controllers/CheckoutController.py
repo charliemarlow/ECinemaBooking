@@ -134,10 +134,25 @@ def delete_ticket(delete_id):
     tickets = session['tickets']
     del session['tickets']
 
+    ticket = Ticket()
+    showtime = Showtime()
+    showtime.fetch(session['showtime'])
+    avail = showtime.get_available_seats()
+
+
     if len(tickets) == 1:
+        ticket.delete(session['ticket_ids'][delete_id])
+        showtime.set_available_seats(avail + 1)
+        showtime.save()
+        clear_booking_info()
         return False
     else:
         del tickets[delete_id]
+        ticket.delete(session['ticket_ids'][delete_id])
+        del session['ticket_ids'][delete_id]
+
+        showtime.set_available_seats(avail + 1)
+        showtime.save()
 
     session['tickets'] = tickets
     return True
