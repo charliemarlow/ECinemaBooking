@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/nouislider.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 {% endblock %}
@@ -55,7 +55,7 @@
     <section class="checkout_area section_gap">
         <div class="container">
             <div>
-                <h3>Time before timeout</h3>
+                <h3>Holding tickets for:</h3>
                 <h4 id= "timeUntil"></h4>
             </div>
             <div class="cupon_area">
@@ -199,37 +199,37 @@
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
     </section>
     <!--================End Checkout Area =================-->
     <script>
-        
-        $(function(){ 
-            window.timeout = 30;
+
+        $(function(){
+            window.timeout = 1200;
             //Convert to milliseconds
             window.timeout *= 1000;
             if (localStorage.getItem("timeout") == null || Math.floor((localStorage.getItem("timeout")  - Date.now()) / 1000) < 0 ){
                 window.timeout = Date.now() + window.timeout;
                 localStorage.setItem("timeout", window.timeout);
             }
-            
+
             function timeoutPage(){
                 window.timeout = localStorage.getItem("timeout");
                 if(Math.floor((window.timeout - Date.now()) / 1000) > 0){
-                    $("#timeUntil").text("" + Math.floor((window.timeout - Date.now()) / 1000) + " seconds");
+                    $("#timeUntil").text("" + Math.floor(Math.floor((window.timeout - Date.now()) / 1000) / 60) + " minutes and " + Math.floor(Math.floor((window.timeout - Date.now()) / 1000) % 60) + " seconds.");
                     if(Math.floor((window.timeout - Date.now()) / 1000) <= 10)
                         $("#timeUntil").css("color", "red");
                 }
                 else{
                     window.location.href = "register";
                     window.location.replace("register");
-                }    
+                }
             }//timeoutPage
-            
+
             setInterval(function(){ timeoutPage(); }, 500);
-            
+
         });
-        
+
 
     </script>
 
