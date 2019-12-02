@@ -30,8 +30,10 @@ def search():
     if request.method == 'POST':
         search_input = request.form.get('search_input')
         category = request.form.get('category')
+        if category == 'Any':
+            category = ''
         date = request.form.get('date')
-
+        print(search_input)
         search = Search()
         sinput = search_input
         search.set_term(search_input)

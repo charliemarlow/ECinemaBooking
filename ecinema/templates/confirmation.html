@@ -71,7 +71,7 @@
           </div>
         </div>
         <div class="col-lg-4">
-            <h3>For <span style="color: #ffba00">{{ movie['title'] }}</span> <br> On <span style="color: #ffba00">{{ showtime.strftime("%B %d, %Y  :  %I:%M %p") }}</span></h3>
+            <h3>For <span style="color: #ffba00">{{ movie['title'] }}</span> <br> On <span style="color: #ffba00">{{ showtime.strftime("%B %d, %Y  :  %I:%M %p") }}</span> <br> In <span style="color: #ffba00">{{ showroom.title() }}</span></h3>
         </div>
 
         <div class="col-lg-4" style="display: flex; justify-content: center">

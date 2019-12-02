@@ -47,6 +47,8 @@ def payment_confirmation(bid):
     movie = movie.obj_as_dict(booking.get_movie_id())
     showtime = Showtime()
     showtime.fetch(booking.get_showtime_id())
+    showroom = Showroom()
+    showroom.fetch(showtime.get_showroom_id())
 
     tkts = booking.get_tickets()
     tickets = []
@@ -64,4 +66,5 @@ def payment_confirmation(bid):
                            movie=movie,
                            showtime=showtime.get_time(),
                            booking=booking,
-                           confirm=confirm)
+                           confirm=confirm,
+                           showroom=showroom.get_showroom_name())

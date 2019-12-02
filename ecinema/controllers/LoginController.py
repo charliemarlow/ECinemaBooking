@@ -122,6 +122,10 @@ def logout():
     session.clear()
     return redirect(url_for('IndexController.index'))
 
+@bp.route('/suspended')
+def suspended():
+    session.clear()
+    return render_template('suspended.html')
 
 def login_required(view):
     @functools.wraps(view)
@@ -133,6 +137,9 @@ def login_required(view):
         elif (customer.fetch(g.user['username']) and
               customer.get_status() == 'inactive'):
             return redirect(url_for('RegisterController.verify_account'))
+        elif (customer.fetch(g.user['username']) and
+              customer.get_status() == 'inactive'):
+            return redirect(url_for('LoginController.suspended'))
 
         return view(**kwargs)
 
@@ -147,10 +154,12 @@ def customer_login_required(view):
     def wrapped_view(**kwargs):
         print("Customer Login Required")
         customer = create_user('customer')
-
+        fetched = customer.fetch(g.user['username'])
         if g.user is None:
             return redirect(url_for('LoginController.login'))
-        elif not customer.fetch(g.user['username']) or not customer.get_status() == 'active':
+        elif not fetched or not customer.get_status() == 'active':
+            if fetched:
+                return redirect(url_for('LoginController.suspended'))
             return redirect(url_for('IndexController.index'))
         print(g.user['username'])
         return view(**kwargs)

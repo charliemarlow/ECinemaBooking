@@ -24,7 +24,7 @@ class Search():
 
         movies = self.__data_access.search_movies(
             self.__date, self.__category, self.__term)
-        if self.__date == '' or self.__date is None:
+        if not self.__date:
             coming_soon = self.__data_access.search_coming_soon(
                 self.__category, self.__term)
 
@@ -65,6 +65,7 @@ class Search():
         all_movies = []
 
         movies = sorted(results, key=lambda k: k['time'])
+        movies = sorted(results, key=lambda k: k['title'])
 
         for mov in movies:
             mov = dict(mov)

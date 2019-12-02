@@ -171,7 +171,7 @@
 
             function selectSeat(seatNumber) {
                 var stringName = "" + window.rows[Math.floor(seatNumber / window.rowLength)] + "" + ((seatNumber % window.rowLength) +1);
-                var addPiece = "<div id='seat"+ seatNumber +"'> <p>Seat " + stringName + " </p><select id='seatOpt"+ seatNumber +"' name='"+seatNumber+"' required><option value='student'>Student</option><option value='child'>Child</option><option value='adult'>Adult</option><option value='senior'>Senior</option></select><t><button class='genric-btn danger circle' type='button' onclick='removeSeat("+ seatNumber +")'>Remove Seat!</button></div>";
+                var addPiece = "<div id='seat"+ seatNumber +"'> <p>Seat " + stringName + " </p><select id='seatOpt"+ seatNumber +"' name='"+seatNumber+"' required><option value='student'>Adult</option><option value='child'>Child</option><option value='adult'>Student</option><option value='senior'>Senior</option></select><t><button class='genric-btn danger circle' type='button' onclick='removeSeat("+ seatNumber +")'>Remove Seat!</button></div>";
                 
                 if($(("#seatlocal"+ seatNumber + "")).hasClass("primary"))
                     removeSeat(seatNumber);

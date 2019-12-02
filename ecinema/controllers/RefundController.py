@@ -153,5 +153,6 @@ def previous_orders():
     bookings = customer.get_previous_bookings()
     refunds = process_bookings(bookings)
 
+    refunds = sorted(refunds, key=lambda k : k['date'])
     return render_template('orders.html', refunds=refunds)
 

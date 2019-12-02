@@ -65,6 +65,7 @@ def manage_promos():
 
     # get a list of all promos
     promos = promo.get_all_promos()
+    promos = sorted(promos, key=lambda k: k['exp_date'] )
     return render_template('manage_promos.html', promos=promos)
 
 @bp.route('/edit_promo/<pid>', methods=('GET', 'POST'))
