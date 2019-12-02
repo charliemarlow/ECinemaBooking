@@ -172,15 +172,20 @@
             function selectSeat(seatNumber) {
                 var stringName = "" + window.rows[Math.floor(seatNumber / window.rowLength)] + "" + ((seatNumber % window.rowLength) +1);
                 var addPiece = "<div id='seat"+ seatNumber +"'> <p>Seat " + stringName + " </p><select id='seatOpt"+ seatNumber +"' name='"+seatNumber+"' required><option value='student'>Student</option><option value='child'>Child</option><option value='adult'>Adult</option><option value='senior'>Senior</option></select><t><button class='genric-btn danger circle' type='button' onclick='removeSeat("+ seatNumber +")'>Remove Seat!</button></div>";
-                $(("#seatlocal"+ seatNumber + "")).removeClass("info").addClass("primary");
                 
-                if(seatNumber == window.valOfFilledSeat){
-                    // Nothing needs to be done. Seat Already Taken. Catch here just in case.
-                }
-                else if (selectedUserSeats[seatNumber] == null){
+                if($(("#seatlocal"+ seatNumber + "")).hasClass("primary"))
+                    removeSeat(seatNumber);
+                else {
+                    $(("#seatlocal"+ seatNumber + "")).removeClass("info").addClass("primary");
 
-                     $("#selectedSeats").append(addPiece);
-                    selectedUserSeats[seatNumber] = "Selected";
+                    if(seatNumber == window.valOfFilledSeat){
+                        // Nothing needs to be done. Seat Already Taken. Catch here just in case.
+                    }
+                    else if (selectedUserSeats[seatNumber] == null){
+
+                         $("#selectedSeats").append(addPiece);
+                        selectedUserSeats[seatNumber] = "Selected";
+                    }  
                 }
 
             }//selectSeat
