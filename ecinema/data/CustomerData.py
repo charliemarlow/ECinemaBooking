@@ -75,14 +75,14 @@ class CustomerData(DataAccess):
     def delete(self, key: str):
         self.__db.execute(
             'DELETE FROM customer WHERE customer_id = ?',
-            key
+            (key,)
         )
         self.__db.commit()
 
     def delete_reviews(self, key: str):
         self.__db.execute(
             'DELETE FROM review WHERE customer_id = ?',
-            key
+            (key,)
         )
         self.__db.commit()
 

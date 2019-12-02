@@ -78,7 +78,6 @@
                 <th scope="col">Discount Percentage</th>
               <th scope="col">Valid Until</th>
               <th scope="col">Description</th>
-              <th scope="col">Edit</th>
               <th scope="col">Delete</th>
             </tr>
           </thead>
@@ -98,12 +97,13 @@
                 <td>
                   <h5>{{ promo['promo_description'] }}</h5>
                 </td>
+                <!-- - -
                   <td>
                     <form method="post">
                       <input type="hidden" name="edit_promo_id" value="{{ promo['promo_id'] }}">
                       <button type="submit" class="genric-btn">Edit Promotion</button>
                     </form>
-                  </td>
+                  </td>-->
                 <td>
                   <form method="post">
                     <input type="hidden" name="delete_promo_id" value="{{ promo['promo_id'] }}">
