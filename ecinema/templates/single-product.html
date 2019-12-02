@@ -65,6 +65,11 @@
           <div class="s_product_text">
             <h3>{{ movie['title']}}</h3>
             <h2>MPAA Rating: {{ movie['rating'] }}</h2>
+            {% if average == None %}
+            <h4>Avg. User Rating: None yet</h4>
+            {% else %}
+            <h4>Avg. User Rating: {{ average }} / 5 </h4>
+            {% endif %}
             <ul class="list">
                 <li><a class="active"><span>Genre</span>: {{ movie['category'].title() }}</a></li>
                 <li><a class="active"><span>Director</span>: {{ movie['director'].title() }}</a></li>
@@ -118,7 +123,7 @@
       <div style="display:flex; flex-wrap: wrap; margin: 0 auto">
           {% for review in reviews %}
           <div style="padding-left: 4em; padding-right:4em; width: 500px; margin: 0 auto">
-              <h3>{{review['title']}}</h3>
+              <h3>{{review['subject']}}</h3>
               <div style="display: flex;">
                   <h5 style="padding-right:3em">{{review['name']}}</h5>
                   <h5 style="color: orange">{{review['rating']}} / 5</h5>

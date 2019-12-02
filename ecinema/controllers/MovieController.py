@@ -63,12 +63,16 @@ def movie_details(mid):
 
     reviews = review_model.get_all_reviews_by_movie(mid)
     display_reviews = []
+    ratings = []
+    average = None
     if len(reviews) > 0:
         for review in reviews:
             rvw = dict(review)
             rvw['name'] = review_model.get_customer_name(rvw['customer_id'])
+            ratings.append(int(rvw['rating']))
             print(rvw['name'])
             display_reviews.append(rvw)
+        average = sum(ratings) / len(ratings)
     else:
         rev = {
             'title': "There's no reviews yet?",
@@ -82,7 +86,8 @@ def movie_details(mid):
                            movie=movie_dict,
                            showtimes=showtimes_list,
                            is_current=len(showtimes) > 0,
-                           reviews=display_reviews)
+                           reviews=display_reviews,
+                           average=average)
 
 
 # create review should be a separate screen
