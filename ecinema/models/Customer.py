@@ -356,11 +356,11 @@ E-Cinema Booking
         send_email(self.get_email(), subject, message)
 
     def send_refund_email(self, movie, showtime, total):
-        subject = "Ticket Booking Confirmation"
+        subject = "Ticket Refund Confirmation"
 
         message = """Hey {},
 
-        Tickets for {} on {} were just refund on your """\
+        Tickets for {} on {} were just refunded on your """\
             + """account on the E-Cinema Booking website.\n\n """\
             + """Refund Amount\n"""\
             + """{}\n"""\

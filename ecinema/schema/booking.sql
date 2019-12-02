@@ -4,7 +4,7 @@ CREATE TABLE `booking` (
   `booking_id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `order_id` varchar(100) NOT NULL,
   `total_price` double NOT NULL,
-  `credit_card_id` int(11) NOT NULL,
+  `credit_card_id` int(11),
   `promo_id` int(11) DEFAULT NULL,
   `movie_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,

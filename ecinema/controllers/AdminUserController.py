@@ -8,7 +8,7 @@ from ecinema.controllers.LoginController import admin_login_required
 from ecinema.tools.validation import (
     validate_name, validate_text, validate_rating,
     validate_category, validate_duration, validate_email,
-    validate_address, validate_username
+    validate_address, validate_username, validate_phone
 )
 
 from ecinema.models.Customer import Customer
@@ -54,11 +54,12 @@ def manage_users():
 
     if request.method == 'POST':
         delete_customer_id = request.form.get('delete_customer_id')
-        edit_customer_id = request.form.get('edit_customer_id')
+        suspend_customer_id = request.form.get('suspend_customer_id')
+        #edit_customer_id = request.form.get('edit_customer_id')
 
         if delete_customer_id and not safe_delete(delete_customer_id):
             flash("Cannot delete customer, they have active tickets to an upcoming show")
-        elif edit_customer_id and customer.fetch_by_customer_id(edit_customer_id):
+        elif suspend_customer_id and customer.fetch_by_customer_id(suspend_customer_id):
             status = customer.get_status()
             if status == 'active':
                 customer.set_status('suspended')
@@ -79,51 +80,48 @@ def edit_user(cid):
     print(customer.fetch_by_customer_id(customer_id))
 
     if request.method == 'POST':
-        customer_id = request.form.get('customer_id')
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
-        email = request.form.get('email')
-        address_id = request.form.get('address_id')
-        username = request.form.get('username')
+        phone = request.form.get('phone_number')
+        status = request.form.get('state')
+
         error = None
-        if customer_id != '' and not validate_name(customer_id):
-            error = "Username is too short or too long"
-        elif customer_id != '':
-            customer.set_customer_id(customer_id)
+        change = False
 
-        if first_name != '' and not validate_name(first_name):
+        if first_name and not validate_name(first_name):
             error = "First name is too short or too long"
-        elif first_name != '':
+        elif first_name :
             customer.set_first_name(first_name)
+            change = True
 
-        if last_name != '' and not validate_name(last_name):
+        if last_name  and not validate_name(last_name):
             error = "Last name is too short or too long"
-        elif last_name != '':
+        elif last_name :
             customer.set_last_name(last_name)
+            change = True
 
-        if email != '' and not validate_email(email):
-            error = "Email is too short or too long"
-        elif email != '':
-            customer.set_email(email)
+        if phone and not validate_phone(phone):
+            error = "Phone number is invalid"
+        elif phone:
+            customer.set_phone(phone)
+            change = True
 
-        if address_id != '' and not validate_name(address_id): #VALIDATE_EMAIL OBJECT
-            error = "Address ID must be a whole number"
-        elif address_id != '':
-            customer.set_address_id(address_id)
-
-        if username != '' and not validate_username(username) or len(username) < 1:
-            error = "Username has already been taken"
-        elif len(username) < 1 or len(username) > 60:
-            error = "Username is not of appropriate length"
-        elif username != '':
-            customer.set_username(username)
-
+        if status == 'active' or status == 'inactive' or status == 'suspended':
+            customer.set_status(status)
+            change = True
+        elif status:
+            error = "Invalid status"
 
         if error is not None:
             flash(error)
 
+        if change:
+            customer.send_profile_change_email()
 
-    info = customer.obj_as_dict(customer_id)
+        customer.save()
+
+
+    info = customer.obj_as_dict(customer.get_username())
     customer.save()
     return render_template('edit_user.html', customer=info)
 

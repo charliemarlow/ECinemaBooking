@@ -45,7 +45,14 @@ def manage_promos():
 
         if delete_promo_id != None and promo.fetch(delete_promo_id):
             if validate_unlinked_promo(delete_promo_id):
-                promo.delete(delete_promo_id)
+                promo.fetch(delete_promo_id)
+                exp_date = promo.get_exp_date()
+                date = datetime(int(exp_date[0:4]), int(exp_date[5:7]), int(exp_date[8:10]))
+                today = datetime.now()
+                if today > date:
+                    promo.delete(delete_promo_id)
+                else:
+                    flash('Cannot delete promo until it the expiration date')
             else:
                 error = "Promo is linked to a booking. Cannot delete right now"
                 flash(error)

@@ -75,6 +75,7 @@
                   <th scope="col">Username</th>
                   <th scope="col">Email</th>
                   <th scope="col">Status</th>
+                  <th scope="col">Edit</th>
                   <th scope="col">Suspend/Unsuspend</th>
                   <th scope="col">Delete</th>
 							</tr>
@@ -97,21 +98,28 @@
                                 <td>
                                     <h4>{{ customer['status'].upper() }}</h4>
                                 </td>
+
                 <td>
 
-
                     <form method="post">
-                        <input type="hidden" name="edit_customer_id" value="{{ customer['customer_id'] }}">
+                        <input type="hidden" name="suspend_customer_id" value="{{ customer['customer_id'] }}">
                         {% if customer['status'] == 'active' %}
                         <button type="submit" class="genric-btn success">Suspend User</button>
                         {% elif customer['status'] == 'suspended' %}
                         <button type="submit" class="genric-btn info">Unsuspend User</button>
                         {% else %}
-                        <button type="submit" class="genric-btn warning">Manually Activate User</button>
-
+                        <button type="submit" class="genric-btn warning">Activate User</button>
                         {% endif %}
                     </form>
-                                </td>
+                </td>
+                <td>
+                    <form method="post" action="/edit_user/{{ customer['customer_id'] }}">
+                        <input type="hidden" name="edit_user_id" value="{{customer['customer_id']}}">
+                        <button type="submit" class="genric-btn">Edit User</button>
+
+                    </form>
+                </td>
+
 								                <td>
                                     <form method="post">
                                         <input type="hidden" name="delete_customer_id" value="{{ customer['customer_id'] }}">
