@@ -34,11 +34,11 @@ class MovieData(DataAccess):
     def delete(self, key: str):
         self.__db.execute(
             'DELETE FROM movie WHERE movie_id = ?',
-            key
+            (key,)
         )
         self.__db.execute(
             'DELETE FROM review WHERE movie_id = ?',
-            key
+            (key,)
         )
         self.__db.commit()
 

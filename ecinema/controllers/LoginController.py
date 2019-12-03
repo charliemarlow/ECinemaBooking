@@ -47,6 +47,8 @@ def login():
             setup_session(user.get_username(), loggedin)
             if user.is_admin():
                 return redirect(url_for('AdminController.admin'))
+            elif user.get_status() == 'suspended':
+                return redirect(url_for('LoginController.suspended'))
             else:
                 return redirect(url_for('IndexController.index'))
 
@@ -138,7 +140,7 @@ def login_required(view):
               customer.get_status() == 'inactive'):
             return redirect(url_for('RegisterController.verify_account'))
         elif (customer.fetch(g.user['username']) and
-              customer.get_status() == 'inactive'):
+              customer.get_status() == 'suspended'):
             return redirect(url_for('LoginController.suspended'))
 
         return view(**kwargs)

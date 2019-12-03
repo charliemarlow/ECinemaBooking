@@ -16,7 +16,7 @@ from ecinema.models.Movie import Movie
 bp = Blueprint('AdminMoviesController', __name__, url_prefix='/')
 
 def safe_delete(movie):
-    if not movie.has_showtimes and not movie.has_bookings():
+    if not movie.has_showtimes():
         movie.delete(movie.get_id())
         return True
     return False

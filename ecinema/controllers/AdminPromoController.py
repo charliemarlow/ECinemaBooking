@@ -52,7 +52,7 @@ def manage_promos():
                 if today > date:
                     promo.delete(delete_promo_id)
                 else:
-                    flash('Cannot delete promo until it the expiration date')
+                    flash('Cannot delete promo until after the expiration date')
             else:
                 error = "Promo is linked to a booking. Cannot delete right now"
                 flash(error)
