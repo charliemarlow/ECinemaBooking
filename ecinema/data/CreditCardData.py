@@ -18,7 +18,7 @@ class CreditCardData(DataAccess):
     def delete(self, key: str):
         self.__db.execute(
             'DELETE FROM credit_card WHERE credit_card_id = ?',
-            key
+            (key,)
         )
         self.__db.commit()
 
