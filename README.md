@@ -36,3 +36,7 @@ $ python devtools/clean_code.py
 Please fix any coding/style errors that it outputs before
 submitting to the repo, most will be automatically handled
 by autopep8
+
+
+
+This project was submitted as a term project for CSCI 4050 (Software Engineering) at the University of Georgia during the fall semester of 2019
