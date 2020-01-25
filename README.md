@@ -38,5 +38,5 @@ submitting to the repo, most will be automatically handled
 by autopep8
 
 
-
+## Acknowledgements
 This project was submitted as a term project for CSCI 4050 (Software Engineering) at the University of Georgia during the fall semester of 2019
