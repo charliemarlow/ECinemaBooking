@@ -1,2 +1,2 @@
-ecinema/static* linguist-vendored
-ecinema/templates* linguist-vendored
+ecinema/static/* linguist-vendored
+ecinema/templates/* linguist-vendored
